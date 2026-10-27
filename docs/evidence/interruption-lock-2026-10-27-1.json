@@ -1,0 +1,14 @@
+{
+  "suite": "native-pre-dispatch-interruption",
+  "mode": "environment",
+  "status": "failed",
+  "startedAt": "2026-10-27T12:41:06.356250+00:00",
+  "companionSHA256": "b389c81bf4fce434742a95eee8a69db039203e685b4008fabfdfc84341e0bbba",
+  "scope": "Captured target interrupted before dispatch; not interruption during native event delivery.",
+  "checks": [],
+  "observedState": "paused",
+  "pauseReason": "userInput",
+  "error": "UNEXPECTED_INTERRUPTION_STATE",
+  "finishedAt": "2026-10-27T12:41:27.958826+00:00",
+  "childExitCode": -15
+}

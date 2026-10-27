@@ -1,0 +1,5 @@
+fixture activation requested through Launch Services
+tool failure=focusChanged session=ready
+foreground category=companion
+tool failure=unauthorized session=paused
+tool failure=unauthorized session=paused
