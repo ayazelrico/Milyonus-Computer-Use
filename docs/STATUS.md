@@ -4,7 +4,7 @@ Updated: 2026-10-27. This is an evidence-based development status, not a release
 
 ## Immediate execution priority
 
-Follow [the acceptance-first queue](ACCEPTANCE-NEXT.md). Basic native gestures and one-action Anthropic/OpenAI native pilots have passed for recorded binaries. The user authorized foreground acceptance on 2026-10-27; native approvals remain manual. Next priority is Ultra live acceptance, then the broader interruption matrix and signed distribution. Provider credentials were transient and are not installed persistently. No valid Developer ID identity was found. Earlier intermittent stdio timeouts remain unresolved.
+Follow [the acceptance-first queue](ACCEPTANCE-NEXT.md). Basic native gestures and one-action Anthropic/OpenAI native pilots have passed for recorded binaries. The user authorized foreground acceptance on 2026-10-27; native approvals remain manual. The isolated Ultra slice has also passed. Current priority is the broader interruption matrix and normal-host integration, followed by signed distribution. Provider credentials were transient and are not installed persistently. No valid Developer ID identity was found. Earlier intermittent stdio timeouts remain unresolved.
 
 ## Verified so far
 
@@ -551,3 +551,13 @@ Rebuilt the separate ad-hoc preview using the existing Ultra checkout without ed
 Evidence is in `ultra-selftest-2026-10-27.log`, `ultra-live-2026-10-27.log` and `ultra-native-2026-10-27.json`, with binary hashes. A Start UI call reported a ScreenCaptureKit error, but subsequent phase logs/AX state established the actual result. The state read after close reopened the same test bundle in its default mode; that extra window was quit without chat/account interaction. This tool side effect is not evidence of normal-host integration acceptance.
 
 Accepted scope: one isolated native fixture action and completion, Stop after completion, close/quit cleanup. Still pending: normal-host selection/clipboard work in flight, Stop during an action, permission loss, lock/sleep/occlusion and broad repeated scenarios, full provider pilot, minimum OS/Intel/multidisplay and signed release. No valid Developer ID is available. The historic intermittent stdio timeout remains unresolved despite a passing 20-run focused stress check. All feasible completed checks are reported separately; this is not an all-phases-pass claim.
+
+## Native pre-dispatch interruption checks — 2026-10-27
+
+Added an explicit operator-assisted interruption acceptance driver; no core safety or native approval logic changed. Native Stop attempt 3 passed: an intervening userInput pause was recorded, native Stop cancelled the session, generation advanced, and the captured write and subsequent observation were refused. Physical-input attempt 2 independently passed with userInput pause, generation invalidation and the same refusal checks. Four assertions passed in each slice. Both are pre-dispatch checks, not proof of interruption during event delivery. Owned-child termination during cleanup is recorded as exit -15, not graceful application quit acceptance.
+
+Failures remain retained: Stop attempt 1 saw input pause before Stop; attempt 2 encountered an idle companion created by a UI tool; physical-input attempt 1 timed out before the reported click. Window-close attempt 1 saw refusal but did not isolate snapshot expiry. Attempt 2 correctly failed its freshness assertion because loss of fixture foreground prevented observation renewal. A further operator-close run is tracked separately. See `docs/native-interruption-matrix.md` for exact scopes and remaining cases.
+
+Required Debug build and standalone selftest passed again (227 cases / 2448 assertions / zero failures). The new Python driver compiles. The installed signing identity check still returns zero valid identities. Lock/sleep, permission revocation/restoration, dispatch-time interruption and normal-host selection-in-flight acceptance remain outstanding.
+
+Window-close attempt 3 failed before capture with TARGET_NOT_FOUND and is retained. Lock interruption is being tested separately; a physical-input pause must not be mislabeled as environmentChanged. No claim of all scenarios passing is made.

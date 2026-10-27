@@ -1,5 +1,5 @@
 {
-  "recordedAt": "2026-10-27T12:13:38.175779+00:00",
+  "recordedAt": "2026-10-27T12:41:39.713938+00:00",
   "algorithm": "SHA-256",
   "files": {
     "Integrations/AgentUltra/README.md": "10301bc870c0e60f2c6f2c6e0d922124af2dcddbfa6818ebec5795db0cd1bbce",
@@ -85,6 +85,7 @@
     "Tests/main.swift": "470f88db523dbc9de72058a0a7abc041bb6d537458b564796872c3a242cd9ce4",
     "scripts/build-apps.sh": "4e1553c1d8ab49c05cc73a7f8a9e2c405abcac2ef90c8c11d520bdd9cf87d304",
     "scripts/build-ultra-preview.sh": "cef376360c9711a160b37ecd0ec1061b0966d7e8f6d85e17f869dde9338b2689",
+    "scripts/interruption-acceptance.py": "3902914c41462ccc4e3e503825ba604e3c79a8f011a1bea701a4a23cac5ec36b",
     "scripts/live-fixture.py": "511186ce3979581bc1c0f5997745e66c4d66843a70bb4885bcebc2fc851db0d5",
     "scripts/notarize.sh": "3527cef2f9b17cbb418a9249b5da817ea085936e60c00b9f982ac7a156547513",
     "scripts/package-dev.py": "fe2120f1d29f9f4d434deeaaf35d47dfa91f860f75d28cc9d9ffedf4346f2424",
