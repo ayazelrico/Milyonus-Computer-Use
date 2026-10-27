@@ -118,3 +118,5 @@ Native approval driven by a test controller must be labeled as automation, not r
 
 
 - Permission launch comparison: attempt 1 failed using the old package; attempts 2–4 measured the same binary reporting AX/capture true as a direct child and false through Launch Services. No session, desktop action or permission prompt was created. This reproduces a launch-context discrepancy and does not accept revocation or production identity. See `../permission-attribution.md`.
+
+- XPC feasibility logs: initial anonymous attempts retain incorrect error-code/delivery assumptions as failures. `xpc-handshake-probe-named-2026-10-27-1.json` records three actual separate-process cases, including zero post-handshake invocations for mismatched peers and removal of each temporary launchd job. This is ad-hoc hash-pin/read-only feasibility, not production identity or native acceptance.

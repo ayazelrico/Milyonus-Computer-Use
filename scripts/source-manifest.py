@@ -7,7 +7,7 @@ from pathlib import Path
 
 root = Path(__file__).resolve().parent.parent
 paths = [root/'Package.swift']
-for directory in ['Sources', 'Tests', 'Schemas', 'scripts', 'Integrations']:
+for directory in ['Sources', 'Tests', 'Schemas', 'scripts', 'Integrations', 'Experiments']:
     paths.extend(path for path in (root/directory).rglob('*')
                  if path.is_file() and '__pycache__' not in path.parts)
 files = {str(path.relative_to(root)): hashlib.sha256(path.read_bytes()).hexdigest()
