@@ -18,17 +18,49 @@ private struct SlowFixturePlanner: ActionPlanner {
     }
 }
 
+/// Explicit fixture acceptance diagnostics; no observation or proposal text is logged.
+private struct DiagnosticFixturePlanner: ActionPlanner {
+    let base: any ActionPlanner
+    let completion: CompletionCondition
+    func next(_ context: PlannerContext, deadline: Date) async throws -> PlannerStep {
+        let proposal = try await base.next(context, deadline: deadline)
+        let target = context.observation.elements.first { $0.identifier == completion.elementIdentifier }
+        var record: [String: Any] = ["event": "fixturePlannerStep", "remainingSteps": context.remainingSteps,
+            "observedCompletionMatches": target?.value == completion.value,
+            "previousEffect": context.lastResult?.effect.rawValue ?? "none",
+            "previousVerification": context.lastResult?.verification.rawValue ?? "none"]
+        switch proposal {
+        case .finish: record["proposal"] = "finish"
+        case .action(let action):
+            record["proposal"] = action.kind.rawValue
+            record["target"] = ["fixture.input", "fixture.save"].contains(action.elementIdentifier) ? action.elementIdentifier : "other"
+            record["proposedCompletionMatches"] = action.text == completion.value
+            record["proposedValueUnchanged"] = action.text == target?.value
+        }
+        let data = try JSONSerialization.data(withJSONObject: record, options: [.sortedKeys])
+        try FileHandle.standardError.write(contentsOf: data + Data([10]))
+        return proposal
+    }
+}
+
 do {
 let arguments = Array(CommandLine.arguments.dropFirst())
 if arguments.count == 3, arguments[0] == "gesture-fixture-selftest", arguments[2] == "--allow-native-fixture-input" {
     if !(await runGestureAcceptance(companionPath: arguments[1])) { exit(1) }
-} else if arguments == ["anthropic-plan-check"] {
-    let key = ProcessInfo.processInfo.environment["ANTHROPIC_API_KEY"] ?? ""
-    let model = ProcessInfo.processInfo.environment["MILYONUS_ANTHROPIC_MODEL"] ?? ""
+} else if arguments == ["anthropic-plan-check"] || arguments == ["openai-plan-check"] {
+    let anthropic = arguments[0] == "anthropic-plan-check"
+    let key = ProcessInfo.processInfo.environment[anthropic ? "ANTHROPIC_API_KEY" : "OPENAI_API_KEY"] ?? ""
+    let model = ProcessInfo.processInfo.environment[anthropic ? "MILYONUS_ANTHROPIC_MODEL" : "MILYONUS_OPENAI_MODEL"] ?? ""
     guard !key.isEmpty else { throw HarnessError.providerCredentialsRequired }
     let completion = CompletionCondition(elementIdentifier: "fixture.input", value: "Provider contract check")
-    let planner = try AnthropicMessagesPlanner(sessionID: "synthetic-session", model: model,
-        completion: completion, allowFixtureObservationEgress: true, apiKey: { key })
+    let planner: any ActionPlanner
+    if anthropic {
+        planner = try AnthropicMessagesPlanner(sessionID: "synthetic-session", model: model,
+            completion: completion, allowFixtureObservationEgress: true, apiKey: { key })
+    } else {
+        planner = try OpenAIResponsesPlanner(sessionID: "synthetic-session", model: model,
+            completion: completion, allowFixtureObservationEgress: true, apiKey: { key })
+    }
     func context(value: String) -> PlannerContext {
         PlannerContext(goal: "Set fixture.input to Provider contract check, then finish without saving.",
             observation: Observation(id: "synthetic-observation", sessionId: "synthetic-session",
@@ -43,7 +75,7 @@ if arguments.count == 3, arguments[0] == "gesture-fixture-selftest", arguments[2
     guard case .finish = try await planner.next(context(value: completion.value), deadline: Date().addingTimeInterval(60)) else {
         throw HarnessError.verificationFailed
     }
-    let result: [String: Any] = ["suite": "anthropic-live-planner-contract", "realInference": true,
+    let result: [String: Any] = ["suite": anthropic ? "anthropic-live-planner-contract" : "openai-live-planner-contract", "realInference": true,
         "syntheticObservations": true, "desktopActions": 0, "verifiedProposals": 2, "requestedModel": model]
     print(String(decoding: try JSONSerialization.data(withJSONObject: result, options: [.sortedKeys]), as: UTF8.self))
 } else if arguments == ["doctor"] {
@@ -134,7 +166,8 @@ if arguments.count == 3, arguments[0] == "gesture-fixture-selftest", arguments[2
         }
         let outcome = try await AgentRunner(client: client).run(
             goal: "Set fixture.input to " + completion.value + ", then finish. No save is needed.",
-            session: ready, completion: completion, planner: planner, maximumSteps: 6, timeoutSeconds: 90)
+            session: ready, completion: completion,
+            planner: DiagnosticFixturePlanner(base: planner, completion: completion), maximumSteps: 6, timeoutSeconds: 90)
         try await client.cancel(sessionID: ready.id)
         await client.shutdown()
         let result: [String: Any] = ["suite": deterministic ? "deterministic-sdk-agent-fixture" : (anthropic ? "anthropic-agent-fixture" : "openai-agent-fixture"),
@@ -161,7 +194,7 @@ if arguments.count == 3, arguments[0] == "gesture-fixture-selftest", arguments[2
         print("{\"suite\":\"swift-client\",\"passed\":4,\"failed\":0}")
     } catch { await client.shutdown(); throw error }
 } else {
-    print("Milyonus Computer Use 0.1.0\nUsage: milyonus-cu gesture-fixture-selftest /absolute/companion/executable --allow-native-fixture-input | anthropic-plan-check | doctor | contract-fixtures | capture-fixture | client-check /absolute/companion/executable | agent-fixture-selftest /absolute/companion/executable | agent-fixture /absolute/companion/executable --allow-fixture-egress | anthropic-fixture /absolute/companion/executable --allow-fixture-egress\nLaunch the companion app for native session approval and MCP stdio control.")
+    print("Milyonus Computer Use 0.1.0\nUsage: milyonus-cu gesture-fixture-selftest /absolute/companion/executable --allow-native-fixture-input | anthropic-plan-check | openai-plan-check | doctor | contract-fixtures | capture-fixture | client-check /absolute/companion/executable | agent-fixture-selftest /absolute/companion/executable | agent-fixture /absolute/companion/executable --allow-fixture-egress | anthropic-fixture /absolute/companion/executable --allow-fixture-egress\nLaunch the companion app for native session approval and MCP stdio control.")
     if !arguments.isEmpty { exit(64) }
 }
 

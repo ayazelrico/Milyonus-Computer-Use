@@ -1,15 +1,8 @@
 [0/1] Planning build
 Building for production...
-[0/9] Write sources
-[3/9] Write swift-version--1AB21518FC5DEDBE.txt
-[5/8] Compiling ComputerUseClient HarnessClient.swift
-[6/10] Compiling ComputerUseAcceptance GestureAcceptance.swift
-[7/10] Compiling ComputerUseAgent AgentRunner.swift
-[8/13] Compiling ComputerUseIntegration ComputerUseSessionCoordinator.swift
-[9/14] Compiling ComputerUseCLI GestureAcceptanceCommand.swift
-[9/14] Write Objects.LinkFileList
-[10/14] Linking milyonus-cu
-[12/14] Compiling ComputerUseSelfTest ActionResultTests.swift
-[12/14] Write Objects.LinkFileList
-[13/14] Linking computer-use-selftest
-Build complete! (26.51s)
+[0/6] Write sources
+[1/6] Write swift-version--1AB21518FC5DEDBE.txt
+[3/4] Compiling ComputerUseCLI GestureAcceptanceCommand.swift
+[3/5] Write Objects.LinkFileList
+[4/5] Linking milyonus-cu
+Build complete! (3.87s)

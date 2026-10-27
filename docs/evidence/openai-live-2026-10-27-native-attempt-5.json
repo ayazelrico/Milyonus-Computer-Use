@@ -1,0 +1,13 @@
+{
+  "stage": "native-provider-pilot",
+  "attempt": 5,
+  "requestedModel": "gpt-5.4-mini-2026-03-17",
+  "startedAt": "2026-10-27T12:12:03.759285+00:00",
+  "cliSHA256": "ecc2ea5b08eb788aff88fa4baeca823c8444a77fcaa7de4bef65622252c1a498",
+  "companionSHA256": "b389c81bf4fce434742a95eee8a69db039203e685b4008fabfdfc84341e0bbba",
+  "fixtureSHA256": "6b85f5f0a1db6033e27e04829987f306a3da98233d2cb9317090f46cfa6b4cca",
+  "finishedAt": "2026-10-27T12:12:41.495412+00:00",
+  "exitCode": 0,
+  "stdout": "{\"actions\":1,\"completionVerified\":true,\"fixtureOnly\":true,\"planningDelaySeconds\":0,\"realInference\":true,\"requestedModel\":\"gpt-5.4-mini-2026-03-17\",\"suite\":\"openai-agent-fixture\"}\n",
+  "stderr": "Approve the fixture session. Only fixture fields will be sent to OpenAI.\n{\"event\":\"fixturePlannerStep\",\"observedCompletionMatches\":false,\"previousEffect\":\"none\",\"previousVerification\":\"none\",\"proposal\":\"setValue\",\"proposedCompletionMatches\":true,\"proposedValueUnchanged\":false,\"remainingSteps\":6,\"target\":\"fixture.input\"}\n{\"event\":\"fixturePlannerStep\",\"observedCompletionMatches\":true,\"previousEffect\":\"applied\",\"previousVerification\":\"passed\",\"proposal\":\"finish\",\"remainingSteps\":5}\n"
+}

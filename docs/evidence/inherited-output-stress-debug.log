@@ -1,7 +1,7 @@
 [0/1] Planning build
 Building for debugging...
 [0/3] Write swift-version--1AB21518FC5DEDBE.txt
-Build of product 'computer-use-selftest' complete! (0.14s)
+Build of product 'computer-use-selftest' complete! (0.16s)
 PASS: inherited-output-stress.1
 PASS: inherited-output-stress.2
 PASS: inherited-output-stress.3

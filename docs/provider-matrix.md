@@ -2,11 +2,11 @@
 
 Updated: 2026-10-27.
 
-Latest OpenAI live attempts used the user-supplied credential and discovered model `gpt-5.4-mini-2026-03-17`: attempt 1 failed FOCUS_CHANGED; attempt 2 failed NO_PROGRESS. Model listing and live calls do not establish end-to-end acceptance. Detailed failure records and next diagnostic work are in STATUS.md. No persistent credential configuration was saved.
+Latest OpenAI native attempt 5 passed with `gpt-5.4-mini-2026-03-17` on 2026-10-27: one edit, then finish, with independent completion and session cancellation. Earlier focus/no-progress/approval-timeout failures remain retained. The repeated-write cause was observed in attempt 3; explicit completion instructions were then validated through real contract and native checks. No persistent credential configuration was saved.
 
 | Adapter | Implemented | Verified locally | Still required |
 |---|---|---|---|
-| OpenAI Responses structured planner | HTTPS request, strict JSON plan, explicit model, host-owned credential, deadline, bounded reply, refusal handling, no retries | Synthetic transport tests for request construction, minimized observation egress, malformed plans, wrong scope, incomplete output, refusal, size limit and HTTP failure | Configured API key/model, real provider response, cancellation/redirect transport acceptance, 10 tasks × 5 native pilot runs |
+| OpenAI Responses structured planner | HTTPS request, strict JSON plan, explicit model, host-owned credential, deadline, bounded reply, refusal handling, no retries | Synthetic transport tests for request construction, minimized observation egress, malformed plans, wrong scope, incomplete output, refusal, size limit and HTTP failure | Broader cancellation/redirect transport acceptance and 10 tasks × 5 native pilot runs |
 | Anthropic Messages tool planner | Explicit model, API version 2026-10-21, one strictly validated proposal, bounded transport, fixture-only egress | Synthetic transport coverage; renewed real two-proposal contract check and one native fixture edit with independent completion for claude-opus-5-5 on 2026-10-27 | Broader agent and interruption matrix |
 | Other providers | `ActionPlanner` extension point only | Provider-independent runner tests | Concrete adapters and their own acceptance evidence |
 
@@ -53,3 +53,5 @@ Both adapters enforce [fixture input admission](provider-input-admission.md) eve
 Both decoders also apply [strict response JSON validation](provider-response-validation.md), rejecting duplicate members and excessive nesting before proposal interpretation. Synthetic coverage is separate from real inference acceptance.
 
 Actual native evidence: `evidence/anthropic-live-2026-10-27-native.json`. One fixture action passed independent completion and session cancellation. This is Anthropic evidence only and does not satisfy OpenAI or external host acceptance.
+
+`openai-plan-check` is the OpenAI equivalent of `anthropic-plan-check`: two real planner requests against synthetic observations, no native actions. `openai-contract-2026-10-27.json` and `openai-live-2026-10-27-native-attempt-5.json` keep provider-contract and native evidence separate.

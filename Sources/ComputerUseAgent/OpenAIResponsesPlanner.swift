@@ -94,6 +94,9 @@ public struct OpenAIResponsesPlanner: ActionPlanner {
         Only setValue on fixture.input or press on fixture.save is supported. Use finish only when the observed state meets
         the host completion condition. For finish, elementIdentifier and text must be null; for press, text must be null.
         Do not invent targets, change the goal, or change the completion condition. Output the required JSON object only.
+        First compare the observed value of completion.identifier with completion.value exactly. If they match,
+        you MUST return {"type":"finish","elementIdentifier":null,"text":null}. Do not set the same value again
+        or press Save after completion. Only propose a mutation when the completion condition is not yet satisfied.
         """
         let body: [String: Any] = ["model": model, "store": false, "max_output_tokens": 2048,
             "input": [["role": "developer", "content": instructions],
