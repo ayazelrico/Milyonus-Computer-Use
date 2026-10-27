@@ -9,7 +9,7 @@ Updated: 2026-10-27. A passed row establishes only its stated timing and interve
 | Focus changed | Capture then activate another project-owned window; attempt admission | Not yet isolated from physical-input pause |
 | Fixture closed | Capture then close only fixture; attempt admission | Pending |
 | Stop during dispatched input | Stop after actual dispatch begins; inspect partial effect and input release | Pending; pre-dispatch refusal does not substitute for this case |
-| Lock / sleep | Active approved session interrupted by OS lock/sleep and then user unlocks | Pending; requires an operator present to unlock |
+| Lock / sleep | Active approved session interrupted by OS lock/sleep and then user unlocks | Lock slice passed: `evidence/interruption-lock-2026-10-27-2.json` observed environmentChanged, generation invalidation and refusal. Sleep remains pending. |
 | Permission revoke | Revoke only companion Accessibility in System Settings during an approved session, verify refusal, restore manually | Pending; never edit the TCC database |
 | Normal Ultra selection in flight | Host clipboard/selection activity concurrent with start/Stop; preserve host preferences and data | Pending; isolated preview and headless tests do not substitute |
 
@@ -26,3 +26,7 @@ Initial Stop attempt 1 observed userInput before Stop and failed its expected-st
 Window-close attempt 1 rejected the captured request but did not record snapshot age, so expiry cannot be excluded. Attempt 2 explicitly failed because loss of foreground prevented refreshing the snapshot (age 78.2 seconds). Neither establishes fresh-target closure acceptance. The next run uses operator closure and records snapshot age; refreshing observations is read-only, throttled to one attempt per second, and cannot bypass focus checks.
 
 Window-close attempt 3 ended with TARGET_NOT_FOUND before initial capture; this is not captured-target closure acceptance. A manual lock test is prepared separately. Normal keyboard/menu interaction can trigger userInput before an OS environment notification, so report the actual pause reason rather than attributing every refusal to lock handling.
+
+Lock attempt 1 observed userInput before the lock event and failed the scenario-state check. Attempt 2 passed the environmentChanged path after operator approval/lock. The driver now also supports permission-revoke: it requires the companion capability response to report Accessibility=false, then verifies captured action and observation rejection. A simultaneous input pause is recorded and may be the immediate refusal cause; this does not isolate permission checking from session checking. Permission restoration must be verified separately.
+
+Permission-revoke attempt 1 timed out: the user screenshot showed the companion toggle off, but a newly launched companion still reported AX trust true. `permission-fresh-process-2026-10-27.json` records the read-only capability probe. Effective permission attribution is unresolved; do not toggle unrelated applications or mark revocation passed.

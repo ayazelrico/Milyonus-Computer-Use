@@ -1,0 +1,19 @@
+{
+  "suite": "native-pre-dispatch-interruption",
+  "mode": "environment",
+  "status": "passed",
+  "startedAt": "2026-10-27T12:42:12.051665+00:00",
+  "companionSHA256": "b389c81bf4fce434742a95eee8a69db039203e685b4008fabfdfc84341e0bbba",
+  "scope": "Captured target interrupted before dispatch; not interruption during native event delivery.",
+  "checks": [
+    "Expected native interruption state observed",
+    "Captured generation invalidated",
+    "Captured action refused after interruption",
+    "Observation refused until new native authorization"
+  ],
+  "observedState": "paused",
+  "pauseReason": "environmentChanged",
+  "actionRefusal": "UNAUTHORIZED",
+  "finishedAt": "2026-10-27T12:42:25.135420+00:00",
+  "childExitCode": -15
+}

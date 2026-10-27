@@ -1,0 +1,11 @@
+{
+  "suite": "fresh-companion-permission-probe",
+  "recordedAt": "2026-10-27T12:46:06.553185+00:00",
+  "permissions": {
+    "accessibility": true,
+    "screenRecording": true
+  },
+  "companionSHA256": "b389c81bf4fce434742a95eee8a69db039203e685b4008fabfdfc84341e0bbba",
+  "nativeSessionOpened": false,
+  "desktopActions": 0
+}

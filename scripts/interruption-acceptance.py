@@ -12,7 +12,7 @@ import time
 import uuid
 
 parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument('mode', choices=['stop', 'user-input', 'environment', 'window-close'])
+parser.add_argument('mode', choices=['stop', 'user-input', 'environment', 'window-close', 'permission-revoke'])
 parser.add_argument('--evidence', required=True)
 args = parser.parse_args()
 root = Path(__file__).resolve().parent.parent
@@ -107,6 +107,14 @@ try:
     heartbeat = time.monotonic()
     while time.monotonic() < deadline:
         current = success('session_status')
+        if args.mode == 'permission-revoke':
+            permissions = success('system_capabilities')['permissions']
+            if permissions.get('accessibility') is False:
+                record['accessibilityGranted'] = False
+                break
+            if current['state'] != 'ready':
+                time.sleep(.25)
+                continue
         if args.mode == 'window-close':
             try:
                 os.kill(observation['pid'], 0)
@@ -145,19 +153,22 @@ try:
     record['pauseReason'] = current.get('pauseReason')
     expected = {'stop': ('cancelled', None), 'user-input': ('paused', 'userInput'),
                 'environment': ('paused', 'environmentChanged'),
-                'window-close': (current['state'], current.get('pauseReason'))}[args.mode]
+                'window-close': (current['state'], current.get('pauseReason')),
+                'permission-revoke': (current['state'], current.get('pauseReason'))}[args.mode]
     if (current['state'], current.get('pauseReason')) != expected:
         raise RuntimeError('UNEXPECTED_INTERRUPTION_STATE')
     record['checks'].append('Expected native interruption state observed')
-    if args.mode != 'window-close':
+    if args.mode not in ['window-close', 'permission-revoke']:
         if current['generation'] <= session['generation']:
             raise RuntimeError('GENERATION_NOT_INVALIDATED')
         record['checks'].append('Captured generation invalidated')
-    else:
+    elif args.mode == 'window-close':
         record['checks'].append('Originally observed fixture process exited')
+    else:
+        record['checks'].append('Companion reports Accessibility permission revoked')
     failed, refusal = call('desktop_action', request)
     record['actionRefusal'] = refusal.get('error')
-    if not failed or refusal.get('error') not in (['UNAUTHORIZED', 'STALE_OBSERVATION', 'CANCELLED', 'TARGET_NOT_FOUND', 'TARGET_AMBIGUOUS', 'FOCUS_CHANGED'] if args.mode == 'window-close' else ['UNAUTHORIZED', 'STALE_OBSERVATION', 'CANCELLED']):
+    if not failed or refusal.get('error') not in (['UNAUTHORIZED', 'STALE_OBSERVATION', 'CANCELLED', 'TARGET_NOT_FOUND', 'TARGET_AMBIGUOUS', 'FOCUS_CHANGED', 'PERMISSION_REQUIRED'] if args.mode in ['window-close', 'permission-revoke'] else ['UNAUTHORIZED', 'STALE_OBSERVATION', 'CANCELLED']):
         raise RuntimeError('INTERRUPTED_ACTION_NOT_REFUSED')
     record['checks'].append('Captured action refused after interruption')
     failed, refusal = call('desktop_observe', {'sessionId': session['id']})

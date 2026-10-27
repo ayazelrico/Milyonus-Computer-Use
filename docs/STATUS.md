@@ -561,3 +561,11 @@ Failures remain retained: Stop attempt 1 saw input pause before Stop; attempt 2 
 Required Debug build and standalone selftest passed again (227 cases / 2448 assertions / zero failures). The new Python driver compiles. The installed signing identity check still returns zero valid identities. Lock/sleep, permission revocation/restoration, dispatch-time interruption and normal-host selection-in-flight acceptance remain outstanding.
 
 Window-close attempt 3 failed before capture with TARGET_NOT_FOUND and is retained. Lock interruption is being tested separately; a physical-input pause must not be mislabeled as environmentChanged. No claim of all scenarios passing is made.
+
+Native lock attempt 2 passed with environmentChanged, generation invalidation, captured action rejection (UNAUTHORIZED), and observation rejection. Attempt 1 was masked by earlier userInput and remains a failed record. Sleep is still untested. Permission revocation is now a separate explicit operator test with capability-state evidence; no TCC files are edited.
+
+## Permission attribution discrepancy — 2026-10-27
+
+The user supplied a System Settings screenshot showing MilyonusComputerUse Accessibility disabled. The active permission-revoke test never observed accessibility=false and timed out. A separate newly launched companion, queried through system_capabilities without opening a session or performing any desktop action, still reported accessibility=true and screenRecording=true. The executable hash matches the tested companion. See `docs/evidence/permission-fresh-process-2026-10-27.json` and the retained permission-revoke failure.
+
+The UI switch cannot currently be treated as evidence that this launch lost effective AX access. The responsible permission identity/launch attribution has not been established. No TCC database was read or edited, no unrelated permission was revoked, and the user was told to leave the switches unchanged. Permission-revocation acceptance is blocked on resolving this discrepancy, not passed. Fresh-process trust reporting is evidence only; it does not prove why the UI differs or establish denied-operation behavior.
