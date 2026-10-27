@@ -1,0 +1,30 @@
+{
+  "suite": "isolated-ultra-native-lifecycle",
+  "recordedAt": "2026-10-27T12:17:23.084300+00:00",
+  "status": "passed-limited-slice",
+  "hashes": {
+    "preview": "f50a7bd585dba0318b6a0acc0c3a9f4d39a0fceaafe87ecc3f5082d8b7e54b91",
+    "companion": "b389c81bf4fce434742a95eee8a69db039203e685b4008fabfdfc84341e0bbba",
+    "fixture": "6b85f5f0a1db6033e27e04829987f306a3da98233d2cb9317090f46cfa6b4cca"
+  },
+  "observedPhases": [
+    "awaitingApproval",
+    "ready",
+    "completed"
+  ],
+  "uiCompletionVerified": true,
+  "stopLabelVerified": "Session stopped.",
+  "isolatedProcessExitCode": 0,
+  "companionRemaining": false,
+  "previewRemaining": false,
+  "realInference": false,
+  "headlessHostTests": {
+    "passed": 3598,
+    "failed": 0
+  },
+  "limitations": [
+    "Normal-host selection/clipboard-in-flight and mid-action interruption matrix not accepted.",
+    "After closing the isolated window, the UI state tool reopened the same test bundle in its default launch mode. That extra window was quit; no chat/account action was performed. This incidental launch is not normal-host acceptance.",
+    "A UI tool call reported a ScreenCaptureKit error after Start; phase logs and subsequent AX state independently established completion."
+  ]
+}

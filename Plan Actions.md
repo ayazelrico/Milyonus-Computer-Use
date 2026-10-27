@@ -42,7 +42,7 @@ The detailed historical checklist below defines full acceptance, not individual 
 | CU-001–005 | Swift package, visible companion, TCC controls, AX/capture/input probes, development IPC ADR | Partial; production identity and peer authentication remain open |
 | CU-006–022 | Typed actions and independently checked wire schemas, session/generation policy, heartbeat lease, pause reasons, persistent idempotency, input cleanup, semantic/native text/native click, fixture verification | Partial; full scenario/hardware/interruption matrix remains open |
 | CU-023–026 | Swift SDK, MCP, agent loop, OpenAI Responses and Anthropic Messages planners, independent completion, budgets, no-progress detection | Partial; real inference acceptance remains open |
-| CU-027–031 | Native coordinator and default-disabled Ultra preview wired; token-based selection suspension and drain; host regression suite 3296/0; isolated native pending-session Stop/close verified | Live preview lifecycle, production broker and real agent pilot pending |
+| CU-027–031 | Native coordinator and default-disabled Ultra preview wired; token-based selection suspension and drain; host regression suite 3296/0; isolated native pending-session Stop/close verified | Isolated approved action/Stop/close passed on 2026-10-27; normal-host lifecycle, production broker and full agent pilot pending |
 | CU-032–036 | Threat model, private-state file admission and adversarial tests, verification scripts, ad-hoc packaging, notarization runbook, source/evidence hashes | Partial; distribution identity and release acceptance remain open |
 | CU-037–042 | Expansion backlog retained | Deferred until core release gates pass |
 

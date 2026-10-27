@@ -33,3 +33,5 @@ On 2026-10-27 the user selected Anthropic using their supplied credential/model.
 OpenAI follow-up: model discovery and two native attempts were executed on 2026-10-27 with a transient user credential. The latest failed with NO_PROGRESS; diagnose bounded per-step metadata before another native attempt. The earlier missing-configuration prerequisite no longer explains this live failure, but credentials are not retained for future runs.
 
 OpenAI update: attempt 3 diagnosed repeated setValue after completion. Explicit finish instructions passed a real two-proposal contract check and the approved native attempt 5 (one action plus verified finish). The next acceptance priority is Ultra; the complete OpenAI pilot matrix remains pending.
+
+Ultra update: the rebuilt host headless suite passed 3598/0 and the isolated native action/completion/Stop-after-completion/close slice passed on 2026-10-27. Normal-host in-flight selection and interruption acceptance remain open. See STATUS.md for the UI-tool relaunch side effect and evidence scope. Next native work is the interruption matrix; signed distribution remains blocked on a valid Developer ID/notary profile.
