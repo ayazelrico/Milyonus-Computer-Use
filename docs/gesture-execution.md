@@ -101,3 +101,7 @@ This command has been compiled and its runner tested with synthetic clients. It 
 The independent runner now requires the expected AX role for each gesture target and valid initial scroll geometry. After scrolling it resolves the scroll target again and requires unchanged bounds before accepting scrollbar movement. This prevents a replaced/resized fixture surface from supplying misleading completion evidence. Final drag geometry must still match its pre-action observation.
 
 Synthetic cases cover upward movement toward the interior, wrong-direction movement, missing/ambiguous/non-finite scrollbar values, incorrect target roles and geometry changes after scroll or drag. These are acceptance-runner checks, not live native interruption evidence.
+
+## First live acceptance finding (2026-10-27)
+
+The approved run failed with `UNSUPPORTED_CAPABILITY`. A read-only fixture AX probe identified a missing `AXEnabled` attribute on the standard scroll view. The optional fixture now sets accessibility enabled explicitly, while the harness retains its fail-closed check. The Debug regression suite passed and the development bundles were rebuilt. A new live run is required to accept this fix; the first failure and binary hashes are retained in `evidence/native-gestures-2026-10-27-attempt-1.json`.
