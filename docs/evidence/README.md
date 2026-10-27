@@ -115,3 +115,4 @@ Native approval driven by a test controller must be labeled as automation, not r
 - `openai-live-2026-10-27-native.json` and `openai-live-2026-10-27-native-attempt-2.json`: actual OpenAI native pilot failures (FOCUS_CHANGED, then NO_PROGRESS) with gpt-5.4-mini-2026-03-17. No successful completion is claimed. Per-step proposal/state diagnostics were not captured, so the no-progress cause remains unresolved.
 
 - OpenAI attempts 3–5: attempt 3 diagnoses repeated correct writes after completion; attempt 4 times out awaiting approval; attempt 5 passes one native edit then finish after explicit completion instructions. `openai-contract-2026-10-27.json` separately records two real proposals using synthetic observations. Bounded diagnostics contain no field values or credentials.
+
