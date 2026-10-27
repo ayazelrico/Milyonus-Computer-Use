@@ -1,0 +1,31 @@
+{
+  "suite": "anonymous-xpc-signing-feasibility",
+  "status": "passed-limited-probe",
+  "startedAt": "2026-10-27T13:18:01.462849+00:00",
+  "sourceSHA256": "d253d66052cae9a56715ce497a517e6bd99d8e8bbf9cfb554611db4256a5c9d0",
+  "cases": [
+    {
+      "name": "matching-both-peers",
+      "outcome": "replied",
+      "serverInvocations": 1
+    },
+    {
+      "name": "listener-rejects-client",
+      "code": 4097,
+      "domain": "NSCocoaErrorDomain",
+      "outcome": "rejected",
+      "serverInvocations": 0
+    },
+    {
+      "name": "client-rejects-server",
+      "code": 4102,
+      "domain": "NSCocoaErrorDomain",
+      "outcome": "rejected",
+      "serverInvocations": 1
+    }
+  ],
+  "limitations": "Same-process anonymous endpoint, ad-hoc hash pin only; no independently launched broker, Team ID trust, desktop action or production authentication acceptance.",
+  "binarySHA256": "36945e7c3f346b7116703d10f645925e6af2727f14b33b0cafd55a829eff4eef",
+  "serverIdentityPreventsFirstRequestDelivery": false,
+  "finishedAt": "2026-10-27T13:18:03.477137+00:00"
+}

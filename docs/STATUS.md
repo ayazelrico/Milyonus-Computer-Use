@@ -579,3 +579,11 @@ The companion's disabled System Settings switch cannot be used as proof of effec
 Debug build/selftest passed 227 cases / 2448 assertions / zero failures; updated development packaging and receipt verification passed. These changes add only read-only diagnostics, with no approval or permission bypass.
 
 Final permission-diagnostic verification: Debug and Release suites each passed 227 cases / 2448 assertions / zero failures. Three successful same-binary launch comparisons reproduced the difference. The diagnostic runner now verifies the package receipt before invoking the probe, and Python syntax validation passed. No native execution acceptance was transferred to the rebuilt diagnostic binary.
+
+## Independent XPC peer admission feasibility — 2026-10-27
+
+A standalone read-only experiment now exercises real NSXPCConnection signing requirements through both anonymous and independently launched per-user Mach-service processes. Exact temporary executable CDHash pins admit the matching peer, reject a mismatched client before exported-method entry, and reject a mismatched server reply. The wrong-server first ping still reaches the server: a concrete data-boundary finding, not a passing no-egress claim. An authenticated first reply on the same connection gates a second diagnostic method; the named-service tests observed zero second-method calls for either mismatched peer.
+
+All three temporary launchd jobs were unloaded and the subsequent inventory contained no probe job. No desktop capability, native approval, TCC change, persistent service installation or Ultra change occurred. The existing stdio SDK remains in use. Exact source/binary hashes and per-case counts are in `xpc-handshake-probe-named-2026-10-27-1.json`; initial failed assumptions and earlier single-call results are retained separately. See `Experiments/XPCPeerProbe/README.md` for constraints and production admission requirements.
+
+The experiment compiles with Swift 5 compatibility and is not a production transport implementation. Developer ID identity, independent companion permission attribution, connection-owned grants, lifecycle cancellation, bounded protocol mapping and normal-host sandbox acceptance remain open. Required harness Debug build/selftest passed 227 cases / 2448 assertions / zero failures. Production gate G0 remains partial.

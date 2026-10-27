@@ -1,0 +1,35 @@
+{
+  "suite": "named-xpc-signing-feasibility",
+  "status": "passed-limited-probe",
+  "startedAt": "2026-10-27T13:18:50.013684+00:00",
+  "sourceSHA256": "7533e5248643e692cede73dcf0d598aed6c06d8559b43794b51574e355511ea1",
+  "cases": [
+    {
+      "name": "matching-both-peers",
+      "outcome": "replied",
+      "serverInvocations": 1,
+      "temporaryJobRemoved": true
+    },
+    {
+      "name": "listener-rejects-client",
+      "code": 4097,
+      "domain": "NSCocoaErrorDomain",
+      "outcome": "rejected",
+      "serverInvocations": 0,
+      "temporaryJobRemoved": true
+    },
+    {
+      "name": "client-rejects-server",
+      "code": 4102,
+      "domain": "NSCocoaErrorDomain",
+      "outcome": "rejected",
+      "serverInvocations": 1,
+      "temporaryJobRemoved": true
+    }
+  ],
+  "limitations": "Ad-hoc hash pin only; no Team ID trust, desktop action, TCC identity or production authentication acceptance. Topology is recorded separately.",
+  "binarySHA256": "9bbe36ef09f72cb377d69b918888311388188d4b424949c4618c4b94a651d66b",
+  "topology": "temporary-launchd-service",
+  "serverIdentityPreventsFirstRequestDelivery": false,
+  "finishedAt": "2026-10-27T13:18:52.149532+00:00"
+}

@@ -1,0 +1,23 @@
+{
+  "suite": "anonymous-xpc-signing-feasibility",
+  "status": "failed",
+  "startedAt": "2026-10-27T13:16:31.855183+00:00",
+  "sourceSHA256": "abc0ffef6ac0a15eb3149f97c25df5edd419e75e0b08ce2fd336f893eea923e9",
+  "cases": [
+    {
+      "name": "matching-both-peers",
+      "outcome": "replied"
+    },
+    {
+      "name": "listener-rejects-client",
+      "code": 4097,
+      "domain": "NSCocoaErrorDomain",
+      "outcome": "rejected"
+    }
+  ],
+  "limitations": "Same-process anonymous endpoint, ad-hoc hash pin only; no independently launched broker, Team ID trust, desktop action or production authentication acceptance.",
+  "binarySHA256": "db959c772dfc18913918b7d19ebe2a283a9afeff03ffe0424b334cd76262a1fb",
+  "errorType": "RuntimeError",
+  "error": "Review rejection error before accepting case",
+  "finishedAt": "2026-10-27T13:16:34.546389+00:00"
+}
