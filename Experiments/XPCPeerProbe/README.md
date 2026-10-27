@@ -37,3 +37,9 @@ The initial tests deliberately failed on a presumed specific error code and then
 - [NSXPCListener](https://developer.apple.com/documentation/foundation/nsxpclistener): named Mach listeners require launchd registration.
 
 The local macOS SDK headers were also inspected for availability (connection requirements are available from macOS 13). This host does not establish minimum-OS or Intel compatibility.
+
+## Fresh connection ownership check
+
+The final named-service probe exports a separate object per accepted connection. After the matching client's handshake and acknowledgement, that client exits. A second correctly signed client connects to the same still-running server and invokes the post-handshake method without ping. The server replies handshakeRequired and records no additional admitted invocation. This demonstrates that the prototype's handshake state is connection-local rather than shared across clients. It is not a native session grant or a production reconnect policy.
+
+Evidence: `docs/evidence/xpc-connection-ownership-2026-10-27-1.json`. The same run also reruns both signature-negative cases. The server stores only boolean diagnostic handshake state; it never receives a native grant, fixture handle or user content.

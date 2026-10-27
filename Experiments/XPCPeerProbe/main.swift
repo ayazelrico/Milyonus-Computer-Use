@@ -9,17 +9,24 @@ import Security
 final class Service: NSObject, ProbeProtocol {
     private let lock = NSLock()
     private var count = 0
+    private var handshakeComplete = false
+    private let tracker: Service?
     var logInvocations = false
-    func ping(reply: @escaping (String) -> Void) {
+    init(tracker: Service? = nil) { self.tracker = tracker }
+    private func record(_ event: String) {
+        if let tracker { tracker.record(event); return }
         lock.lock(); count += 1; lock.unlock()
-        if logInvocations {
-            try? FileHandle.standardOutput.write(contentsOf: Data("invoked\n".utf8))
-        }
+        if logInvocations { try? FileHandle.standardOutput.write(contentsOf: Data((event + "\n").utf8)) }
+    }
+    func ping(reply: @escaping (String) -> Void) {
+        lock.lock(); handshakeComplete = true; lock.unlock()
+        record("invoked")
         reply("pong")
     }
     func afterHandshake(reply: @escaping (String) -> Void) {
-        lock.lock(); count += 1; lock.unlock()
-        if logInvocations { try? FileHandle.standardOutput.write(contentsOf: Data("afterHandshake\n".utf8)) }
+        lock.lock(); let admitted = handshakeComplete; lock.unlock()
+        guard admitted else { reply("handshakeRequired"); return }
+        record("afterHandshake")
         reply("ack")
     }
     func invocationCount() -> Int { lock.lock(); defer { lock.unlock() }; return count }
@@ -32,7 +39,7 @@ final class Delegate: NSObject, NSXPCListenerDelegate {
     func listener(_ listener: NSXPCListener, shouldAcceptNewConnection connection: NSXPCConnection) -> Bool {
         connection.setCodeSigningRequirement(requirement)
         connection.exportedInterface = NSXPCInterface(with: ProbeProtocol.self)
-        connection.exportedObject = service
+        connection.exportedObject = Service(tracker: service)
         connections.append(connection)
         connection.resume()
         return true
@@ -46,7 +53,8 @@ final class ResultBox: @unchecked Sendable {
 }
 let args = Array(CommandLine.arguments.dropFirst())
 let namedServer = args.first == "--server"
-let namedClient = args.first == "--client"
+let unprimed = args.first == "--client-unprimed"
+let namedClient = args.first == "--client" || unprimed
 guard (args.count == 2 && !namedServer && !namedClient) || (args.count == 3 && (namedServer || namedClient)) else { exit(64) }
 let requirements = (namedServer || namedClient) ? [args[2]] : args
 // Foundation raises an exception for malformed requirements. Validate first.
@@ -83,12 +91,18 @@ let proxy = connection.remoteObjectProxyWithErrorHandler { error in
     let error = error as NSError
     result.finish(["outcome": "rejected", "domain": error.domain, "code": error.code])
 } as! ProbeProtocol
+if unprimed {
+    proxy.afterHandshake { value in
+        result.finish(["outcome": value == "handshakeRequired" ? "handshakeRequired" : "unexpectedAdmission"])
+    }
+} else {
 proxy.ping { value in
     guard value == "pong" else { result.finish(["outcome": "invalidReply"]); return }
     // Only an authenticated reply on this exact connection permits the next message.
     proxy.afterHandshake { acknowledgement in
         result.finish(["outcome": acknowledgement == "ack" ? "replied" : "invalidReply"])
     }
+}
 }
 let deadline = ContinuousClock.now.advanced(by: .seconds(10))
 while result.read() == nil, ContinuousClock.now < deadline {

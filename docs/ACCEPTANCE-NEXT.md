@@ -1,41 +1,37 @@
 # Acceptance-first execution queue
 
-Updated: 2026-10-27.
+Updated: 2026-10-27. This queue supersedes the chronological notes previously appended here. Historical results remain in STATUS.md and evidence files.
 
-Further generic SDK/protocol hardening is not the default next task. Prioritize the acceptance gaps below. Add implementation or regression tests when a concrete acceptance failure requires them. Passing synthetic tests never closes native, provider, Ultra or distribution gates.
-
-| Priority | Work | Current prerequisite / owner | Completion evidence |
+| Priority | Work | Current state | Next concrete acceptance |
 |---|---|---|---|
-| 1 | Git recovery point | Completed: baseline 64c8c55; fixture fix 34139f0 | Local commits preserve implementation and failure evidence; no credentials or build products |
-| 2 | Native scroll and drag | Basic slice completed: second approved attempt passed on 2026-10-27 | Dated attempt-2 JSON verifies both native actions, independent postconditions and binary hashes; full interruption matrix remains open |
-| 3 | Real OpenAI execution | User: configure OPENAI_API_KEY and MILYONUS_OPENAI_MODEL in the invoking environment; agent: execute the existing explicit provider fixture command during an approved foreground window | Actual provider response plus independently verified native completion, reported separately |
-| 4 | Agent Ultra live acceptance | User: foreground availability and native approval; agent: use the isolated preview first and preserve the existing checkout/application | Approved action, independent observation, Stop, close and quit results; normal-host selection lifecycle remains a separate gate |
-| 5 | Signed distribution | User: installed Developer ID Application identity and existing notarytool profile; agent: build/sign/notarize and verify | Signature, notarization/stapling, system assessment and subsequent clean installation/upgrade acceptance |
+| 1 | Independent broker permission identity and peer admission | Same-binary launch-context discrepancy reproduced. Read-only cross-process XPC signing and connection-local handshake prototypes passed. | Independently launched visible companion with host-controlled signing policy, authenticated channel, connection-owned grants and disconnect cancellation. Then prove its own permission grant/revoke lifecycle. |
+| 2 | Native interruption matrix | Pre-dispatch Stop, physical input and screen lock slices passed. Fresh-target closure remains unaccepted. | Isolate fresh-target closure and focus loss; then stop during delivered native events, sleep and partial-effect cleanup. |
+| 3 | Normal Agent Ultra integration | 3598 headless assertions passed; isolated native action/Stop-after-completion/close passed. | Normal-host selection/clipboard work in flight and mid-action cancellation, preserving the existing host sandbox and user preferences. |
+| 4 | Broader real-provider pilot | One-action native Anthropic and OpenAI slices passed; OpenAI repeated-write failure diagnosed and completion instructions fixed. | The planned task/repetition and interruption matrix; no claim that a single successful fixture task completes this gate. |
+| 5 | Distribution | Ad-hoc packaging/signature/receipt checks passed. Zero valid signing identities installed. | Developer ID Application signing and an existing notarization profile, then clean installation, update and uninstall acceptance. |
 
-## Prerequisite check performed
+## Completed basic slices
 
-The current command process has neither OPENAI_API_KEY nor MILYONUS_OPENAI_MODEL set. This is an environment check, not a search of unrelated credential stores. `security find-identity -v -p codesigning` reports zero valid identities. Do not paste credentials into chat or commit them; configure them locally for the invoking process. A certificate without its private key is insufficient for signing.
+- Git baseline and subsequent coherent commits exist; source and evidence are recoverable locally. No remote backup or publication is implied.
+- Actual fixture scroll and fixed drag passed independent postconditions.
+- Actual Anthropic and OpenAI each completed one fixture edit with independently verified completion and session cancellation.
+- Isolated Ultra completed one fixture action, Stop-after-completion, close and process cleanup.
+- Native captured-request checks rejected writes after Stop, human input and screen lock.
 
-The native fixture is a real AppKit application using real macOS events. Its acceptance does not establish support for arbitrary third-party applications. The current allowlist remains fixture-only. See [gesture instructions](gesture-execution.md), [provider requirements](provider-matrix.md), [Ultra integration](../Integrations/AgentUltra/README.md) and [release runbook](release.md).
+## Architectural finding that changes test ordering
+
+The current SDK launches a direct child over inherited pipes. A read-only same-binary comparison reported Accessibility/capture true in that context but false under Launch Services. The companion's own Settings toggle is therefore not a demonstrated SDK revocation control. See [permission attribution](permission-attribution.md). Repeating toggles does not resolve this boundary, and unrelated application permissions must not be disabled to force a pass.
+
+The read-only [XPC experiment](../Experiments/XPCPeerProbe/README.md) establishes useful peer-check primitives, not a production broker. Wrong server identity can still receive the first request before its reply is rejected; that first request must contain no operational or sensitive payload. Fresh connections must perform their own authenticated exchange. Exact ad-hoc CDHash pins are development evidence, not a Developer ID policy.
+
+## Constraints and external inputs
+
+Native session approval remains manual. User authorization to test does not create a native grant. Keep tests confined to project windows and fixture content; preserve all focus, identity, generation, permission and journal checks. Lock/unlock and OS permission interventions need an operator. Provider credentials used earlier were transient and are not stored for future runs. Do not ask for secrets in chat; configure subsequent runs locally.
+
+The existing Ultra checkout contains unrelated user changes; do not reset, clean or commit that checkout as part of harness work. Production signing credentials, minimum-OS/Intel hardware and physical display coverage are not available from this host's passing tests.
 
 ## Open reliability defect
 
-Unexpected inherited-output and mismatch/closed-input timeouts remain unresolved. Preserve failed logs and existing deadlines. New diagnostic counters are available; a later passing run is not a fix. Investigate the recorded failure paths as a bounded defect task, not as justification for indefinitely adding unrelated validation layers. See [timeout investigation](stdio-timeout-investigation.md).
+The inherited-output and mismatch/closed-input stdio timeouts remain unresolved. Preserve their failed logs and existing deadlines. A passing stress run is not a root-cause fix. Investigate this as a bounded defect task, not as a reason to add endless unrelated validation layers or to defer concrete native acceptance.
 
-## Working agreement
-
-Do not launch foreground acceptance while the user is working under the background-only restriction. Do not create native approvals through RPC or automation. When a prerequisite is missing, report its specific owner and condition; do not represent substitute synthetic work as progress on that acceptance gate. Commit subsequent coherent changes so this baseline remains recoverable. Local commits are not an off-device backup or a published release.
-
-## Provider progress and next executable step
-
-On 2026-10-27 the user selected Anthropic using their supplied credential/model. Both the real two-proposal contract check and one-action native fixture pilot passed; evidence is recorded separately in STATUS.md. This advances real-provider acceptance without claiming an OpenAI pass. OpenAI remains conditional on its own configuration. The next executable acceptance task is the isolated Ultra live action/Stop/close/quit slice, with a fresh foreground window and native approval; the normal host lifecycle remains separate.
-
-OpenAI follow-up: model discovery and two native attempts were executed on 2026-10-27 with a transient user credential. The latest failed with NO_PROGRESS; diagnose bounded per-step metadata before another native attempt. The earlier missing-configuration prerequisite no longer explains this live failure, but credentials are not retained for future runs.
-
-OpenAI update: attempt 3 diagnosed repeated setValue after completion. Explicit finish instructions passed a real two-proposal contract check and the approved native attempt 5 (one action plus verified finish). The next acceptance priority is Ultra; the complete OpenAI pilot matrix remains pending.
-
-Ultra update: the rebuilt host headless suite passed 3598/0 and the isolated native action/completion/Stop-after-completion/close slice passed on 2026-10-27. Normal-host in-flight selection and interruption acceptance remain open. See STATUS.md for the UI-tool relaunch side effect and evidence scope. Next native work is the interruption matrix; signed distribution remains blocked on a valid Developer ID/notary profile.
-
-Permission gate update: same-binary direct-child versus Launch Services probes reproduced different effective trust. Resolve independently launched, authenticated broker identity before treating the companion toggle as an SDK revocation mechanism; see permission-attribution.md. Do not repeat the same toggle test or weaken permission checks.
-
-XPC feasibility progressed: separate-process signing admission and authenticated-reply gating were exercised without desktop capabilities. Wrong-server checks do not prevent delivery of the initial request; keep its payload non-sensitive. Next implementation must bind broker lifecycle and session ownership to authenticated connections; see Experiments/XPCPeerProbe/README.md. Existing SDK routing remains unchanged.
+Commit completed increments and continue with the next executable item. A commit is a checkpoint, not a phase gate. Update STATUS.md with actual evidence and limitations; never close one gate using another gate's test results.
