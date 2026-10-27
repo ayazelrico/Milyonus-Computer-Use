@@ -1,0 +1,4 @@
+fixture activation requested through Launch Services
+tool failure=staleObservation session=ready
+tool failure=focusChanged session=ready
+foreground category=companion
