@@ -29,3 +29,5 @@ Do not launch foreground acceptance while the user is working under the backgrou
 ## Provider progress and next executable step
 
 On 2026-10-27 the user selected Anthropic using their supplied credential/model. Both the real two-proposal contract check and one-action native fixture pilot passed; evidence is recorded separately in STATUS.md. This advances real-provider acceptance without claiming an OpenAI pass. OpenAI remains conditional on its own configuration. The next executable acceptance task is the isolated Ultra live action/Stop/close/quit slice, with a fresh foreground window and native approval; the normal host lifecycle remains separate.
+
+OpenAI follow-up: model discovery and two native attempts were executed on 2026-10-27 with a transient user credential. The latest failed with NO_PROGRESS; diagnose bounded per-step metadata before another native attempt. The earlier missing-configuration prerequisite no longer explains this live failure, but credentials are not retained for future runs.

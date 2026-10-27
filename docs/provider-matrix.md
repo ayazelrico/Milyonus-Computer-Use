@@ -2,6 +2,8 @@
 
 Updated: 2026-10-27.
 
+Latest OpenAI live attempts used the user-supplied credential and discovered model `gpt-5.4-mini-2026-03-17`: attempt 1 failed FOCUS_CHANGED; attempt 2 failed NO_PROGRESS. Model listing and live calls do not establish end-to-end acceptance. Detailed failure records and next diagnostic work are in STATUS.md. No persistent credential configuration was saved.
+
 | Adapter | Implemented | Verified locally | Still required |
 |---|---|---|---|
 | OpenAI Responses structured planner | HTTPS request, strict JSON plan, explicit model, host-owned credential, deadline, bounded reply, refusal handling, no retries | Synthetic transport tests for request construction, minimized observation egress, malformed plans, wrong scope, incomplete output, refusal, size limit and HTTP failure | Configured API key/model, real provider response, cancellation/redirect transport acceptance, 10 tasks × 5 native pilot runs |
