@@ -6,8 +6,8 @@ Further generic SDK/protocol hardening is not the default next task. Prioritize 
 
 | Priority | Work | Current prerequisite / owner | Completion evidence |
 |---|---|---|---|
-| 1 | Git recovery point | Agent: review tracked candidates and commit the current implementation | Local commit containing source, tests, plans and retained evidence; no credentials or build products |
-| 2 | Native scroll and drag | User: a short foreground test window and native companion approval. Previous background-only restriction remains active | Run the existing gesture acceptance CLI against the packaged fixture; retain dated JSON with both independent postconditions and binary hashes |
+| 1 | Git recovery point | Completed: baseline 64c8c55; fixture fix 34139f0 | Local commits preserve implementation and failure evidence; no credentials or build products |
+| 2 | Native scroll and drag | Basic slice completed: second approved attempt passed on 2026-10-27 | Dated attempt-2 JSON verifies both native actions, independent postconditions and binary hashes; full interruption matrix remains open |
 | 3 | Real OpenAI execution | User: configure OPENAI_API_KEY and MILYONUS_OPENAI_MODEL in the invoking environment; agent: execute the existing explicit provider fixture command during an approved foreground window | Actual provider response plus independently verified native completion, reported separately |
 | 4 | Agent Ultra live acceptance | User: foreground availability and native approval; agent: use the isolated preview first and preserve the existing checkout/application | Approved action, independent observation, Stop, close and quit results; normal-host selection lifecycle remains a separate gate |
 | 5 | Signed distribution | User: installed Developer ID Application identity and existing notarytool profile; agent: build/sign/notarize and verify | Signature, notarization/stapling, system assessment and subsequent clean installation/upgrade acceptance |

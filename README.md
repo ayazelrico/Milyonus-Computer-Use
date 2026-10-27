@@ -138,6 +138,6 @@ Configure `ANTHROPIC_API_KEY` and `MILYONUS_ANTHROPIC_MODEL` in the host process
 
 The optional gesture fixture and SDK/MCP vertical scrolling and fixed drag implementations are described in [Bounded pointer gesture preparation](docs/gesture-execution.md). These routes require native approval and fresh fixture targeting, and have synthetic coverage only. They are advertised separately as `experimentalNativeFixtureScroll` and `experimentalNativeFixtureDrag`; live native acceptance remains pending. The model planners continue to support the accepted edit/save action vocabulary.
 
-The explicit `gesture-fixture-selftest` CLI can record a future approved two-action native run, including executable hashes and independent post-action observations. See the gesture guide for prerequisites; this test has not yet established live acceptance.
+The explicit `gesture-fixture-selftest` CLI can record a future approved two-action native run, including executable hashes and independent post-action observations. See the gesture guide for prerequisites; the basic two-action native fixture slice passed on 2026-10-27; the full interruption matrix remains open.
 
 Typed feature and permission snapshots are available through `CapabilityHarnessClient.capabilities()`. See [Capability discovery](docs/capability-discovery.md) for compatibility checks and the distinction between discovery and native authorization.

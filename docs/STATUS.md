@@ -23,7 +23,7 @@ Follow [the acceptance-first queue](ACCEPTANCE-NEXT.md). Native gestures, real O
 | G0: platform/identity/IPC | Partially evidenced | Stable Developer ID identity, production IPC/peer authentication, clean-user and minimum-OS checks |
 | G1: contracts/policy/session | Substantial implementation and tests | General scope/grant model and broader adversarial coverage; current action/session/observation/result/heartbeat schemas and lease are implemented |
 | G2: observation | Native AX and capture slice verified | Real multi-display/hot-plug, complete artifact/retention design, hung-app isolation and TCC revoke matrix |
-| G3: execution | Semantic, native-text and native-click fixture slices verified | Live experimental scroll/drag acceptance, arbitrary coordinates/key/general drag operations, complete 20×10 matrix, physical Stop/lock/permission/crash acceptance |
+| G3: execution | Semantic, native-text and native-click fixture slices verified | Full scroll/drag interruption acceptance, arbitrary coordinates/key/general drag operations, complete 20×10 matrix, physical Stop/lock/permission/crash acceptance |
 | G4: agent interfaces | SDK/MCP, agent loop, OpenAI Responses and Anthropic Messages adapters implemented | Real inference, negotiated image/egress capabilities, 10×5 agent pilot |
 | G5: Agent Ultra | Default-disabled native preview wired; host regression suite passed | Live preview lifecycle matrix, production sandbox/broker acceptance, provider integration |
 | G6: release | Packaging/notarization scripts and runbook prepared | Developer ID credentials, clean install/upgrade/uninstall, performance/soak/security acceptance |
@@ -37,7 +37,7 @@ No gate is marked fully passed by borrowing evidence from a different platform o
 - macOS 14 runtime, Intel, and multiple physical displays have not been tested on this host.
 - The OpenAI Responses adapter has synthetic transport coverage but real provider inference has not been accepted. `OPENAI_API_KEY` and `MILYONUS_OPENAI_MODEL` are not configured. CLI installation alone is not evidence of compatible tools, vision, authentication, or quota.
 
-These external dependencies do not excuse unfinished implementation. Unaccepted experimental scroll, missing general pointer/drag operations, full broker security, retention, richer schemas, and Ultra integration are explicitly tracked as engineering work.
+These external dependencies do not excuse unfinished implementation. Incomplete gesture interruption acceptance, missing general pointer/drag operations, full broker security, retention, richer schemas, and Ultra integration are explicitly tracked as engineering work.
 
 ## Native-test findings resolved during this iteration
 
@@ -509,3 +509,9 @@ Provider-response final validation: Debug and optimized Release builds passed wi
 The first live gesture run received native approval but failed with `UNSUPPORTED_CAPABILITY`; it did not establish gesture acceptance. Evidence is retained in `docs/evidence/native-gestures-2026-10-27-attempt-1.json` and its log. A fixture-only read-only AX probe found `fixture.scroll` with role `AXScrollArea` and no `AXEnabled` attribute, while `fixture.drag.canvas` exposed `AXGroup` and enabled=true. The acceptance runner requires both surfaces to advertise their actions before its first mutation.
 
 The optional fixture scroll view now explicitly exposes enabled=true. The harness still rejects absent/false enabled attributes; no native approval, foreground, identity or execution checks were relaxed. Debug build and the required standalone suite passed (227 cases / 2448 assertions / zero failures), and fresh ad-hoc development packaging/receipt verification passed. The existing Release evidence predates this fixture-only fix. A second live run is pending user availability; the fix is not yet native-accepted. Only the project fixture was terminated for packaging; no unrelated application was touched.
+
+## Native gesture acceptance passed — 2026-10-27
+
+Attempt 2 passed at 14:48:48 Europe/Istanbul after explicit user availability and manual native approval. The current packaged fixture completed two actual native actions: vertical scrollbar value changed from 1 to 0.7214484679665738, and the drag completion count changed from 0 to 1 with matching endpoints. Independent observations verified both postconditions, and session cancellation succeeded. `docs/evidence/native-gestures-2026-10-27-attempt-2.json` records exact companion/fixture hashes and UTC timestamps; its log is retained separately. The first failed attempt remains preserved.
+
+This closes the basic two-action native fixture scroll/drag slice and validates the explicit fixture AXEnabled fix. It does not close G3: interruption, physical input, occlusion, permission revocation, hardware and repetition matrices remain pending. No provider call or arbitrary application interaction occurred. Next priority is real OpenAI execution (missing invoking-process key/model), then Ultra live acceptance; signed distribution still requires Developer ID and notarization credentials.
