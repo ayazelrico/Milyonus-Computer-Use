@@ -1,0 +1,8 @@
+{
+  "status": "matched",
+  "packageFileChecks": 4,
+  "sourceFileChecks": 32,
+  "configuration": "debug",
+  "signedAttestation": false,
+  "nativeExecution": false
+}

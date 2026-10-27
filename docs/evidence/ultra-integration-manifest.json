@@ -1,0 +1,17 @@
+{
+  "recordedAt": "2026-10-25T11:03:39.139803+00:00",
+  "files": {
+    "Package.swift": "dcdc0426bfc524146a50e3db0783b1d0e1f665a766f88a7b5d9515267d41a52d",
+    "Sources/MilyonusAgentUltra/App/AppDelegate.swift": "87a5543fc60e14653e577f77257be1389b28988c9fc556684e3c015b82e24830",
+    "Sources/MilyonusAgentUltra/App/main.swift": "36b237885af22865c319d0c38f58add7d86990d965df86599751873e8e34112f",
+    "Sources/MilyonusAgentUltra/Services/SelectionMonitor.swift": "6f90e66dfd2f6d5172ab347e39dd8a224d916ddcaeba898b50f92cb999c5140f",
+    "Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest.swift": "5812df3cce38556355a2811b6bc5037bcf8e23ada78294fdb471ff3bad265c65",
+    "Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+ComputerUse.swift": "627c96eaf181795d21e0a5f01387e989062478c54b3ba7931f9c9e26368ba027",
+    "Sources/MilyonusAgentUltra/Services/ComputerUse/ComputerUsePreviewController.swift": "c9c1ada836a7009dcd38868fa13a929af29517fc0db05f4487a96f289c178415",
+    "Sources/MilyonusAgentUltra/Services/ComputerUse/ComputerUsePreviewLaunch.swift": "6f51fc5903bd87e23b28e598b9203fe5001c1533615bd92fb8ec4f813ad59229",
+    "Sources/MilyonusAgentUltra/Services/ComputerUse/SelectionActivityGate.swift": "26295f01be19b6bd4ae65452a90eb6c196248cc883242f4d4ac8796c91e69a78"
+  },
+  "selftestPassed": 3296,
+  "selftestFailed": 0,
+  "nativeEvidence": "ultra-preview-lifecycle.json identifies the earlier binary; new binary not natively retested"
+}

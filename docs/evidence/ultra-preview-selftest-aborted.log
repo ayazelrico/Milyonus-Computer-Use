@@ -1,0 +1,61 @@
+2026-10-25 14:01:28.253 MilyonusAgentUltra[50870:1188088] Milyonus window: page ready
+2026-10-25 14:01:28.433 MilyonusAgentUltra[50870:1188111] Milyonus window: page ready
+*** Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'NSWindow should only be instantiated on the main thread!'
+*** First throw call stack:
+(
+	0   CoreFoundation                      0x0000000187d631f0 __exceptionPreprocess + 176
+	1   libobjc.A.dylib                     0x00000001877de91c objc_exception_throw + 88
+	2   CoreFoundation                      0x0000000187d86bc8 _CFBundleGetValueForInfoKey + 0
+	3   AppKit                              0x000000018c13b2c4 -[NSWindow _initContent:styleMask:backing:defer:contentView:] + 260
+	4   AppKit                              0x000000018c28a054 -[NSPanel _initContent:styleMask:backing:defer:contentView:] + 48
+	5   AppKit                              0x000000018c13b1b4 -[NSWindow initWithContentRect:styleMask:backing:defer:] + 48
+	6   AppKit                              0x000000018c28a008 -[NSPanel initWithContentRect:styleMask:backing:defer:] + 48
+	7   MilyonusAgentUltra                  0x000000010119a350 $s18MilyonusAgentUltra21SelectionToolbarPanelC9allowsKeyACSb_tcfc + 268
+	8   MilyonusAgentUltra                  0x000000010119a234 $s18MilyonusAgentUltra21SelectionToolbarPanelC9allowsKeyACSb_tcfC + 44
+	9   MilyonusAgentUltra                  0x000000010119ce88 $s18MilyonusAgentUltra15SelectionPanelsCACyc33_09E55F231CEC367183F85BCE5C16E8AELlfc + 72
+	10  MilyonusAgentUltra                  0x000000010119bf68 $s18MilyonusAgentUltra15SelectionPanelsCACyc33_09E55F231CEC367183F85BCE5C16E8AELlfC + 44
+	11  MilyonusAgentUltra                  0x000000010119bf28 $s18MilyonusAgentUltra15SelectionPanelsC6shared_WZ + 28
+	12  libdispatch.dylib                   0x0000000187a954b0 _dispatch_client_callout + 16
+	13  libdispatch.dylib                   0x0000000187a7e630 _dispatch_once_callout + 32
+	14  MilyonusAgentUltra                  0x000000010119bfc0 $s18MilyonusAgentUltra15SelectionPanelsC6sharedACvau + 76
+	15  MilyonusAgentUltra                  0x0000000101157d20 $s18MilyonusAgentUltra16SelectionMonitorC28acquireComputerUseSuspension10Foundation4UUIDVyF + 512
+	16  MilyonusAgentUltra                  0x0000000100d11290 $s18MilyonusAgentUltra20DesktopSelfTestCasesV22computerUseIntegrationyyYaFTY0_ + 1068
+	17  MilyonusAgentUltra                  0x0000000100e8ba89 $s18MilyonusAgentUltra20DesktopSelfTestCasesV3allyyYaFTQ11_ + 1
+	18  MilyonusAgentUltra                  0x0000000100e8af09 $s18MilyonusAgentUltra15DesktopSelfTestO3runs5NeverOyFZyyYacfU_TQ1_ + 1
+	19  MilyonusAgentUltra                  0x0000000100e8b3fd $s18MilyonusAgentUltra15DesktopSelfTestO3runs5NeverOyFZyyYacfU_TATQ0_ + 1
+	20  MilyonusAgentUltra                  0x000000010096e81d $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRTQ0_ + 1
+	21  MilyonusAgentUltra                  0x000000010096e96d $sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRTATQ0_ + 1
+	22  libswift_Concurrency.dylib          0x000000028d353ec5 _ZL23completeTaskWithClosurePN5swift12AsyncContextEPNS_10SwiftErrorE + 1
+)
+libc++abi: terminating due to uncaught exception of type NSException
+— TurnRules
+— ModelCatalog
+— ConversationStore
+— WebMessage
+— Projects & attachments
+— Projects: /tmp vs /private/tmp
+— DesktopHost
+— Old team data (vs-fix000019)
+— Attachments in the host
+— DiffEngine
+— Proposals: accept / reject / revert
+— External actions
+— Session toolbar
+— Plain chat · legacy Code data
+— Plain chat · Code ids refused
+— Plain chat · no tools
+— Plain chat · desktop and drawer
+— Plain chat · switching while streaming
+— Plain chat · stop and delete
+— Plain chat · restart
+— Plain chat · accounts and history
+— Plain chat · errors and retry
+— Plain chat · unreadable history
+— Plain chat · drawer geometry
+— Selection toolbar · fast mode
+— Selection menu · translate
+— Selection menu · pins
+— Selection menu · model choice
+— Selection menu · copy
+— Selection menu · highlights
+— Computer use · native preview isolation

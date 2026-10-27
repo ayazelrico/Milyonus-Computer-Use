@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:milyonus:computer-use:action:v1",
+  "title": "Computer Use Action Request",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "requestId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._-]+$"
+    },
+    "sessionId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._-]+$"
+    },
+    "idempotencyKey": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._-]+$"
+    },
+    "observationId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._-]+$"
+    },
+    "elementId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._-]+$"
+    },
+    "generation": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9223372036854775807
+    },
+    "kind": {
+      "enum": [
+        "press",
+        "setValue",
+        "scroll",
+        "drag"
+      ]
+    },
+    "text": {
+      "type": "string",
+      "maxLength": 16384,
+      "description": "The Swift validator additionally enforces 16,384 UTF-8 bytes and rejects NUL.",
+      "pattern": "^[^\\u0000]*$"
+    },
+    "scrollPixels": {
+      "type": "integer",
+      "minimum": -2000,
+      "maximum": 2000,
+      "not": {
+        "const": 0
+      }
+    }
+  },
+  "required": [
+    "requestId",
+    "sessionId",
+    "idempotencyKey",
+    "observationId",
+    "elementId",
+    "generation",
+    "kind"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "press",
+              "drag"
+            ]
+          }
+        }
+      },
+      "then": {
+        "not": {
+          "required": [
+            "text"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "setValue"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "text"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "scroll"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "scrollPixels"
+        ],
+        "not": {
+          "required": [
+            "text"
+          ]
+        }
+      },
+      "else": {
+        "not": {
+          "required": [
+            "scrollPixels"
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,432 @@
+[0/1] Planning build
+Building for debugging...
+[0/5] Write sources
+[1/5] Write swift-version--1AB21518FC5DEDBE.txt
+[3/9] Compiling MilyonusAgentUltra SelectionMonitor.swift
+[4/9] Compiling MilyonusAgentUltra DesktopSelfTest.swift
+[5/9] Emitting module MilyonusAgentUltra
+[6/9] Compiling MilyonusAgentUltra DesktopSelfTest+ComputerUse.swift
+[7/49] Compiling MilyonusAgentUltra AgentLiveCheck.swift
+[8/49] Compiling MilyonusAgentUltra DesktopSelfTest+AccountAccess.swift
+[9/49] Compiling MilyonusAgentUltra DesktopSelfTest+Actions.swift
+[10/49] Compiling MilyonusAgentUltra DesktopSelfTest+AgentActivity.swift
+[11/49] Compiling MilyonusAgentUltra DesktopSelfTest+AgentHost.swift
+[12/49] Compiling MilyonusAgentUltra DesktopSelfTest+AgentHub.swift
+[13/49] Compiling MilyonusAgentUltra DesktopSelfTest+AgentSandbox.swift
+[14/49] Compiling MilyonusAgentUltra DesktopSelfTest+AgentStats.swift
+[15/49] Compiling MilyonusAgentUltra DesktopSelfTest+Antigravity.swift
+[16/49] Compiling MilyonusAgentUltra DesktopSelfTest+ApprovalWithdraw.swift
+[17/49] Compiling MilyonusAgentUltra DesktopSelfTest+ChangeCards.swift
+[18/49] Compiling MilyonusAgentUltra DesktopSelfTest+CodexTrust.swift
+[19/49] Compiling MilyonusAgentUltra DesktopSelfTest+Containment.swift
+[20/49] Compiling MilyonusAgentUltra DesktopSelfTest+FeaturedAccount.swift
+[21/49] Compiling MilyonusAgentUltra DesktopSelfTest+FrontAIApp.swift
+[22/49] Compiling MilyonusAgentUltra DesktopSelfTest+Hardening.swift
+[23/49] Compiling MilyonusAgentUltra DesktopSelfTest+IslandTheme.swift
+[24/49] Compiling MilyonusAgentUltra DesktopSelfTest+IslandVisibility.swift
+[25/49] Compiling MilyonusAgentUltra DesktopSelfTest+LaunchSequence.swift
+[26/49] Compiling MilyonusAgentUltra DesktopSelfTest+LaunchSplash.swift
+[27/49] Compiling MilyonusAgentUltra DesktopSelfTest+Questions.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Stalls.swift:29:13: warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 27 |         let lock = NSLock()
+ 28 |         let started = Date()
+ 29 |         let exit = await CLIProcess().run(executable: "/bin/sh", arguments: ["-c", "sleep 300 & echo $!; echo done"],
+    |             `- warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 30 |                                           env: [:], cwd: NSTemporaryDirectory(), stdin: nil) { l in lock.lock(); lines.append(l); lock.unlock() }
+ 31 |         let took = Date().timeIntervalSince(started)
+[28/49] Compiling MilyonusAgentUltra DesktopSelfTest+RefreshResponsiveness.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Stalls.swift:29:13: warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 27 |         let lock = NSLock()
+ 28 |         let started = Date()
+ 29 |         let exit = await CLIProcess().run(executable: "/bin/sh", arguments: ["-c", "sleep 300 & echo $!; echo done"],
+    |             `- warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 30 |                                           env: [:], cwd: NSTemporaryDirectory(), stdin: nil) { l in lock.lock(); lines.append(l); lock.unlock() }
+ 31 |         let took = Date().timeIntervalSince(started)
+[29/49] Compiling MilyonusAgentUltra DesktopSelfTest+SelectionMenu.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Stalls.swift:29:13: warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 27 |         let lock = NSLock()
+ 28 |         let started = Date()
+ 29 |         let exit = await CLIProcess().run(executable: "/bin/sh", arguments: ["-c", "sleep 300 & echo $!; echo done"],
+    |             `- warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 30 |                                           env: [:], cwd: NSTemporaryDirectory(), stdin: nil) { l in lock.lock(); lines.append(l); lock.unlock() }
+ 31 |         let took = Date().timeIntervalSince(started)
+[30/49] Compiling MilyonusAgentUltra DesktopSelfTest+Session.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Stalls.swift:29:13: warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 27 |         let lock = NSLock()
+ 28 |         let started = Date()
+ 29 |         let exit = await CLIProcess().run(executable: "/bin/sh", arguments: ["-c", "sleep 300 & echo $!; echo done"],
+    |             `- warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 30 |                                           env: [:], cwd: NSTemporaryDirectory(), stdin: nil) { l in lock.lock(); lines.append(l); lock.unlock() }
+ 31 |         let took = Date().timeIntervalSince(started)
+[31/49] Compiling MilyonusAgentUltra DesktopSelfTest+Stalls.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Stalls.swift:29:13: warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 27 |         let lock = NSLock()
+ 28 |         let started = Date()
+ 29 |         let exit = await CLIProcess().run(executable: "/bin/sh", arguments: ["-c", "sleep 300 & echo $!; echo done"],
+    |             `- warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 30 |                                           env: [:], cwd: NSTemporaryDirectory(), stdin: nil) { l in lock.lock(); lines.append(l); lock.unlock() }
+ 31 |         let took = Date().timeIntervalSince(started)
+[32/49] Compiling MilyonusAgentUltra DesktopSelfTest+StoreRecovery.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Stalls.swift:29:13: warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 27 |         let lock = NSLock()
+ 28 |         let started = Date()
+ 29 |         let exit = await CLIProcess().run(executable: "/bin/sh", arguments: ["-c", "sleep 300 & echo $!; echo done"],
+    |             `- warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 30 |                                           env: [:], cwd: NSTemporaryDirectory(), stdin: nil) { l in lock.lock(); lines.append(l); lock.unlock() }
+ 31 |         let took = Date().timeIntervalSince(started)
+[33/49] Compiling MilyonusAgentUltra DesktopSelfTest+SubIsland.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Stalls.swift:29:13: warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 27 |         let lock = NSLock()
+ 28 |         let started = Date()
+ 29 |         let exit = await CLIProcess().run(executable: "/bin/sh", arguments: ["-c", "sleep 300 & echo $!; echo done"],
+    |             `- warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 30 |                                           env: [:], cwd: NSTemporaryDirectory(), stdin: nil) { l in lock.lock(); lines.append(l); lock.unlock() }
+ 31 |         let took = Date().timeIntervalSince(started)
+[34/49] Compiling MilyonusAgentUltra DesktopSelfTest+Ultra.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Stalls.swift:29:13: warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 27 |         let lock = NSLock()
+ 28 |         let started = Date()
+ 29 |         let exit = await CLIProcess().run(executable: "/bin/sh", arguments: ["-c", "sleep 300 & echo $!; echo done"],
+    |             `- warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 30 |                                           env: [:], cwd: NSTemporaryDirectory(), stdin: nil) { l in lock.lock(); lines.append(l); lock.unlock() }
+ 31 |         let took = Date().timeIntervalSince(started)
+[35/49] Compiling MilyonusAgentUltra DesktopSelfTest+UltraAntigravity.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Stalls.swift:29:13: warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 27 |         let lock = NSLock()
+ 28 |         let started = Date()
+ 29 |         let exit = await CLIProcess().run(executable: "/bin/sh", arguments: ["-c", "sleep 300 & echo $!; echo done"],
+    |             `- warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 30 |                                           env: [:], cwd: NSTemporaryDirectory(), stdin: nil) { l in lock.lock(); lines.append(l); lock.unlock() }
+ 31 |         let took = Date().timeIntervalSince(started)
+[36/49] Compiling MilyonusAgentUltra DesktopSelfTest+UltraCLI.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Stalls.swift:29:13: warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 27 |         let lock = NSLock()
+ 28 |         let started = Date()
+ 29 |         let exit = await CLIProcess().run(executable: "/bin/sh", arguments: ["-c", "sleep 300 & echo $!; echo done"],
+    |             `- warning: initialization of immutable value 'exit' was never used; consider replacing with assignment to '_' or removing it [#no-usage]
+ 30 |                                           env: [:], cwd: NSTemporaryDirectory(), stdin: nil) { l in lock.lock(); lines.append(l); lock.unlock() }
+ 31 |         let took = Date().timeIntervalSince(started)
+[37/49] Compiling MilyonusAgentUltra DesktopSelfTest+LegacyTeams.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:508:25: warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+506 |             toggled.signal()
+507 |         }
+508 |         t.check(toggled.wait(timeout: .now() + 2) == .success, "background preference writer completed")
+    |                         `- warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+509 |         fake.drain()
+510 |         t.equal(fake.executed.count, beforeBackgroundToggle, "background off/on revokes a queued control before actor updates run")
+
+Dispatch.DispatchSemaphore.wait:2:13: note: 'wait(timeout:)' declared here
+1 | class DispatchSemaphore {
+2 | public func wait(timeout: DispatchTime) -> DispatchTimeoutResult}
+  |             `- note: 'wait(timeout:)' declared here
+3 | 
+
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:504:13: warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+502 |         let toggled = DispatchSemaphore(value: 0)
+503 |         DispatchQueue.global().async {
+504 |             d.set(false, forKey: Prefs.notchMusicArtwork)
+    |             `- warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+505 |             d.set(true, forKey: Prefs.notchMusicArtwork)
+506 |             toggled.signal()
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:49:12: note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 47 |  NSUserDefaults can be observed using Key-Value Observing for any key stored in it. Using NSKeyValueObservingOptionPrior to observe changes from other processes or devices will behave as though NSKeyValueObservingOptionPrior was not specified.
+ 48 |  */
+ 49 | @interface NSUserDefaults : NSObject {
+    |            `- note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 50 | @private
+ 51 |     id _kvo_;
+
+[#SendableClosureCaptures]: <https://docs.swift.org/compiler/documentation/diagnostics/sendable-closure-captures>
+[38/49] Compiling MilyonusAgentUltra DesktopSelfTest+LocalNetwork.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:508:25: warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+506 |             toggled.signal()
+507 |         }
+508 |         t.check(toggled.wait(timeout: .now() + 2) == .success, "background preference writer completed")
+    |                         `- warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+509 |         fake.drain()
+510 |         t.equal(fake.executed.count, beforeBackgroundToggle, "background off/on revokes a queued control before actor updates run")
+
+Dispatch.DispatchSemaphore.wait:2:13: note: 'wait(timeout:)' declared here
+1 | class DispatchSemaphore {
+2 | public func wait(timeout: DispatchTime) -> DispatchTimeoutResult}
+  |             `- note: 'wait(timeout:)' declared here
+3 | 
+
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:504:13: warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+502 |         let toggled = DispatchSemaphore(value: 0)
+503 |         DispatchQueue.global().async {
+504 |             d.set(false, forKey: Prefs.notchMusicArtwork)
+    |             `- warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+505 |             d.set(true, forKey: Prefs.notchMusicArtwork)
+506 |             toggled.signal()
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:49:12: note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 47 |  NSUserDefaults can be observed using Key-Value Observing for any key stored in it. Using NSKeyValueObservingOptionPrior to observe changes from other processes or devices will behave as though NSKeyValueObservingOptionPrior was not specified.
+ 48 |  */
+ 49 | @interface NSUserDefaults : NSObject {
+    |            `- note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 50 | @private
+ 51 |     id _kvo_;
+
+[#SendableClosureCaptures]: <https://docs.swift.org/compiler/documentation/diagnostics/sendable-closure-captures>
+[39/49] Compiling MilyonusAgentUltra DesktopSelfTest+Music.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:508:25: warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+506 |             toggled.signal()
+507 |         }
+508 |         t.check(toggled.wait(timeout: .now() + 2) == .success, "background preference writer completed")
+    |                         `- warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+509 |         fake.drain()
+510 |         t.equal(fake.executed.count, beforeBackgroundToggle, "background off/on revokes a queued control before actor updates run")
+
+Dispatch.DispatchSemaphore.wait:2:13: note: 'wait(timeout:)' declared here
+1 | class DispatchSemaphore {
+2 | public func wait(timeout: DispatchTime) -> DispatchTimeoutResult}
+  |             `- note: 'wait(timeout:)' declared here
+3 | 
+
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:504:13: warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+502 |         let toggled = DispatchSemaphore(value: 0)
+503 |         DispatchQueue.global().async {
+504 |             d.set(false, forKey: Prefs.notchMusicArtwork)
+    |             `- warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+505 |             d.set(true, forKey: Prefs.notchMusicArtwork)
+506 |             toggled.signal()
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:49:12: note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 47 |  NSUserDefaults can be observed using Key-Value Observing for any key stored in it. Using NSKeyValueObservingOptionPrior to observe changes from other processes or devices will behave as though NSKeyValueObservingOptionPrior was not specified.
+ 48 |  */
+ 49 | @interface NSUserDefaults : NSObject {
+    |            `- note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 50 | @private
+ 51 |     id _kvo_;
+
+[#SendableClosureCaptures]: <https://docs.swift.org/compiler/documentation/diagnostics/sendable-closure-captures>
+[40/49] Compiling MilyonusAgentUltra DesktopSelfTest+MusicEnhancements.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:508:25: warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+506 |             toggled.signal()
+507 |         }
+508 |         t.check(toggled.wait(timeout: .now() + 2) == .success, "background preference writer completed")
+    |                         `- warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+509 |         fake.drain()
+510 |         t.equal(fake.executed.count, beforeBackgroundToggle, "background off/on revokes a queued control before actor updates run")
+
+Dispatch.DispatchSemaphore.wait:2:13: note: 'wait(timeout:)' declared here
+1 | class DispatchSemaphore {
+2 | public func wait(timeout: DispatchTime) -> DispatchTimeoutResult}
+  |             `- note: 'wait(timeout:)' declared here
+3 | 
+
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:504:13: warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+502 |         let toggled = DispatchSemaphore(value: 0)
+503 |         DispatchQueue.global().async {
+504 |             d.set(false, forKey: Prefs.notchMusicArtwork)
+    |             `- warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+505 |             d.set(true, forKey: Prefs.notchMusicArtwork)
+506 |             toggled.signal()
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:49:12: note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 47 |  NSUserDefaults can be observed using Key-Value Observing for any key stored in it. Using NSKeyValueObservingOptionPrior to observe changes from other processes or devices will behave as though NSKeyValueObservingOptionPrior was not specified.
+ 48 |  */
+ 49 | @interface NSUserDefaults : NSObject {
+    |            `- note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 50 | @private
+ 51 |     id _kvo_;
+
+[#SendableClosureCaptures]: <https://docs.swift.org/compiler/documentation/diagnostics/sendable-closure-captures>
+[41/49] Compiling MilyonusAgentUltra DesktopSelfTest+MusicMotion.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:508:25: warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+506 |             toggled.signal()
+507 |         }
+508 |         t.check(toggled.wait(timeout: .now() + 2) == .success, "background preference writer completed")
+    |                         `- warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+509 |         fake.drain()
+510 |         t.equal(fake.executed.count, beforeBackgroundToggle, "background off/on revokes a queued control before actor updates run")
+
+Dispatch.DispatchSemaphore.wait:2:13: note: 'wait(timeout:)' declared here
+1 | class DispatchSemaphore {
+2 | public func wait(timeout: DispatchTime) -> DispatchTimeoutResult}
+  |             `- note: 'wait(timeout:)' declared here
+3 | 
+
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:504:13: warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+502 |         let toggled = DispatchSemaphore(value: 0)
+503 |         DispatchQueue.global().async {
+504 |             d.set(false, forKey: Prefs.notchMusicArtwork)
+    |             `- warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+505 |             d.set(true, forKey: Prefs.notchMusicArtwork)
+506 |             toggled.signal()
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:49:12: note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 47 |  NSUserDefaults can be observed using Key-Value Observing for any key stored in it. Using NSKeyValueObservingOptionPrior to observe changes from other processes or devices will behave as though NSKeyValueObservingOptionPrior was not specified.
+ 48 |  */
+ 49 | @interface NSUserDefaults : NSObject {
+    |            `- note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 50 | @private
+ 51 |     id _kvo_;
+
+[#SendableClosureCaptures]: <https://docs.swift.org/compiler/documentation/diagnostics/sendable-closure-captures>
+[42/49] Compiling MilyonusAgentUltra DesktopSelfTest+NotchSize.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:508:25: warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+506 |             toggled.signal()
+507 |         }
+508 |         t.check(toggled.wait(timeout: .now() + 2) == .success, "background preference writer completed")
+    |                         `- warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+509 |         fake.drain()
+510 |         t.equal(fake.executed.count, beforeBackgroundToggle, "background off/on revokes a queued control before actor updates run")
+
+Dispatch.DispatchSemaphore.wait:2:13: note: 'wait(timeout:)' declared here
+1 | class DispatchSemaphore {
+2 | public func wait(timeout: DispatchTime) -> DispatchTimeoutResult}
+  |             `- note: 'wait(timeout:)' declared here
+3 | 
+
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:504:13: warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+502 |         let toggled = DispatchSemaphore(value: 0)
+503 |         DispatchQueue.global().async {
+504 |             d.set(false, forKey: Prefs.notchMusicArtwork)
+    |             `- warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+505 |             d.set(true, forKey: Prefs.notchMusicArtwork)
+506 |             toggled.signal()
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:49:12: note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 47 |  NSUserDefaults can be observed using Key-Value Observing for any key stored in it. Using NSKeyValueObservingOptionPrior to observe changes from other processes or devices will behave as though NSKeyValueObservingOptionPrior was not specified.
+ 48 |  */
+ 49 | @interface NSUserDefaults : NSObject {
+    |            `- note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 50 | @private
+ 51 |     id _kvo_;
+
+[#SendableClosureCaptures]: <https://docs.swift.org/compiler/documentation/diagnostics/sendable-closure-captures>
+[43/49] Compiling MilyonusAgentUltra DesktopSelfTest+NotchTransitions.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:508:25: warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+506 |             toggled.signal()
+507 |         }
+508 |         t.check(toggled.wait(timeout: .now() + 2) == .success, "background preference writer completed")
+    |                         `- warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+509 |         fake.drain()
+510 |         t.equal(fake.executed.count, beforeBackgroundToggle, "background off/on revokes a queued control before actor updates run")
+
+Dispatch.DispatchSemaphore.wait:2:13: note: 'wait(timeout:)' declared here
+1 | class DispatchSemaphore {
+2 | public func wait(timeout: DispatchTime) -> DispatchTimeoutResult}
+  |             `- note: 'wait(timeout:)' declared here
+3 | 
+
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:504:13: warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+502 |         let toggled = DispatchSemaphore(value: 0)
+503 |         DispatchQueue.global().async {
+504 |             d.set(false, forKey: Prefs.notchMusicArtwork)
+    |             `- warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+505 |             d.set(true, forKey: Prefs.notchMusicArtwork)
+506 |             toggled.signal()
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:49:12: note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 47 |  NSUserDefaults can be observed using Key-Value Observing for any key stored in it. Using NSKeyValueObservingOptionPrior to observe changes from other processes or devices will behave as though NSKeyValueObservingOptionPrior was not specified.
+ 48 |  */
+ 49 | @interface NSUserDefaults : NSObject {
+    |            `- note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 50 | @private
+ 51 |     id _kvo_;
+
+[#SendableClosureCaptures]: <https://docs.swift.org/compiler/documentation/diagnostics/sendable-closure-captures>
+[44/49] Compiling MilyonusAgentUltra DesktopSelfTest+OutputAudio.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:508:25: warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+506 |             toggled.signal()
+507 |         }
+508 |         t.check(toggled.wait(timeout: .now() + 2) == .success, "background preference writer completed")
+    |                         `- warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+509 |         fake.drain()
+510 |         t.equal(fake.executed.count, beforeBackgroundToggle, "background off/on revokes a queued control before actor updates run")
+
+Dispatch.DispatchSemaphore.wait:2:13: note: 'wait(timeout:)' declared here
+1 | class DispatchSemaphore {
+2 | public func wait(timeout: DispatchTime) -> DispatchTimeoutResult}
+  |             `- note: 'wait(timeout:)' declared here
+3 | 
+
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:504:13: warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+502 |         let toggled = DispatchSemaphore(value: 0)
+503 |         DispatchQueue.global().async {
+504 |             d.set(false, forKey: Prefs.notchMusicArtwork)
+    |             `- warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+505 |             d.set(true, forKey: Prefs.notchMusicArtwork)
+506 |             toggled.signal()
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:49:12: note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 47 |  NSUserDefaults can be observed using Key-Value Observing for any key stored in it. Using NSKeyValueObservingOptionPrior to observe changes from other processes or devices will behave as though NSKeyValueObservingOptionPrior was not specified.
+ 48 |  */
+ 49 | @interface NSUserDefaults : NSObject {
+    |            `- note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 50 | @private
+ 51 |     id _kvo_;
+
+[#SendableClosureCaptures]: <https://docs.swift.org/compiler/documentation/diagnostics/sendable-closure-captures>
+[45/49] Compiling MilyonusAgentUltra DesktopSelfTest+PlainChat.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:508:25: warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+506 |             toggled.signal()
+507 |         }
+508 |         t.check(toggled.wait(timeout: .now() + 2) == .success, "background preference writer completed")
+    |                         `- warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+509 |         fake.drain()
+510 |         t.equal(fake.executed.count, beforeBackgroundToggle, "background off/on revokes a queued control before actor updates run")
+
+Dispatch.DispatchSemaphore.wait:2:13: note: 'wait(timeout:)' declared here
+1 | class DispatchSemaphore {
+2 | public func wait(timeout: DispatchTime) -> DispatchTimeoutResult}
+  |             `- note: 'wait(timeout:)' declared here
+3 | 
+
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:504:13: warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+502 |         let toggled = DispatchSemaphore(value: 0)
+503 |         DispatchQueue.global().async {
+504 |             d.set(false, forKey: Prefs.notchMusicArtwork)
+    |             `- warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+505 |             d.set(true, forKey: Prefs.notchMusicArtwork)
+506 |             toggled.signal()
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:49:12: note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 47 |  NSUserDefaults can be observed using Key-Value Observing for any key stored in it. Using NSKeyValueObservingOptionPrior to observe changes from other processes or devices will behave as though NSKeyValueObservingOptionPrior was not specified.
+ 48 |  */
+ 49 | @interface NSUserDefaults : NSObject {
+    |            `- note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 50 | @private
+ 51 |     id _kvo_;
+
+[#SendableClosureCaptures]: <https://docs.swift.org/compiler/documentation/diagnostics/sendable-closure-captures>
+[46/49] Compiling MilyonusAgentUltra DesktopSelfTest+Proposals.swift
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:508:25: warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+506 |             toggled.signal()
+507 |         }
+508 |         t.check(toggled.wait(timeout: .now() + 2) == .success, "background preference writer completed")
+    |                         `- warning: instance method 'wait' is unavailable from asynchronous contexts; Await a Task handle instead; this is an error in the Swift 6 language mode
+509 |         fake.drain()
+510 |         t.equal(fake.executed.count, beforeBackgroundToggle, "background off/on revokes a queued control before actor updates run")
+
+Dispatch.DispatchSemaphore.wait:2:13: note: 'wait(timeout:)' declared here
+1 | class DispatchSemaphore {
+2 | public func wait(timeout: DispatchTime) -> DispatchTimeoutResult}
+  |             `- note: 'wait(timeout:)' declared here
+3 | 
+
+/Users/ayazelrico/Desktop/Milyonus-Agent-Ultra/Sources/MilyonusAgentUltra/Desktop/SelfTest/DesktopSelfTest+Music.swift:504:13: warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+502 |         let toggled = DispatchSemaphore(value: 0)
+503 |         DispatchQueue.global().async {
+504 |             d.set(false, forKey: Prefs.notchMusicArtwork)
+    |             `- warning: capture of 'd' with non-Sendable type 'UserDefaults' in a '@Sendable' closure [#SendableClosureCaptures]
+505 |             d.set(true, forKey: Prefs.notchMusicArtwork)
+506 |             toggled.signal()
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:49:12: note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 47 |  NSUserDefaults can be observed using Key-Value Observing for any key stored in it. Using NSKeyValueObservingOptionPrior to observe changes from other processes or devices will behave as though NSKeyValueObservingOptionPrior was not specified.
+ 48 |  */
+ 49 | @interface NSUserDefaults : NSObject {
+    |            `- note: class 'UserDefaults' does not conform to the 'Sendable' protocol
+ 50 | @private
+ 51 |     id _kvo_;
+
+[#SendableClosureCaptures]: <https://docs.swift.org/compiler/documentation/diagnostics/sendable-closure-captures>
+[46/49] Write Objects.LinkFileList
+[47/49] Linking MilyonusAgentUltra
+[48/49] Applying MilyonusAgentUltra
+Build complete! (8.24s)

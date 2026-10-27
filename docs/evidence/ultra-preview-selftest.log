@@ -1,0 +1,162 @@
+2026-10-25 14:02:29.146 MilyonusAgentUltra[51229:1190232] Milyonus window: page ready
+2026-10-25 14:02:29.329 MilyonusAgentUltra[51229:1190276] Milyonus window: page ready
+— TurnRules
+— ModelCatalog
+— ConversationStore
+— WebMessage
+— Projects & attachments
+— Projects: /tmp vs /private/tmp
+— DesktopHost
+— Old team data (vs-fix000019)
+— Attachments in the host
+— DiffEngine
+— Proposals: accept / reject / revert
+— External actions
+— Session toolbar
+— Plain chat · legacy Code data
+— Plain chat · Code ids refused
+— Plain chat · no tools
+— Plain chat · desktop and drawer
+— Plain chat · switching while streaming
+— Plain chat · stop and delete
+— Plain chat · restart
+— Plain chat · accounts and history
+— Plain chat · errors and retry
+— Plain chat · unreadable history
+— Plain chat · drawer geometry
+— Selection toolbar · fast mode
+— Selection menu · translate
+— Selection menu · pins
+— Selection menu · model choice
+— Selection menu · copy
+— Selection menu · highlights
+— Computer use · native preview isolation
+— Hardening: HTTP parser (B01)
+— Hardening: request ids (B02)
+— Hardening: shadow symlinks (B03)
+— Hardening: agent write sandbox (B03)
+— Hardening: agent IPC boundary (B03)
+— Hardening: agent invocations (B03)
+— Hardening: agent can't reach local services (vs-fix000052)
+— Antigravity in Milyonus Code (vs-fix000047)
+— Hardening: agent integration via ChatEngine (B03)
+— Change cards: none without a changed file (vs-fix000048)
+— Stalls: process groups, bounded drain, idle limit (vs-fix000051)
+— Stalls: proposals stay reviewable (vs-fix000051)
+— Hardening: three-way conflicts (B04)
+— Hardening: unreadable stores (B05)
+— Store recovery: failure kinds (B05)
+— Store recovery: accounts (B05)
+— Store recovery: projects (B05)
+— Agent activity: provider mappings (vs-fix000018)
+— Agent activity: privacy (vs-fix000018)
+— Agent activity: throttle and dwell (vs-fix000018 §5.7)
+— Agent activity: CLI completion waits for final events
+— Agent activity: ChatEngine end to end (vs-fix000018)
+— Agent activity: task outcome (vs-fix000035)
+— Agent stats: clock, union, midnight (vs-fix000018 §6)
+— Agent stats: persistence (vs-fix000018 §6.3)
+— Agent stats: recovery (vs-fix000018 §6.3)
+— Agent stats: ChatEngine hooks (vs-fix000018 §6.1)
+— Sub-island: geometry (vs-fix000018 §7.2)
+— Sub-island: when it shows (vs-fix000018 §7.3)
+— Sub-island: hit-testing, menu bar stays clickable (vs-fix000018 §7.5)
+— Sub-island: accessibility (vs-fix000018 §7.6)
+— Sub-island: task lifecycle in AppState (vs-fix000018 §7.3)
+— Notch: interrupted sub-island transitions
+— Notch: music rendering and mouse target share visibility
+— Music: notification parsing (vs-fix000020 §3)
+— Music: state machine (vs-fix000020 §4)
+— Music: tint (vs-fix000020 §4)
+— Music: when the peek may show (vs-fix000020 §6.2)
+— Music: peek geometry and hit-testing (vs-fix000020 §6.2)
+— Music: accessibility (vs-fix000020 §6.4)
+— Music: monitor lifecycle (vs-fix000020 §5)
+— Music: queued automation and artwork consent
+— Music: explicit playback interaction
+— Music: open the current track
+— Music: peek waits for the agent's Done linger (vs-fix000020 §6.2)
+— Music: live Reduce Motion and layer cleanup
+— Output audio: animation response
+— Output audio: HAL listeners, channel fallback and device changes
+— Music: safe current-track navigation metadata
+— Music: native equalizer output-volume response
+— Music: percentage and indicator share threshold colors
+— Notch size: defaults and preference persistence
+— Notch size: physical dimensions and camera cutout
+— Notch size: screen-space hit regions and attached sub-island
+— Notch size: all presentations fit the window
+— Notch size: small displays and invalid display metadata
+— Launch splash: when it shows
+— Launch splash: timeline and geometry
+— Launch sequence: after the splash
+— Launch sequence: no splash
+— Launch sequence: the user gets there first
+— Launch sequence: window requests wait for the splash (vs-fix000030)
+— Launch sequence: the running sequence
+— Launch sequence: splash hand-off
+— Island theme: standard look and when it applies
+— Island theme: contrast on every kind of cover
+— Island theme: grey, light and dark covers
+— Island theme: semantic colours stay meaningful
+— Featured account: priority rules (vs-fix000031)
+— Featured account: no flicker between polls (vs-fix000031)
+— Featured account: work log persistence (vs-fix000031)
+— Featured account: AppState hooks (vs-fix000031)
+— Account access: verdict per status (vs-fix000032)
+— Account access: the island's lists (vs-fix000032)
+— Usage refresh: main actor stays responsive during local preflight
+— Usage refresh: account scope and timer scan coalescing
+— Ultra · beta-only visibility and persisted route fallback
+— Ultra · actual native menu visibility and unchanged standard shortcuts
+— Ultra · roster, budgets and prompt visibility
+— Ultra · eleven calls, Astra last and completed follow-up context
+— Ultra · transparent preflight skips and Astra-only rounds
+— Ultra · runtime availability failures skip one role, not the round
+— Ultra · failure is visible and never falls back to another model
+— Ultra · cancellation, late results, cross-chat identity and time budgets
+— Ultra · private storage, interrupted restart and protected recovery
+— Ultra CLI · subscription-only environment and actual model metadata
+— Ultra CLI · isolated settings detection and nonsecret route persistence
+— Ultra CLI · only confirmed selected-model exhaustion skips a contributor
+— Ultra CLI · classify availability without weakening security failures
+— Ultra CLI · visible JSONL text and forbidden tool detection
+— Ultra CLI · cancellation before launch and during startup
+— Ultra CLI · actual child runs inside a read/write boundary
+— Ultra Antigravity · visible stream, terminal aggregate and reported identity
+— Ultra Antigravity · private reasoning, failed and truncated runs
+— Ultra Antigravity · reject tool and subagent metadata before visible text
+— Ultra Antigravity · sign-in verification without a user turn
+— Ultra Antigravity · inspect an isolated text-only invocation without launching it
+— Agent Hub · hook events
+— Agent Hub · outside sessions
+— Agent Hub · settings.json / hooks.json
+— Agent Hub · zshrc block
+— Agent Hub · island stack
+— Agent Hub · rules
+— Agent Hub · lock screen rings (vs-fix000034)
+— Agent Hub · routing
+— Agent Hub · hook script end to end
+— Agent Hub · outside sessions in the agent bar (vs-fix000036)
+— Front AI app: rules (vs-fix000037)
+— Front AI app: the island's account (vs-fix000037)
+— Front AI app: outside sessions mark their account working (vs-fix000037)
+— Agent bar → app: process walk (vs-fix000039)
+— Agent bar → app: what a click does (vs-fix000039)
+— Agent bar → app: what each run carries (vs-fix000039)
+— Agent bar → app: the run a click opens, hover regions (vs-fix000039)
+— Agent bar: the X hides it until the next task (vs-fix000039)
+— Agent bar: X across a run's end in AppState (vs-fix000039)
+— Island hide: durations and text (vs-fix000040)
+— Island hide: controller and AppState (vs-fix000040)
+— Island hide: only approvals under the menu bar (vs-fix000040)
+— Approvals: settled elsewhere — rules (vs-fix000041)
+— Approvals: hang-up signal (vs-fix000041)
+— Approvals: answered elsewhere, end to end (vs-fix000041)
+— Questions: parsing (vs-fix000042)
+— Questions: what the hook prints (vs-fix000042)
+— Questions: answered on the island, end to end (vs-fix000042)
+— Codex hook trust: rules (vs-fix000043)
+— Codex hook trust: the real Codex CLI, temporary CODEX_HOME (vs-fix000043)
+
+3296 passed, 0 failed

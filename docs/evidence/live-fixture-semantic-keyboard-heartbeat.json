@@ -1,0 +1,501 @@
+{
+  "suite": "live-fixture-native-text",
+  "heartbeatExpiry": true,
+  "nativeClick": false,
+  "nativeText": true,
+  "status": "passed",
+  "startedAt": "2026-10-25T07:18:40.267049+00:00",
+  "completedAt": "2026-10-25T07:19:05.116217+00:00",
+  "binarySHA256": "567b4a1e260e65875c46f413047a25411c0bcfd71eb7d783d8c790e2ccb9d570",
+  "approvalSource": "external native UI; test controller may automate the authorized approval",
+  "passed": 118,
+  "failed": 0,
+  "iterations": 10,
+  "checks": [
+    {
+      "name": "AX permission granted",
+      "passed": true
+    },
+    {
+      "name": "0: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "0: secret absent",
+      "passed": true
+    },
+    {
+      "name": "0: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "0: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "0: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "0: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "0: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "0: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "0: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "0: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "0: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "1: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "1: secret absent",
+      "passed": true
+    },
+    {
+      "name": "1: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "1: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "1: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "1: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "1: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "1: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "1: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "1: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "1: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "2: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "2: secret absent",
+      "passed": true
+    },
+    {
+      "name": "2: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "2: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "2: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "2: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "2: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "2: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "2: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "2: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "2: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "3: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "3: secret absent",
+      "passed": true
+    },
+    {
+      "name": "3: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "3: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "3: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "3: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "3: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "3: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "3: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "3: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "3: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "4: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "4: secret absent",
+      "passed": true
+    },
+    {
+      "name": "4: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "4: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "4: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "4: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "4: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "4: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "4: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "4: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "4: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "5: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "5: secret absent",
+      "passed": true
+    },
+    {
+      "name": "5: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "5: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "5: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "5: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "5: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "5: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "5: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "5: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "5: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "6: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "6: secret absent",
+      "passed": true
+    },
+    {
+      "name": "6: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "6: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "6: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "6: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "6: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "6: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "6: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "6: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "6: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "7: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "7: secret absent",
+      "passed": true
+    },
+    {
+      "name": "7: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "7: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "7: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "7: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "7: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "7: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "7: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "7: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "7: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "8: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "8: secret absent",
+      "passed": true
+    },
+    {
+      "name": "8: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "8: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "8: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "8: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "8: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "8: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "8: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "8: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "8: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "9: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "9: secret absent",
+      "passed": true
+    },
+    {
+      "name": "9: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "9: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "9: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "9: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "9: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "9: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "9: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "9: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "9: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "lease did not pause early",
+      "passed": true
+    },
+    {
+      "name": "silent client paused",
+      "passed": true
+    },
+    {
+      "name": "pause caused by heartbeat expiry",
+      "passed": true
+    },
+    {
+      "name": "lease loss fences generation",
+      "passed": true
+    },
+    {
+      "name": "late heartbeat cannot revive authority",
+      "passed": true
+    },
+    {
+      "name": "paused session cannot observe",
+      "passed": true
+    },
+    {
+      "name": "cancelled terminal state",
+      "passed": true
+    }
+  ],
+  "setValueRoundTripMs": [
+    53.661124999052845,
+    7.107042001734953,
+    9.349582993309014,
+    9.102750002057292,
+    10.814875000505708,
+    9.274249998270534,
+    11.019042001862545,
+    9.549415997753385,
+    9.920708995196037,
+    9.712084000057075
+  ],
+  "limits": "Fixture only; native approval supplied externally. Not the full G3 matrix."
+}

@@ -1,0 +1,20 @@
+{
+  "recordedAt": "2026-10-25T11:01:48.404168+00:00",
+  "binarySHA256": "d5581c78c7a8dd79e764903b35081d9ac58a3245b497835f7187ae24cbd1babf",
+  "approval": "Not granted in these tests",
+  "checks": {
+    "pendingSessionVisible": true,
+    "stopShowsStopped": true,
+    "stopRemovesCompanion": true,
+    "closePendingWindowTerminatesPreview": true,
+    "closeRemovesCompanion": true,
+    "previewExitCode": 0,
+    "existingUltraProcessPreserved": true
+  },
+  "notAccepted": [
+    "Approved fixture action through Ultra preview",
+    "Selection suspension in the normally running Ultra app",
+    "Real provider native completion"
+  ],
+  "scope": "Isolated preview; UI actions performed by test controller. Later source fixes require separate binary acceptance."
+}

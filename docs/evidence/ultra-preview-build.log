@@ -1,0 +1,15 @@
+[0/1] Planning build
+Building for debugging...
+[0/4] Write sources
+[1/4] Write swift-version--1AB21518FC5DEDBE.txt
+[3/7] Compiling MilyonusAgentUltra SelectionMonitor.swift
+[4/7] Emitting module MilyonusAgentUltra
+[5/7] Compiling MilyonusAgentUltra DesktopSelfTest+ComputerUse.swift
+[6/11] Compiling MilyonusAgentUltra AppDelegate.swift
+[7/11] Compiling MilyonusAgentUltra SelectionPage.swift
+[8/11] Compiling MilyonusAgentUltra ComputerUsePreviewController.swift
+[9/11] Compiling MilyonusAgentUltra SettingsView.swift
+[9/12] Write Objects.LinkFileList
+[10/12] Linking MilyonusAgentUltra
+[11/12] Applying MilyonusAgentUltra
+Build complete! (6.81s)

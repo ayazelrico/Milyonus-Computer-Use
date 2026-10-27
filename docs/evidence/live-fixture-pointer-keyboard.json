@@ -1,0 +1,1381 @@
+{
+  "suite": "live-fixture-native-text",
+  "heartbeatExpiry": false,
+  "nativeClick": true,
+  "nativeText": true,
+  "status": "passed",
+  "startedAt": "2026-10-25T07:20:08.099589+00:00",
+  "completedAt": "2026-10-25T07:20:45.267081+00:00",
+  "binarySHA256": "567b4a1e260e65875c46f413047a25411c0bcfd71eb7d783d8c790e2ccb9d570",
+  "approvalSource": "external native UI; test controller may automate the authorized approval",
+  "passed": 333,
+  "failed": 0,
+  "iterations": 30,
+  "checks": [
+    {
+      "name": "AX permission granted",
+      "passed": true
+    },
+    {
+      "name": "0: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "0: secret absent",
+      "passed": true
+    },
+    {
+      "name": "0: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "0: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "0: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "0: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "0: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "0: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "0: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "0: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "0: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "1: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "1: secret absent",
+      "passed": true
+    },
+    {
+      "name": "1: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "1: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "1: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "1: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "1: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "1: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "1: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "1: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "1: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "2: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "2: secret absent",
+      "passed": true
+    },
+    {
+      "name": "2: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "2: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "2: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "2: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "2: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "2: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "2: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "2: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "2: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "3: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "3: secret absent",
+      "passed": true
+    },
+    {
+      "name": "3: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "3: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "3: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "3: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "3: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "3: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "3: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "3: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "3: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "4: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "4: secret absent",
+      "passed": true
+    },
+    {
+      "name": "4: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "4: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "4: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "4: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "4: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "4: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "4: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "4: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "4: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "5: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "5: secret absent",
+      "passed": true
+    },
+    {
+      "name": "5: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "5: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "5: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "5: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "5: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "5: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "5: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "5: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "5: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "6: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "6: secret absent",
+      "passed": true
+    },
+    {
+      "name": "6: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "6: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "6: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "6: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "6: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "6: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "6: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "6: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "6: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "7: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "7: secret absent",
+      "passed": true
+    },
+    {
+      "name": "7: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "7: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "7: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "7: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "7: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "7: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "7: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "7: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "7: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "8: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "8: secret absent",
+      "passed": true
+    },
+    {
+      "name": "8: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "8: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "8: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "8: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "8: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "8: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "8: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "8: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "8: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "9: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "9: secret absent",
+      "passed": true
+    },
+    {
+      "name": "9: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "9: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "9: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "9: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "9: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "9: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "9: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "9: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "9: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "10: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "10: secret absent",
+      "passed": true
+    },
+    {
+      "name": "10: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "10: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "10: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "10: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "10: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "10: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "10: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "10: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "10: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "11: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "11: secret absent",
+      "passed": true
+    },
+    {
+      "name": "11: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "11: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "11: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "11: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "11: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "11: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "11: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "11: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "11: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "12: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "12: secret absent",
+      "passed": true
+    },
+    {
+      "name": "12: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "12: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "12: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "12: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "12: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "12: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "12: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "12: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "12: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "13: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "13: secret absent",
+      "passed": true
+    },
+    {
+      "name": "13: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "13: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "13: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "13: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "13: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "13: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "13: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "13: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "13: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "14: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "14: secret absent",
+      "passed": true
+    },
+    {
+      "name": "14: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "14: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "14: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "14: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "14: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "14: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "14: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "14: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "14: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "15: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "15: secret absent",
+      "passed": true
+    },
+    {
+      "name": "15: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "15: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "15: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "15: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "15: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "15: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "15: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "15: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "15: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "16: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "16: secret absent",
+      "passed": true
+    },
+    {
+      "name": "16: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "16: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "16: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "16: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "16: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "16: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "16: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "16: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "16: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "17: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "17: secret absent",
+      "passed": true
+    },
+    {
+      "name": "17: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "17: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "17: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "17: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "17: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "17: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "17: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "17: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "17: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "18: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "18: secret absent",
+      "passed": true
+    },
+    {
+      "name": "18: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "18: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "18: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "18: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "18: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "18: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "18: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "18: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "18: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "19: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "19: secret absent",
+      "passed": true
+    },
+    {
+      "name": "19: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "19: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "19: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "19: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "19: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "19: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "19: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "19: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "19: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "20: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "20: secret absent",
+      "passed": true
+    },
+    {
+      "name": "20: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "20: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "20: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "20: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "20: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "20: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "20: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "20: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "20: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "21: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "21: secret absent",
+      "passed": true
+    },
+    {
+      "name": "21: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "21: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "21: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "21: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "21: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "21: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "21: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "21: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "21: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "22: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "22: secret absent",
+      "passed": true
+    },
+    {
+      "name": "22: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "22: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "22: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "22: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "22: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "22: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "22: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "22: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "22: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "23: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "23: secret absent",
+      "passed": true
+    },
+    {
+      "name": "23: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "23: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "23: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "23: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "23: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "23: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "23: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "23: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "23: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "24: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "24: secret absent",
+      "passed": true
+    },
+    {
+      "name": "24: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "24: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "24: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "24: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "24: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "24: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "24: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "24: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "24: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "25: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "25: secret absent",
+      "passed": true
+    },
+    {
+      "name": "25: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "25: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "25: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "25: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "25: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "25: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "25: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "25: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "25: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "26: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "26: secret absent",
+      "passed": true
+    },
+    {
+      "name": "26: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "26: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "26: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "26: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "26: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "26: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "26: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "26: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "26: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "27: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "27: secret absent",
+      "passed": true
+    },
+    {
+      "name": "27: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "27: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "27: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "27: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "27: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "27: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "27: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "27: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "27: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "28: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "28: secret absent",
+      "passed": true
+    },
+    {
+      "name": "28: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "28: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "28: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "28: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "28: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "28: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "28: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "28: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "28: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "29: secure field excluded",
+      "passed": true
+    },
+    {
+      "name": "29: secret absent",
+      "passed": true
+    },
+    {
+      "name": "29: value independently verified",
+      "passed": true
+    },
+    {
+      "name": "29: duplicate returns same action",
+      "passed": true
+    },
+    {
+      "name": "29: stale observation rejected",
+      "passed": true
+    },
+    {
+      "name": "29: native keyboard independently verified",
+      "passed": true
+    },
+    {
+      "name": "29: native duplicate suppressed",
+      "passed": true
+    },
+    {
+      "name": "29: execution method conflict rejected",
+      "passed": true
+    },
+    {
+      "name": "29: save independently verified",
+      "passed": true
+    },
+    {
+      "name": "29: duplicate save suppressed",
+      "passed": true
+    },
+    {
+      "name": "29: saved value visible",
+      "passed": true
+    },
+    {
+      "name": "paused session cannot observe",
+      "passed": true
+    },
+    {
+      "name": "cancelled terminal state",
+      "passed": true
+    }
+  ],
+  "setValueRoundTripMs": [
+    45.288042005267926,
+    6.086166999011766,
+    8.400124999752734,
+    6.532125000376254,
+    7.531500006734859,
+    6.603541005461011,
+    6.948166999791283,
+    7.185875001596287,
+    6.975500000407919,
+    7.945124998514075,
+    7.452625002770219,
+    7.443542002874892,
+    9.58179099689005,
+    8.066791997407563,
+    8.24208400445059,
+    7.940290997794364,
+    8.54037499811966,
+    7.25679199967999,
+    8.735917006561067,
+    8.512790998793207,
+    7.773000004817732,
+    7.463333000487182,
+    9.86245799867902,
+    8.618333995400462,
+    8.777249997365288,
+    8.485583995934576,
+    10.296665997884702,
+    9.464541995839681,
+    9.442208996915724,
+    11.653792003926355
+  ],
+  "limits": "Fixture only; native approval supplied externally. Not the full G3 matrix."
+}

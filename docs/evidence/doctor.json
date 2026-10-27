@@ -1,0 +1,14 @@
+{
+  "mutationTransport" : "companion --mcp (native approval required)",
+  "osVersion" : "Version 26.6.2 (Build 25G83)",
+  "permissions" : {
+    "accessibility" : true,
+    "screenRecording" : true
+  },
+  "platform" : "macOS",
+  "productionReady" : false,
+  "supportedMutationApps" : [
+    "com.milyonus.computeruse.fixture"
+  ],
+  "version" : "0.1.0"
+}

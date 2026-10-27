@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:milyonus:computer-use:capabilities:v1",
+  "title": "Fixture Harness Capabilities",
+  "type": "object",
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "permissions": {
+      "type": "object",
+      "properties": {
+        "accessibility": {
+          "type": "boolean"
+        },
+        "screenRecording": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "accessibility",
+        "screenRecording"
+      ],
+      "additionalProperties": false
+    },
+    "supportedActions": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "press",
+          "setValue"
+        ]
+      },
+      "uniqueItems": true,
+      "maxItems": 2
+    },
+    "maximumNativeTextUTF16Units": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1024
+    },
+    "maximumScrollPixels": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2000
+    },
+    "mutationApps": {
+      "const": [
+        "com.milyonus.computeruse.fixture"
+      ]
+    },
+    "requiresNativeApproval": {
+      "const": true
+    },
+    "imageEgress": {
+      "const": false
+    },
+    "productionReady": {
+      "const": false
+    },
+    "heartbeatIntervalSeconds": {
+      "const": 5
+    },
+    "heartbeatTimeoutSeconds": {
+      "const": 15
+    },
+    "nativeTextInput": {
+      "type": "boolean"
+    },
+    "nativeElementClick": {
+      "type": "boolean"
+    },
+    "experimentalNativeFixtureDrag": {
+      "type": "boolean"
+    },
+    "experimentalNativeFixtureScroll": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "version",
+    "permissions",
+    "supportedActions",
+    "maximumNativeTextUTF16Units",
+    "maximumScrollPixels",
+    "mutationApps",
+    "requiresNativeApproval",
+    "imageEgress",
+    "productionReady",
+    "heartbeatIntervalSeconds",
+    "heartbeatTimeoutSeconds",
+    "nativeTextInput",
+    "nativeElementClick",
+    "experimentalNativeFixtureDrag",
+    "experimentalNativeFixtureScroll"
+  ],
+  "additionalProperties": false
+}
