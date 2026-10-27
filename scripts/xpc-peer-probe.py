@@ -55,6 +55,13 @@ try:
                 try:
                     run = subprocess.run([str(executable), '--client', label, server], check=True, capture_output=True, text=True, timeout=15)
                     result = json.loads(run.stdout)
+                    if name == 'matching-both-peers':
+                        # The first client exited. A fresh admitted connection must not inherit its handshake.
+                        fresh = subprocess.run([str(executable), '--client-unprimed', label, server],
+                                               check=True, capture_output=True, text=True, timeout=15)
+                        result['freshConnectionWithoutHandshake'] = json.loads(fresh.stdout)['outcome']
+                        if result['freshConnectionWithoutHandshake'] != 'handshakeRequired':
+                            raise RuntimeError('Fresh connection inherited handshake admission')
                 finally:
                     subprocess.run(['launchctl', 'bootout', domain + '/' + label], check=True, capture_output=True, timeout=10)
                 events = server_log.read_text().splitlines() if server_log.exists() else []
