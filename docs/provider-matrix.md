@@ -1,11 +1,11 @@
 # Provider capability and acceptance matrix
 
-Updated: 2026-10-25.
+Updated: 2026-10-27.
 
 | Adapter | Implemented | Verified locally | Still required |
 |---|---|---|---|
 | OpenAI Responses structured planner | HTTPS request, strict JSON plan, explicit model, host-owned credential, deadline, bounded reply, refusal handling, no retries | Synthetic transport tests for request construction, minimized observation egress, malformed plans, wrong scope, incomplete output, refusal, size limit and HTTP failure | Configured API key/model, real provider response, cancellation/redirect transport acceptance, 10 tasks × 5 native pilot runs |
-| Anthropic Messages tool planner | Explicit model, API version 2026-10-21, one strictly validated proposal, bounded transport, fixture-only egress | 11 synthetic transport cases; real API preflight HTTP 200 and two real validated planner proposals for claude-opus-5-5 | Live fixture result and broader agent matrix |
+| Anthropic Messages tool planner | Explicit model, API version 2026-10-21, one strictly validated proposal, bounded transport, fixture-only egress | Synthetic transport coverage; renewed real two-proposal contract check and one native fixture edit with independent completion for claude-opus-5-5 on 2026-10-27 | Broader agent and interruption matrix |
 | Other providers | `ActionPlanner` extension point only | Provider-independent runner tests | Concrete adapters and their own acceptance evidence |
 
 The first adapter is a text/Accessibility planner. It does not implement OpenAI's built-in computer-use tool or send screenshots. The companion does not receive a provider key and still exposes no image-egress tool.
@@ -49,3 +49,5 @@ Official references consulted on 2026-10-25: [API versions](https://platform.cla
 Both adapters enforce [fixture input admission](provider-input-admission.md) even when used directly without AgentRunner. Malformed, incomplete, stale or ambiguous observations are rejected before credential lookup and rechecked before HTTP submission. This is synthetic contract evidence; real provider/native acceptance remains tracked separately above.
 
 Both decoders also apply [strict response JSON validation](provider-response-validation.md), rejecting duplicate members and excessive nesting before proposal interpretation. Synthetic coverage is separate from real inference acceptance.
+
+Actual native evidence: `evidence/anthropic-live-2026-10-27-native.json`. One fixture action passed independent completion and session cancellation. This is Anthropic evidence only and does not satisfy OpenAI or Ultra acceptance.

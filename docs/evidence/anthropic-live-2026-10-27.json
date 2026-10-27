@@ -1,0 +1,8 @@
+{
+  "stage": "provider-contract",
+  "startedAt": "2026-10-27T11:52:31.905140+00:00",
+  "finishedAt": "2026-10-27T11:52:41.355031+00:00",
+  "exitCode": 0,
+  "stdout": "{\"desktopActions\":0,\"realInference\":true,\"requestedModel\":\"claude-opus-5-5\",\"suite\":\"anthropic-live-planner-contract\",\"syntheticObservations\":true,\"verifiedProposals\":2}\n",
+  "stderr": ""
+}

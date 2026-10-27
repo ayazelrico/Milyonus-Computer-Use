@@ -25,3 +25,7 @@ Unexpected inherited-output and mismatch/closed-input timeouts remain unresolved
 ## Working agreement
 
 Do not launch foreground acceptance while the user is working under the background-only restriction. Do not create native approvals through RPC or automation. When a prerequisite is missing, report its specific owner and condition; do not represent substitute synthetic work as progress on that acceptance gate. Commit subsequent coherent changes so this baseline remains recoverable. Local commits are not an off-device backup or a published release.
+
+## Provider progress and next executable step
+
+On 2026-10-27 the user selected Anthropic using their supplied credential/model. Both the real two-proposal contract check and one-action native fixture pilot passed; evidence is recorded separately in STATUS.md. This advances real-provider acceptance without claiming an OpenAI pass. OpenAI remains conditional on its own configuration. The next executable acceptance task is the isolated Ultra live action/Stop/close/quit slice, with a fresh foreground window and native approval; the normal host lifecycle remains separate.

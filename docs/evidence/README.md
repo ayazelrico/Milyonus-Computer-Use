@@ -114,3 +114,5 @@ Native approval driven by a test controller must be labeled as automation, not r
 - `native-gestures-2026-10-27-attempt-1.json` and `.log`: actual approved native attempt, failed with `UNSUPPORTED_CAPABILITY`. A read-only AX probe found missing scroll `AXEnabled`. The fixture-only fix has passing Debug regression (227/2448) and updated packaging, but no second native acceptance yet; Release logs predate this fix.
 
 - `native-gestures-2026-10-27-attempt-2.json` and `.log`: actual manually approved two-action native fixture acceptance passed. Scrollbar 1 → 0.7214484679665738; drag count 0 → 1 with independent verification and successful session cancellation. Exact binary hashes are recorded; no real inference or broader interruption acceptance is implied.
+
+- `anthropic-live-2026-10-27.json`: real two-proposal contract check with synthetic observations, no desktop actions. `anthropic-live-2026-10-27-native.json`: real Claude Opus 5.5 fixture pilot, one action with independent completion and session cancellation. Credential values are absent; native evidence includes executable hashes. Neither result closes OpenAI, Ultra or the complete agent pilot matrix.
