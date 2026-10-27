@@ -1,0 +1,13 @@
+{
+  "stage": "native-provider-pilot",
+  "startedAt": "2026-10-27T11:52:41.360320+00:00",
+  "finishedAt": "2026-10-27T11:52:51.017141+00:00",
+  "exitCode": 0,
+  "companionSHA256": "b389c81bf4fce434742a95eee8a69db039203e685b4008fabfdfc84341e0bbba",
+  "stdout": "{\"actions\":1,\"completionVerified\":true,\"fixtureOnly\":true,\"planningDelaySeconds\":0,\"realInference\":true,\"requestedModel\":\"claude-opus-5-5\",\"suite\":\"anthropic-agent-fixture\"}\n",
+  "stderr": "Approve the fixture session. Only fixture fields will be sent to Anthropic.\nfixture activation requested through Launch Services\ntool failure=focusChanged session=ready\nforeground category=companion\n",
+  "fixtureSHA256": "6b85f5f0a1db6033e27e04829987f306a3da98233d2cb9317090f46cfa6b4cca",
+  "cliSHA256": "a33a631f64a5eedc1d02afef97806b99f9e43af14001aa7211b88970203ded1b",
+  "sourceRevision": "0f34453",
+  "scope": "One real Anthropic-driven fixture edit with independent completion; not the full provider, interruption or external host acceptance matrix."
+}
