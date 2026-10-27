@@ -13,3 +13,7 @@ The preferred production XPC broker, peer/code-signature authentication, sandbox
 The MCP surface cannot create a native grant. Opening a session leaves it awaiting approval. The native approval button requires Accessibility and an existing fixture process. The grant expires after five minutes using a monotonic clock. Pause/resume invalidates observations; resume requires a fresh native approval. Sleep, login-session resignation, screen locking, or observed physical keyboard/mouse input pauses a ready session.
 
 The first packaged permission probe reported Accessibility=false and ScreenRecording=true. This observation applies to that invocation and does not prove that every build or helper inherits the same TCC identity. Development bundles are ad-hoc signed, not Developer ID signed or notarized. The user must complete the macOS permission step to unblock native execution acceptance.
+
+## 2026-10-27 measured limitation
+
+Identical packaged permission probes report different effective trust under direct-child and Launch Services launches. The SDK topology cannot claim independently scoped companion TCC identity. See [permission attribution](../permission-attribution.md). Production authenticated broker and signed identity work must precede claims that the companion's System Settings toggle controls SDK access. Native approvals and all execution guards remain mandatory.

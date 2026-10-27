@@ -35,6 +35,8 @@ MCP sessions require a heartbeat every five seconds and pause after 15 seconds w
 
 The native grant is separate from MCP: there is no approval tool. This protects against model requests granting themselves permission; it is not a claim that arbitrary local software cannot synthesize a native button click.
 
+Direct-child SDK launches can have different effective macOS permissions from launching the companion normally. The companion’s System Settings toggle alone is not a verified SDK revocation mechanism. See [measured permission attribution](docs/permission-attribution.md); production broker identity remains an open gate.
+
 ## Automated checks
 
 For background verification while using the computer, initialize the test-only schema validator once:

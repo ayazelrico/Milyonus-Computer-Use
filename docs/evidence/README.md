@@ -116,3 +116,5 @@ Native approval driven by a test controller must be labeled as automation, not r
 
 - OpenAI attempts 3–5: attempt 3 diagnoses repeated correct writes after completion; attempt 4 times out awaiting approval; attempt 5 passes one native edit then finish after explicit completion instructions. `openai-contract-2026-10-27.json` separately records two real proposals using synthetic observations. Bounded diagnostics contain no field values or credentials.
 
+
+- Permission launch comparison: attempt 1 failed using the old package; attempts 2–4 measured the same binary reporting AX/capture true as a direct child and false through Launch Services. No session, desktop action or permission prompt was created. This reproduces a launch-context discrepancy and does not accept revocation or production identity. See `../permission-attribution.md`.
