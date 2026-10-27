@@ -1,0 +1,8 @@
+{
+  "stage": "provider-contract",
+  "startedAt": "2026-10-27T12:10:42.019087+00:00",
+  "finishedAt": "2026-10-27T12:10:45.751517+00:00",
+  "exitCode": 0,
+  "stdout": "{\"desktopActions\":0,\"realInference\":true,\"requestedModel\":\"gpt-5.4-mini-2026-03-17\",\"suite\":\"openai-live-planner-contract\",\"syntheticObservations\":true,\"verifiedProposals\":2}\n",
+  "stderr": ""
+}

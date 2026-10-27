@@ -2,9 +2,9 @@
 Building for debugging...
 [0/10] Write sources
 [1/10] Write swift-version--1AB21518FC5DEDBE.txt
-[3/6] Compiling ComputerUseFixture GestureFixture.swift
-[4/6] Emitting module ComputerUseFixture
+[3/6] Compiling ComputerUseCLI main.swift
+[4/6] Emitting module ComputerUseCLI
 [4/7] Write Objects.LinkFileList
-[5/7] Linking ComputerUseFixture
-[6/7] Applying ComputerUseFixture
-Build complete! (1.88s)
+[5/7] Linking milyonus-cu
+[6/7] Applying milyonus-cu
+Build complete! (1.98s)

@@ -1,5 +1,5 @@
 {
-  "recordedAt": "2026-10-27T11:48:08.009153+00:00",
+  "recordedAt": "2026-10-27T12:13:38.175779+00:00",
   "algorithm": "SHA-256",
   "files": {
     "Integrations/AgentUltra/README.md": "10301bc870c0e60f2c6f2c6e0d922124af2dcddbfa6818ebec5795db0cd1bbce",
@@ -18,10 +18,10 @@
     "Sources/ComputerUseAgent/AnthropicMessagesPlanner.swift": "9a96f8a8f2708f4fde64aa9c0986346b617dd2c322b41dea89bfe324a408fee6",
     "Sources/ComputerUseAgent/FixturePlanDecoder.swift": "01059559b8e6ab1fb1ef4ae6a11a592c2a49a3760263c170c98b9ef8a658007b",
     "Sources/ComputerUseAgent/FixturePlannerAdmission.swift": "de06769e6984f28dde5f7c9db45d0d5ab1d492cebb005dfe5703f1fab1a79f68",
-    "Sources/ComputerUseAgent/OpenAIResponsesPlanner.swift": "8ad01e13553f893ccf5a6ef4c13446757a1ef7a3b62417530c4bc20eecce66ef",
+    "Sources/ComputerUseAgent/OpenAIResponsesPlanner.swift": "24a79ad0b89b38cb98556aae7f646c91aecb51f5791a7e69de7ab24777644dc4",
     "Sources/ComputerUseApp/main.swift": "655a886288d787c33923f61db67fba44b66ea1629eea61b1e3ff8eeb16ae18bd",
     "Sources/ComputerUseCLI/GestureAcceptanceCommand.swift": "8da13cfeb8ca9f3a551d54b762e9ca92af3fd72dca76683c8fce83a604597f4f",
-    "Sources/ComputerUseCLI/main.swift": "3155c9444a7b5b6b6d3bce4041f944287ff627ac4cb90b1a94ea7f955d73a87f",
+    "Sources/ComputerUseCLI/main.swift": "0e2aa9514fa525ca961e81656ec4a3f2aca7528171309fa980d7a20506201572",
     "Sources/ComputerUseClient/HarnessClient.swift": "9630c0b6bf6d5465c3401691a6fcd0c43201ac4757c0916a0416a02247d184bd",
     "Sources/ComputerUseClient/NegotiatedHarnessClient.swift": "5d8d1c0c88c9573a05e77e39ded6efdb6dadad68443f659ccfd2c43f59b51c92",
     "Sources/ComputerUseClient/RPCReply.swift": "510d78f6be753e35a9e56d97ca9068120611075682dc524451ea3f600552e7f1",

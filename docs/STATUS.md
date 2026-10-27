@@ -4,7 +4,7 @@ Updated: 2026-10-27. This is an evidence-based development status, not a release
 
 ## Immediate execution priority
 
-Follow [the acceptance-first queue](ACCEPTANCE-NEXT.md). Native gestures, real OpenAI execution, Ultra live acceptance and signed distribution take priority over additional generic protocol hardening. On 2026-10-27 the invoking environment still lacks both OpenAI settings, and the signing identity check reports zero valid identities. Foreground tests remain deferred under the user’s background-only restriction. Unexpected stdio timeouts remain open defects.
+Follow [the acceptance-first queue](ACCEPTANCE-NEXT.md). Basic native gestures and one-action Anthropic/OpenAI native pilots have passed for recorded binaries. The user authorized foreground acceptance on 2026-10-27; native approvals remain manual. Next priority is Ultra live acceptance, then the broader interruption matrix and signed distribution. Provider credentials were transient and are not installed persistently. No valid Developer ID identity was found. Earlier intermittent stdio timeouts remain unresolved.
 
 ## Verified so far
 
@@ -533,3 +533,13 @@ Attempt 1 ended with `FOCUS_CHANGED`. A fresh explicitly announced attempt 2 end
 The runner raises NO_PROGRESS after three consecutive unchanged visible-state comparisons following actions; successful provider decoding and action-result checks occurred earlier in that execution path. The current logs do not retain individual proposals or per-step state, so they do not establish why the model/action sequence stopped changing visible state. Do not infer a particular proposal, missing edit, or provider defect from the summary error alone. The run cancelled its session and closed the transport. No limits, foreground checks or completion rules were relaxed, and no further automatic replay was attempted.
 
 Next investigation: add bounded fixture-only step diagnostics (proposal kind, selected known identifier, completion equality and effect/verification metadata; no credentials or raw field text) to the explicit acceptance command before another native run. This is a concrete live-pilot failure investigation, not a new generic protocol-hardening phase. OpenAI end-to-end acceptance remains open; the separately passing Anthropic pilot remains valid for its recorded binary and scope.
+
+## OpenAI no-progress diagnosis and accepted native slice — 2026-10-27
+
+Attempt 3 added bounded CLI planner diagnostics and reproduced NO_PROGRESS: the first setValue matched the completion condition and passed independent action verification, but the model repeatedly proposed that same value after observed completion was already true. Diagnostics record only proposal kind, allowlisted target, equality booleans and previous effect/verification; no text or credentials. This establishes the repeated-write cause for attempt 3, without retroactively inventing traces for attempt 2.
+
+The OpenAI instruction now explicitly requires finish with null target/text when the observed completion value matches, and forbids reapplying the same value or saving after completion. Core no-progress, fresh observation, native authorization and independent completion rules remain unchanged. Attempt 4 timed out awaiting approval before any planner diagnostic. A new `openai-plan-check` CLI uses real API calls with synthetic observations to check the required action and finish; both proposals passed.
+
+After renewed user availability and manual approval, attempt 5 passed at 15:12:41 Europe/Istanbul with gpt-5.4-mini-2026-03-17: one setValue followed by finish, independently verified completion and successful cancellation. The evidence JSON includes exact CLI/companion/fixture hashes. Prior failures are retained. This is one native provider slice, not the full 10×5 pilot, Ultra acceptance or general application support.
+
+Final harness checks for this increment: Debug and Release each 227 cases / 2448 assertions / zero failures; independent schemas 59 checks; packaging 29 tests; actual package receipt matched; real MCP smoke 18/0 and SDK smoke 4/0; focused inherited-output stress 20 cases / 60 assertions / zero failures. Passing stress does not resolve the earlier intermittent timeout. No credentials were persisted. Ultra checks are tracked separately below.
