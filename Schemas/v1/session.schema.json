@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Native session",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._-]+$"
+    },
+    "bundleId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "generation": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9223372036854775807
+    },
+    "state": {
+      "enum": [
+        "awaitingApproval",
+        "ready",
+        "paused",
+        "cancelled",
+        "expired"
+      ]
+    },
+    "pauseReason": {
+      "anyOf": [
+        {
+          "enum": [
+            "requested",
+            "userInput",
+            "environmentChanged",
+            "heartbeatLost",
+            "executionUncertain"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "id",
+    "bundleId",
+    "generation",
+    "state",
+    "expiresAt"
+  ],
+  "$id": "urn:milyonus:computer-use:session:v1",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "not": {
+              "const": "paused"
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "pauseReason": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

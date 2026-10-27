@@ -1,0 +1,25 @@
+[0/1] Planning build
+Building for debugging...
+[0/3] Write swift-version--1AB21518FC5DEDBE.txt
+Build of product 'computer-use-selftest' complete! (0.14s)
+PASS: inherited-output-stress.1
+PASS: inherited-output-stress.2
+PASS: inherited-output-stress.3
+PASS: inherited-output-stress.4
+PASS: inherited-output-stress.5
+PASS: inherited-output-stress.6
+PASS: inherited-output-stress.7
+PASS: inherited-output-stress.8
+PASS: inherited-output-stress.9
+PASS: inherited-output-stress.10
+PASS: inherited-output-stress.11
+PASS: inherited-output-stress.12
+PASS: inherited-output-stress.13
+PASS: inherited-output-stress.14
+PASS: inherited-output-stress.15
+PASS: inherited-output-stress.16
+PASS: inherited-output-stress.17
+PASS: inherited-output-stress.18
+PASS: inherited-output-stress.19
+PASS: inherited-output-stress.20
+STRESS RESULT: 20 cases, 60 assertions, 0 failures

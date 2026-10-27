@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Action result",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "requestId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._-]+$"
+    },
+    "actionId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._-]+$"
+    },
+    "effect": {
+      "enum": [
+        "notApplied",
+        "applied",
+        "unknown"
+      ]
+    },
+    "verification": {
+      "enum": [
+        "passed",
+        "failed",
+        "unavailable"
+      ]
+    },
+    "error": {
+      "anyOf": [
+        {
+          "enum": [
+            "INVALID_REQUEST",
+            "PERMISSION_REQUIRED",
+            "PERMISSION_REVOKED",
+            "UNAUTHORIZED",
+            "POLICY_DENIED",
+            "LEASE_BUSY",
+            "STALE_OBSERVATION",
+            "TARGET_NOT_FOUND",
+            "TARGET_AMBIGUOUS",
+            "FOCUS_CHANGED",
+            "USER_INTERRUPTED",
+            "TIMEOUT",
+            "PROVIDER_CREDENTIALS_REQUIRED",
+            "PROVIDER_UNAVAILABLE",
+            "PROVIDER_RESPONSE_INVALID",
+            "PROVIDER_REFUSED",
+            "NO_PROGRESS",
+            "VERIFICATION_FAILED",
+            "EFFECT_UNKNOWN",
+            "UNSUPPORTED_CAPABILITY",
+            "PROTOCOL_MISMATCH",
+            "RESOURCE_LIMIT",
+            "IDEMPOTENCY_CONFLICT",
+            "PERSISTENCE_FAILED",
+            "CANCELLED"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "requestId",
+    "actionId",
+    "effect",
+    "verification"
+  ],
+  "$id": "urn:milyonus:computer-use:result:v1",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "effect": {
+            "enum": [
+              "notApplied",
+              "unknown"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "verification": {
+            "const": "unavailable"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "verification": {
+            "const": "passed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "error": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

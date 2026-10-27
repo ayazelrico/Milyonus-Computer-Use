@@ -1,0 +1,20 @@
+{
+  "recordedAt": "2026-10-25T08:24:39.481688+00:00",
+  "status": "passed",
+  "nativeApprovalReached": true,
+  "approval": "User-operated native control",
+  "realInference": false,
+  "binarySHA256": "2a400e1ebc4d71f7e6d8d04e42da89bbd2cc8de144cb912026f81123343f48b8",
+  "clientBinarySHA256": "94c6f0c807d4f0fe2b9f43e18711eb476b017d0fcb4d08a708b305209dd96260",
+  "exitCode": 0,
+  "result": {
+    "actions": 1,
+    "completionVerified": true,
+    "fixtureOnly": true,
+    "planningDelaySeconds": 18,
+    "realInference": false,
+    "requestedModel": "none",
+    "suite": "deterministic-sdk-agent-fixture"
+  },
+  "scope": "One deterministic SDK fixture run; not real provider inference or full G4 acceptance."
+}

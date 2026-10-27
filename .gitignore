@@ -1,0 +1,17 @@
+.build/
+.swiftpm/
+build/
+.DS_Store
+*.xcuserstate
+.env
+
+.tools/
+__pycache__/
+
+# Local credentials and signing material
+.env.*
+!.env.example
+*.p12
+*.pfx
+*.key
+*.mobileprovision

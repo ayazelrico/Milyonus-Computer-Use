@@ -1,0 +1,31 @@
+[0/1] Planning build
+Building for debugging...
+[0/12] Write sources
+[1/12] Write swift-version--1AB21518FC5DEDBE.txt
+error: emit-module command failed with exit code 1 (use -v to see invocation)
+[3/17] Emitting module CoreTests
+/Users/example/Desktop/Milyonus-Computer-Use/Tests/CoreTests/CoreTests.swift:1:8: error: no such module 'XCTest'
+  1 | import XCTest
+    |        `- error: no such module 'XCTest'
+  2 | import ComputerUseContracts
+  3 | @testable import ComputerUseCore
+[4/17] Compiling CoreTests CoreTests.swift
+/Users/example/Desktop/Milyonus-Computer-Use/Tests/CoreTests/CoreTests.swift:1:8: error: no such module 'XCTest'
+  1 | import XCTest
+    |        `- error: no such module 'XCTest'
+  2 | import ComputerUseContracts
+  3 | @testable import ComputerUseCore
+error: emit-module command failed with exit code 1 (use -v to see invocation)
+[5/17] Compiling ContractsTests ContractTests.swift
+/Users/example/Desktop/Milyonus-Computer-Use/Tests/ContractsTests/ContractTests.swift:1:8: error: no such module 'XCTest'
+ 1 | import XCTest
+   |        `- error: no such module 'XCTest'
+ 2 | @testable import ComputerUseContracts
+ 3 | 
+[6/17] Emitting module ContractsTests
+/Users/example/Desktop/Milyonus-Computer-Use/Tests/ContractsTests/ContractTests.swift:1:8: error: no such module 'XCTest'
+ 1 | import XCTest
+   |        `- error: no such module 'XCTest'
+ 2 | @testable import ComputerUseContracts
+ 3 | 
+error: fatalError

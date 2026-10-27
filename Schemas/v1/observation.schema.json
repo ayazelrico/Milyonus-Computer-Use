@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Accessibility observation",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._-]+$"
+    },
+    "sessionId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._-]+$"
+    },
+    "bundleId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "pid": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "capturedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "elements": {
+      "type": "array",
+      "maxItems": 300,
+      "items": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "title": "Accessibility element",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._-]+$"
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "identifier": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "bounds": {
+            "anyOf": [
+              {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "title": "Desktop point rectangle",
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "width": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "height": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  }
+                },
+                "required": [
+                  "x",
+                  "y",
+                  "width",
+                  "height"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "press",
+                "setValue",
+                "scroll",
+                "drag"
+              ]
+            },
+            "uniqueItems": true,
+            "maxItems": 4
+          }
+        },
+        "required": [
+          "id",
+          "role",
+          "enabled",
+          "actions"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "truncated": {
+      "type": "boolean"
+    },
+    "source": {
+      "const": "accessibility"
+    }
+  },
+  "required": [
+    "id",
+    "sessionId",
+    "bundleId",
+    "pid",
+    "capturedAt",
+    "elements",
+    "truncated",
+    "source"
+  ],
+  "$id": "urn:milyonus:computer-use:observation:v1"
+}

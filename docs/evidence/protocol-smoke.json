@@ -1,0 +1,83 @@
+{
+  "suite": "mcp-black-box",
+  "passed": 18,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "requires initialization",
+      "passed": true
+    },
+    {
+      "name": "protocol negotiation",
+      "passed": true
+    },
+    {
+      "name": "requires initialized notification",
+      "passed": true
+    },
+    {
+      "name": "no approval tool",
+      "passed": true
+    },
+    {
+      "name": "no image egress",
+      "passed": true
+    },
+    {
+      "name": "session awaits native approval",
+      "passed": true
+    },
+    {
+      "name": "heartbeat contract advertised",
+      "passed": true
+    },
+    {
+      "name": "heartbeat cannot approve",
+      "passed": true
+    },
+    {
+      "name": "boolean generation rejected",
+      "passed": true
+    },
+    {
+      "name": "unapproved observation rejected",
+      "passed": true
+    },
+    {
+      "name": "second session rejected",
+      "passed": true
+    },
+    {
+      "name": "foreign session rejected",
+      "passed": true
+    },
+    {
+      "name": "unexpected fields rejected",
+      "passed": true
+    },
+    {
+      "name": "invented approval tool rejected",
+      "passed": true
+    },
+    {
+      "name": "cancellation terminal state",
+      "passed": true
+    },
+    {
+      "name": "array arguments rejected",
+      "passed": true
+    },
+    {
+      "name": "array params rejected",
+      "passed": true
+    },
+    {
+      "name": "unknown method",
+      "passed": true
+    }
+  ],
+  "permissions": {
+    "accessibility": true,
+    "screenRecording": true
+  }
+}

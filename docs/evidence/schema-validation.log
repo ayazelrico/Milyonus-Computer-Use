@@ -1,0 +1,244 @@
+{
+  "suite": "swift-json-schema-conformance",
+  "passed": 59,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "action: actual Swift encoding accepted",
+      "passed": true
+    },
+    {
+      "name": "capabilities: actual Swift encoding accepted",
+      "passed": true
+    },
+    {
+      "name": "drag: actual Swift encoding accepted",
+      "passed": true
+    },
+    {
+      "name": "heartbeat: actual Swift encoding accepted",
+      "passed": true
+    },
+    {
+      "name": "observation: actual Swift encoding accepted",
+      "passed": true
+    },
+    {
+      "name": "result: actual Swift encoding accepted",
+      "passed": true
+    },
+    {
+      "name": "scroll: actual Swift encoding accepted",
+      "passed": true
+    },
+    {
+      "name": "session: actual Swift encoding accepted",
+      "passed": true
+    },
+    {
+      "name": "action: unknown field rejected",
+      "passed": true
+    },
+    {
+      "name": "capabilities: unknown field rejected",
+      "passed": true
+    },
+    {
+      "name": "drag: unknown field rejected",
+      "passed": true
+    },
+    {
+      "name": "heartbeat: unknown field rejected",
+      "passed": true
+    },
+    {
+      "name": "observation: unknown field rejected",
+      "passed": true
+    },
+    {
+      "name": "result: unknown field rejected",
+      "passed": true
+    },
+    {
+      "name": "scroll: unknown field rejected",
+      "passed": true
+    },
+    {
+      "name": "session: unknown field rejected",
+      "passed": true
+    },
+    {
+      "name": "boolean generation rejected",
+      "passed": true
+    },
+    {
+      "name": "generation overflow rejected",
+      "passed": true
+    },
+    {
+      "name": "unknown action rejected",
+      "passed": true
+    },
+    {
+      "name": "NUL text rejected",
+      "passed": true
+    },
+    {
+      "name": "press with text rejected",
+      "passed": true
+    },
+    {
+      "name": "missing setValue text rejected",
+      "passed": true
+    },
+    {
+      "name": "heartbeat zero generation rejected",
+      "passed": true
+    },
+    {
+      "name": "ready state cannot carry pause reason",
+      "passed": true
+    },
+    {
+      "name": "oversized bundle rejected",
+      "passed": true
+    },
+    {
+      "name": "invalid expiry rejected",
+      "passed": true
+    },
+    {
+      "name": "invented pause reason rejected",
+      "passed": true
+    },
+    {
+      "name": "invalid effect rejected",
+      "passed": true
+    },
+    {
+      "name": "unknown effect cannot pass verification",
+      "passed": true
+    },
+    {
+      "name": "unapplied effect cannot fail verification",
+      "passed": true
+    },
+    {
+      "name": "passed verification cannot carry error",
+      "passed": true
+    },
+    {
+      "name": "unknown error rejected",
+      "passed": true
+    },
+    {
+      "name": "invalid PID rejected",
+      "passed": true
+    },
+    {
+      "name": "oversized element tree rejected",
+      "passed": true
+    },
+    {
+      "name": "invalid bounds rejected",
+      "passed": true
+    },
+    {
+      "name": "duplicate element objects rejected",
+      "passed": true
+    },
+    {
+      "name": "duplicate actions rejected",
+      "passed": true
+    },
+    {
+      "name": "empty role rejected",
+      "passed": true
+    },
+    {
+      "name": "unrecognized source rejected",
+      "passed": true
+    },
+    {
+      "name": "invalid scroll delta 0 rejected",
+      "passed": true
+    },
+    {
+      "name": "invalid scroll delta 2001 rejected",
+      "passed": true
+    },
+    {
+      "name": "invalid scroll delta -2001 rejected",
+      "passed": true
+    },
+    {
+      "name": "invalid scroll delta True rejected",
+      "passed": true
+    },
+    {
+      "name": "invalid scroll delta 1.5 rejected",
+      "passed": true
+    },
+    {
+      "name": "missing scroll delta rejected",
+      "passed": true
+    },
+    {
+      "name": "scroll text rejected",
+      "passed": true
+    },
+    {
+      "name": "scroll coordinates rejected",
+      "passed": true
+    },
+    {
+      "name": "text action with scroll delta rejected",
+      "passed": true
+    },
+    {
+      "name": "drag text rejected",
+      "passed": true
+    },
+    {
+      "name": "drag scroll pixels rejected",
+      "passed": true
+    },
+    {
+      "name": "drag coordinates rejected",
+      "passed": true
+    },
+    {
+      "name": "drag duration override rejected",
+      "passed": true
+    },
+    {
+      "name": "native approval removal rejected",
+      "passed": true
+    },
+    {
+      "name": "expanded mutation scope rejected",
+      "passed": true
+    },
+    {
+      "name": "experimental action promoted to semantic rejected",
+      "passed": true
+    },
+    {
+      "name": "incompatible heartbeat rejected",
+      "passed": true
+    },
+    {
+      "name": "numeric feature flag rejected",
+      "passed": true
+    },
+    {
+      "name": "duplicate advertised action rejected",
+      "passed": true
+    },
+    {
+      "name": "oversized scroll capability rejected",
+      "passed": true
+    }
+  ],
+  "limits": "Runtime UTF-8/UTF-16 byte limits and native policy are additionally enforced in Swift."
+}
