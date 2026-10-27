@@ -1,0 +1,13 @@
+{
+  "stage": "native-provider-pilot",
+  "requestedModel": "gpt-5.4-mini-2026-03-17",
+  "startedAt": "2026-10-27T11:56:26.975011+00:00",
+  "finishedAt": "2026-10-27T11:56:36.739976+00:00",
+  "exitCode": 1,
+  "companionSHA256": "b389c81bf4fce434742a95eee8a69db039203e685b4008fabfdfc84341e0bbba",
+  "fixtureSHA256": "6b85f5f0a1db6033e27e04829987f306a3da98233d2cb9317090f46cfa6b4cca",
+  "cliSHA256": "a33a631f64a5eedc1d02afef97806b99f9e43af14001aa7211b88970203ded1b",
+  "stdout": "{\"error\":\"FOCUS_CHANGED\"}\n",
+  "stderr": "Approve the fixture session. Only fixture fields will be sent to OpenAI.\n",
+  "scope": "One OpenAI-driven fixture edit; not full pilot or external host acceptance."
+}
