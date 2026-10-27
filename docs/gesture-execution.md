@@ -1,6 +1,6 @@
 # Bounded pointer gesture preparation
 
-CU-018 now has an internal `PointerGesture` sequence builder and an opt-in native fixture. Experimental scroll and fixed fixture-drag SDK/MCP routes are described below; neither gesture has live native acceptance.
+CU-018 now has an internal `PointerGesture` sequence builder and an opt-in native fixture. Experimental scroll and fixed fixture-drag SDK/MCP routes are described below. The basic two-action native fixture slice passed on 2026-10-27; full interruption acceptance remains open. Historical preparation notes below describe their state at implementation time.
 
 ## Construction guarantees
 
@@ -105,3 +105,7 @@ Synthetic cases cover upward movement toward the interior, wrong-direction movem
 ## First live acceptance finding (2026-10-27)
 
 The approved run failed with `UNSUPPORTED_CAPABILITY`. A read-only fixture AX probe identified a missing `AXEnabled` attribute on the standard scroll view. The optional fixture now sets accessibility enabled explicitly, while the harness retains its fail-closed check. The Debug regression suite passed and the development bundles were rebuilt. A new live run is required to accept this fix; the first failure and binary hashes are retained in `evidence/native-gestures-2026-10-27-attempt-1.json`.
+
+## Second live acceptance passed (2026-10-27)
+
+After the fixture enabled-state fix, the approved two-action SDK command passed with independent verification: scrollbar 1 → 0.7214484679665738; drag count 0 → 1 with verified endpoints. Session cancellation succeeded. See `evidence/native-gestures-2026-10-27-attempt-2.json` for exact executable hashes and times. This is actual native fixture evidence, not synthetic or provider evidence. General applications and the full interruption matrix remain unaccepted.
