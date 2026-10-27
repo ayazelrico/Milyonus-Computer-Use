@@ -397,6 +397,23 @@ final class Companion: NSObject, NSApplicationDelegate {
     }
 }
 
+// Read-only diagnostic for comparing direct-child and Launch Services attribution.
+// It must exit before constructing a session, lock, journal, monitor or permission prompt.
+if Array(CommandLine.arguments.dropFirst()) == ["--permission-probe"] {
+    _ = NSApplication.shared
+    let report: [String: Any] = [
+        "suite": "companion-permission-probe", "permissions": Permissions.status(),
+        "pid": ProcessInfo.processInfo.processIdentifier, "parentPID": getppid(),
+        "bundleID": Bundle.main.bundleIdentifier ?? "unbundled",
+        "sessionOpened": false, "desktopActions": 0, "permissionRequested": false
+    ]
+    do {
+        let data = try JSONSerialization.data(withJSONObject: report, options: [.sortedKeys])
+        try FileHandle.standardOutput.write(contentsOf: data + Data([10]))
+        exit(0)
+    } catch { exit(1) }
+}
+
 signal(SIGPIPE, SIG_IGN)
 let app = NSApplication.shared
 app.setActivationPolicy(.regular)

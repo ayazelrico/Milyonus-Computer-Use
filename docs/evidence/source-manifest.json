@@ -1,5 +1,5 @@
 {
-  "recordedAt": "2026-10-27T12:46:46.419242+00:00",
+  "recordedAt": "2026-10-27T13:12:15.425765+00:00",
   "algorithm": "SHA-256",
   "files": {
     "Integrations/AgentUltra/README.md": "10301bc870c0e60f2c6f2c6e0d922124af2dcddbfa6818ebec5795db0cd1bbce",
@@ -19,7 +19,7 @@
     "Sources/ComputerUseAgent/FixturePlanDecoder.swift": "01059559b8e6ab1fb1ef4ae6a11a592c2a49a3760263c170c98b9ef8a658007b",
     "Sources/ComputerUseAgent/FixturePlannerAdmission.swift": "de06769e6984f28dde5f7c9db45d0d5ab1d492cebb005dfe5703f1fab1a79f68",
     "Sources/ComputerUseAgent/OpenAIResponsesPlanner.swift": "24a79ad0b89b38cb98556aae7f646c91aecb51f5791a7e69de7ab24777644dc4",
-    "Sources/ComputerUseApp/main.swift": "655a886288d787c33923f61db67fba44b66ea1629eea61b1e3ff8eeb16ae18bd",
+    "Sources/ComputerUseApp/main.swift": "0644d43d931faa2a50bfb8c203e89ccedea413b35b049f018cd5ecc3516f027e",
     "Sources/ComputerUseCLI/GestureAcceptanceCommand.swift": "8da13cfeb8ca9f3a551d54b762e9ca92af3fd72dca76683c8fce83a604597f4f",
     "Sources/ComputerUseCLI/main.swift": "0e2aa9514fa525ca961e81656ec4a3f2aca7528171309fa980d7a20506201572",
     "Sources/ComputerUseClient/HarnessClient.swift": "9630c0b6bf6d5465c3401691a6fcd0c43201ac4757c0916a0416a02247d184bd",
@@ -89,6 +89,7 @@
     "scripts/live-fixture.py": "511186ce3979581bc1c0f5997745e66c4d66843a70bb4885bcebc2fc851db0d5",
     "scripts/notarize.sh": "3527cef2f9b17cbb418a9249b5da817ea085936e60c00b9f982ac7a156547513",
     "scripts/package-dev.py": "fe2120f1d29f9f4d434deeaaf35d47dfa91f860f75d28cc9d9ffedf4346f2424",
+    "scripts/permission-attribution.py": "7ef9f964b5be9e0e58d0de2cc4e9f73b1d5eb99332fa6e69debba5f070d0702d",
     "scripts/protocol-smoke.py": "a4e8500430cb7e0297ce324fa9ad5f021d38c8e784f1d27a0d609f3d2eb84813",
     "scripts/schema-requirements.lock": "132b5bc44528e0881564f998d80661582bfbbb1aa24b8ed3aca9b71c5fda151d",
     "scripts/schema-requirements.txt": "293c30096386533788c47cbc9d66f60e1625b3e9b65fee475de21e1e1654026d",
@@ -99,6 +100,6 @@
     "scripts/verify.sh": "ca94c6e6fc4a1ffcab6386562d566a511c4b846d4c3d9abdd71fb82d8fb27ab5"
   },
   "scope": "Source snapshot only; individual test logs and native binary hash determine acceptance.",
-  "debugCompanion": "b389c81bf4fce434742a95eee8a69db039203e685b4008fabfdfc84341e0bbba",
-  "releaseCompanion": "ffe61297c0cb3d98a3c7abba469128ae07f447300a748141731a8db7d370edfe"
+  "debugCompanion": "fd4e35a8a9ad454a357ec6844c01191dc1a4ac7ef4a93db204451e73bba580b0",
+  "releaseCompanion": "c97be8d91115e9974394c31147cb88fb49ea3039a104c579db1411242b9dcdf4"
 }

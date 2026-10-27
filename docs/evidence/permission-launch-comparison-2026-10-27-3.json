@@ -1,0 +1,35 @@
+{
+  "suite": "permission-launch-comparison",
+  "startedAt": "2026-10-27T13:10:56.801182+00:00",
+  "binarySHA256": "fd4e35a8a9ad454a357ec6844c01191dc1a4ac7ef4a93db204451e73bba580b0",
+  "status": "measured",
+  "scope": "Effective trust reporting only; no approval, session or desktop action.",
+  "directChild": {
+    "bundleID": "com.milyonus.computeruse",
+    "desktopActions": 0,
+    "parentPID": 79795,
+    "permissionRequested": false,
+    "permissions": {
+      "accessibility": true,
+      "screenRecording": true
+    },
+    "pid": 79796,
+    "sessionOpened": false,
+    "suite": "companion-permission-probe"
+  },
+  "launchServices": {
+    "bundleID": "com.milyonus.computeruse",
+    "desktopActions": 0,
+    "parentPID": 1,
+    "permissionRequested": false,
+    "permissions": {
+      "accessibility": false,
+      "screenRecording": false
+    },
+    "pid": 79799,
+    "sessionOpened": false,
+    "suite": "companion-permission-probe"
+  },
+  "permissionsMatch": false,
+  "finishedAt": "2026-10-27T13:10:57.406465+00:00"
+}

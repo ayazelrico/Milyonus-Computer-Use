@@ -1,7 +1,7 @@
 [0/1] Planning build
 Building for debugging...
 [0/9] Write swift-version--1AB21518FC5DEDBE.txt
-Build complete! (0.26s)
-/Users/ayazelrico/Desktop/Milyonus-Computer-Use/build/.package-h84txedk/MilyonusComputerUse.app: replacing existing signature
-/Users/ayazelrico/Desktop/Milyonus-Computer-Use/build/.package-h84txedk/ComputerUseFixture.app: replacing existing signature
+Build complete! (0.22s)
+/Users/ayazelrico/Desktop/Milyonus-Computer-Use/build/.package-xb86tuqp/MilyonusComputerUse.app: replacing existing signature
+/Users/ayazelrico/Desktop/Milyonus-Computer-Use/build/.package-xb86tuqp/ComputerUseFixture.app: replacing existing signature
 Development bundles are ready in /Users/ayazelrico/Desktop/Milyonus-Computer-Use/build (ad-hoc signed, not notarized).

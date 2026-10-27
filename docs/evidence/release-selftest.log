@@ -1,3 +1,4 @@
+[0/1] Planning build
 Building for production...
 [0/2] Write swift-version--1AB21518FC5DEDBE.txt
 Build of product 'computer-use-selftest' complete! (0.17s)
@@ -142,7 +143,7 @@ PASS: StdioFailureTests.testCooperativeChildExitsWithoutEscalation
 PASS: StdioFailureTests.testShutdownRemainsResponsiveUnderWriteBackpressure
 PASS: StdioFailureTests.testTaskCancellationRemainsResponsiveUnderWriteBackpressure
 PASS: StdioFailureTests.testPartialWritesPreserveRequestFrames
-STDIO_TIMEOUT mode=nonreading stage=initialize-replied request=2 queued=5 writtenBytes=65707 receivedFrames=1 readerFinished=false childRunning=true
+STDIO_TIMEOUT mode=nonreading stage=initialize-replied request=3 queued=5 writtenBytes=65707 receivedFrames=1 readerFinished=false childRunning=true
 PASS: StdioFailureTests.testBlockedWritesExpireWithoutReplay
 PASS: StdioFailureTests.testReaderStopsWithInheritedOutputStillOpen
 PASS: StdioFailureTests.testCompletedRequestsReleaseTimeoutTasks
