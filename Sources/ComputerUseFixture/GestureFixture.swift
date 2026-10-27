@@ -56,6 +56,8 @@ func makeGestureFixture() -> NSView {
     canvas.heightAnchor.constraint(equalToConstant: 100).isActive = true
     let scroll = NSScrollView()
     scroll.setAccessibilityIdentifier("fixture.scroll")
+    // NSScrollView omits AXEnabled by default; expose the fixture's explicit state.
+    scroll.setAccessibilityEnabled(true)
     scroll.hasVerticalScroller = true
     let rows = NSStackView(views: (1...30).map { index in
         let row = NSTextField(labelWithString: "Synthetic scroll row \(index)")

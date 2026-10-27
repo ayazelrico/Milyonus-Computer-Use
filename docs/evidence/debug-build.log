@@ -2,11 +2,9 @@
 Building for debugging...
 [0/10] Write sources
 [1/10] Write swift-version--1AB21518FC5DEDBE.txt
-[3/7] Compiling ComputerUseSelfTest main.swift
-[4/7] Emitting module ComputerUseSelfTest
-[5/7] Compiling ComputerUseSelfTest StdioFailureTests.swift
-[6/8] Compiling ComputerUseSelfTest CapabilitiesTests.swift
-[6/9] Write Objects.LinkFileList
-[7/9] Linking computer-use-selftest
-[8/9] Applying computer-use-selftest
-Build complete! (3.46s)
+[3/6] Compiling ComputerUseFixture GestureFixture.swift
+[4/6] Emitting module ComputerUseFixture
+[4/7] Write Objects.LinkFileList
+[5/7] Linking ComputerUseFixture
+[6/7] Applying ComputerUseFixture
+Build complete! (1.88s)
