@@ -260,5 +260,7 @@ runCase("ConnectionSessionOwnerTests.testDisconnectedOwnerCancelsBeforeDelayedCa
 runCase("ConnectionSessionOwnerTests.testReplacementCannotInheritGrantOrBeCancelledByOldPeer") { try ConnectionSessionOwnerTests().testReplacementCannotInheritGrantOrBeCancelledByOldPeer() }
 runCase("ConnectionSessionOwnerTests.testDisconnectDoesNotCancelNativeReplacement") { try ConnectionSessionOwnerTests().testDisconnectDoesNotCancelNativeReplacement() }
 await runAsyncCase("BrokerConnectionTests.testBoundedRequestRoundTripAndTimeout") { try await BrokerConnectionTests().testBoundedRequestRoundTripAndTimeout() }
+await runAsyncCase("ExecutionTests.testExternalAdmissionRevokedDuringJournalAndCompletion") { let test = ExecutionTests(); defer { test.tearDown() }; try await test.testExternalAdmissionRevokedDuringJournalAndCompletion() }
+runCase("ExecutionTests.testExternalAdmissionPreventsObservationPublication") { let test = ExecutionTests(); defer { test.tearDown() }; try test.testExternalAdmissionPreventsObservationPublication() }
 print("RESULT: \(testCount) cases, \(assertionCount) assertions, \(failureCount) failures")
 exit(failureCount == 0 ? 0 : 1)

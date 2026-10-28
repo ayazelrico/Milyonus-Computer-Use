@@ -23,3 +23,9 @@ Core tests exercise delayed disconnect, stale-owner requests, lease contention, 
 The development route's capabilities explicitly advertise no supported actions and disable native text, click, scroll and drag flags. The fixture policy remains the maximum scope; capability discovery is not an execution grant.
 
 Before enabling desktop actions, the request concurrency design must also preserve independent heartbeat/Stop delivery during an action, and ownership must be checked after durable intent and at native dispatch/verification boundaries. One in-flight request is sufficient only for the current lifecycle route.
+
+## Execution admission integration
+
+The execution engine now accepts a server-supplied admission closure alongside its existing session rules. It checks admission before observation, again before publishing observation data, before action preparation, after preflight, after durable intent immediately before dispatch, and before admitting successful verification. The companion passes its transport ownership closure through these calls and through each native sequence's authorization callback. Existing stdio calls use the default empty transport closure while retaining their original session/generation/permission checks.
+
+A refusal after intent but before dispatch is persisted as notApplied. Revocation after a reported applied effect preserves that effect and withdraws successful verification; it never rewrites history as if no effect occurred. The XPC route still denies desktop methods: admission integration alone is not live native acceptance, and independent heartbeat/Stop delivery during long actions remains required.

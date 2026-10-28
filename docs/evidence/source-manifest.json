@@ -1,5 +1,5 @@
 {
-  "recordedAt": "2026-10-28T09:35:03.621274+00:00",
+  "recordedAt": "2026-10-28T09:38:38.426205+00:00",
   "algorithm": "SHA-256",
   "files": {
     "Experiments/XPCPeerProbe/CompanionSessionClient.swift": "4ef61e4d1f7ae75abe91809db261cf5f3ce12caabd2ce0fb72fcebab3ade55ef",
@@ -26,7 +26,7 @@
     "Sources/ComputerUseAgent/FixturePlanDecoder.swift": "01059559b8e6ab1fb1ef4ae6a11a592c2a49a3760263c170c98b9ef8a658007b",
     "Sources/ComputerUseAgent/FixturePlannerAdmission.swift": "de06769e6984f28dde5f7c9db45d0d5ab1d492cebb005dfe5703f1fab1a79f68",
     "Sources/ComputerUseAgent/OpenAIResponsesPlanner.swift": "24a79ad0b89b38cb98556aae7f646c91aecb51f5791a7e69de7ab24777644dc4",
-    "Sources/ComputerUseApp/main.swift": "cc535e9479c35a1aac202e78717beaf1ddde5a95a20b2f846827306310ad5f7b",
+    "Sources/ComputerUseApp/main.swift": "c9bd98d149b567df46ac43606c967c79153cd145855a6923be0c16b8b777d325",
     "Sources/ComputerUseCLI/GestureAcceptanceCommand.swift": "8da13cfeb8ca9f3a551d54b762e9ca92af3fd72dca76683c8fce83a604597f4f",
     "Sources/ComputerUseCLI/main.swift": "0e2aa9514fa525ca961e81656ec4a3f2aca7528171309fa980d7a20506201572",
     "Sources/ComputerUseClient/HarnessClient.swift": "9630c0b6bf6d5465c3401691a6fcd0c43201ac4757c0916a0416a02247d184bd",
@@ -43,7 +43,7 @@
     "Sources/ComputerUseCore/ActionLedger.swift": "b17c27e49f26fde86d821cf5279e6b2a84245788434d9149b70bbb67d88fa603",
     "Sources/ComputerUseCore/CaptureDeadline.swift": "1acf602e716cfa9798ad83982d78ba45921fe3c32b94d055ce71280948e6f735",
     "Sources/ComputerUseCore/ConnectionSessionOwner.swift": "4019f4f48bb5b64f52a284654f36c1096d88d9aebeffedc4e6e426b04a44e5ae",
-    "Sources/ComputerUseCore/ExecutionEngine.swift": "9440e4c72e2fb16ece72884a3d5dab5530acdab8aa695a1c12514b5a29a912e6",
+    "Sources/ComputerUseCore/ExecutionEngine.swift": "9970af8e9ee6aaac28560a3dd656ae50adbcdd9e2d6d4f56e52562ca8f8aae62",
     "Sources/ComputerUseCore/FixtureCaptureSelection.swift": "0c374811b7390485c056313c5b987f27e563f51cd56f7ef1bbd0f720f388cf89",
     "Sources/ComputerUseCore/FixtureDragReceipt.swift": "0d44f8b5cd8edc9144873efbbb10c10e5f5e06ede18eec34e325b0dbc0ca544e",
     "Sources/ComputerUseCore/InputSequence.swift": "95e4e00653ac6b4ab444636e2b6736c7ae7ead3bc0d680f53e7a7ce2bae38f68",
@@ -76,7 +76,7 @@
     "Tests/CoreTests/ConnectionSessionOwnerTests.swift": "36a57d2aed97b3fcfec88d291b8d365874237586f48e6dbc74022f62cdfe75ee",
     "Tests/CoreTests/CoreTests.swift": "23e8110951a65d1a5980da01ff2c2375a90174b5a0c393a1a321cf8c70d3e069",
     "Tests/CoreTests/DragExecutionTests.swift": "6adce460acfd20350e1072caa25d7b70e165f30cb43f877f392a39f0a38e141f",
-    "Tests/CoreTests/ExecutionTests.swift": "22b3b94e2e5571e5a044bfaf1dc90ee3284e69a73232027043bfa3e114004369",
+    "Tests/CoreTests/ExecutionTests.swift": "4f3e012915f7b8c484010a68c0bbc8a064c66636ff2e7555a6635a99b4c6fa66",
     "Tests/CoreTests/FixtureCaptureSelectionTests.swift": "e75491c1c4c1be2037a150d35ed54e3686d453cfb08acd94a7165e7d428d3feb",
     "Tests/CoreTests/GestureAcceptanceTests.swift": "fe30b4d27d011e19898cf09f231b790df1fcef0d37f41653d23dd65db092d20c",
     "Tests/CoreTests/HeartbeatTests.swift": "5b35904708333a41d047741a15d79a4ef068150a37016d8dd5f80a4f7b1a8388",
@@ -97,7 +97,7 @@
     "Tests/CoreTests/StrictJSONTests.swift": "bf6809a1f2dc2f9e8ac2210f4c6803c2c6eccfbdf844f9d116843d837af62f41",
     "Tests/CoreTests/ToolReplyTests.swift": "9179a8183cfab6f1e3ade05adb98e5d86622ea1cbc375e36b0c5bba26534ab6d",
     "Tests/TestSupport.swift": "9dadabf0e0a2f36656876c38f52f1c71fd60525dad6ff24b991ac6246d4c0127",
-    "Tests/main.swift": "211ab9860bef72953f352b5a7fb69699609474359ffbcd5313c5bddb646527d1",
+    "Tests/main.swift": "fb626591b6e0d45c9cb51823743a0c0f81c263860e2549c43f593feb6d84379d",
     "scripts/build-apps.sh": "4e1553c1d8ab49c05cc73a7f8a9e2c405abcac2ef90c8c11d520bdd9cf87d304",
     "scripts/build-ultra-preview.sh": "cef376360c9711a160b37ecd0ec1061b0966d7e8f6d85e17f869dde9338b2689",
     "scripts/interruption-acceptance.py": "915db0cb94ed155e78ddb4532eb54a722e563142dec1d590e5e114bf40bae8d7",
@@ -118,6 +118,6 @@
     "scripts/xpc-sdk-probe.py": "9a0639f5de0c177a36b76f9f0f73f1ef503017133a63636fd3b5727125078534"
   },
   "scope": "Source snapshot only; individual test logs and native binary hash determine acceptance.",
-  "debugCompanion": "2144cd7836e45ca83be18da0de98277b858f710004053e81e4e7e48104ed7544",
-  "releaseCompanion": "53ebaa1f19b78e38ceb85528f05542b845c8e85a98f3fd2db86ad83d88d5d9c4"
+  "debugCompanion": "ccfea2e2ebb533dbced353c935c3f9aa4f816f1ad1555fdc1d5a59f4eb5ccaed",
+  "releaseCompanion": "babe961226c5651022b2f242fd9b64b51481c4d9a1c65c9a3bab09a160400527"
 }

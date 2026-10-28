@@ -24,12 +24,14 @@ public final class ExecutionEngine {
     public init(sessions: SessionController, driver: any DesktopDriver, ledger: ActionLedger, maximumActions: Int = 100, onFailure: @escaping (HarnessError) -> Void = { _ in }) {
         self.sessions = sessions; self.driver = driver; self.ledger = ledger; self.maximumActions = maximumActions; self.onFailure = onFailure
     }
-    public func observe(sessionID: String) throws -> Observation {
+    public func observe(sessionID: String, admission: () throws -> Void = {}) throws -> Observation {
+        try admission()
         guard !executing else { throw HarnessError.leaseBusy }
         let session = try sessions.requireReady(sessionID)
         do {
             try Task.checkCancellation()
             let result = try driver.observe(session: session)
+            try admission()
             try Task.checkCancellation()
             // A synchronous platform read may outlast its lease. Do not publish
             // data collected under an expired or replaced session generation.
@@ -44,7 +46,8 @@ public final class ExecutionEngine {
             throw error
         }
     }
-    private func prepare(_ request: ActionRequest, method: ExecutionMethod = .semantic) throws -> (Session, ActionResult?) {
+    private func prepare(_ request: ActionRequest, method: ExecutionMethod = .semantic, admission: () throws -> Void) throws -> (Session, ActionResult?) {
+        try admission()
         try request.validate()
         try Task.checkCancellation()
         guard (request.kind == .drag) == (method == .nativeDrag) else { throw HarnessError.unsupportedCapability }
@@ -56,6 +59,7 @@ public final class ExecutionEngine {
         guard actionCount < maximumActions else { throw HarnessError.resourceLimit }
         do {
             try driver.preflight(request, session: session)
+            try admission()
             try Task.checkCancellation()
             _ = try sessions.requireReady(session.id, generation: session.generation)
         } catch {
@@ -70,13 +74,14 @@ public final class ExecutionEngine {
         actionCount += 1; executing = true
         return (session, nil)
     }
-    private func finish(_ request: ActionRequest, result: ActionResult, method: ExecutionMethod = .semantic) throws -> ActionResult {
+    private func finish(_ request: ActionRequest, result: ActionResult, method: ExecutionMethod = .semantic, admission: () throws -> Void) throws -> ActionResult {
         driver.invalidate()
         do { try result.validate() }
         catch { sessions.pause(reason: .executionUncertain); throw error }
         var recorded = result
         if recorded.verification == .passed {
             do {
+                try admission()
                 try Task.checkCancellation()
                 _ = try sessions.requireReady(request.sessionId, generation: request.generation)
             } catch {
@@ -92,35 +97,36 @@ public final class ExecutionEngine {
         if recorded.effect == .unknown { sessions.pause(reason: .executionUncertain) }
         return recorded
     }
-    public func execute(_ request: ActionRequest) throws -> ActionResult {
-        let (session, previous) = try prepare(request)
+    public func execute(_ request: ActionRequest, admission: () throws -> Void = {}) throws -> ActionResult {
+        let (session, previous) = try prepare(request, admission: admission)
         if let previous { return previous }
         defer { executing = false }
-        if let refusal = dispatchRefusal(request, session: session) {
-            return try finish(request, result: refusal)
+        if let refusal = dispatchRefusal(request, session: session, admission: admission) {
+            return try finish(request, result: refusal, admission: admission)
         }
         let result: ActionResult
         do { result = try driver.execute(request, session: session) }
         catch { onFailure((error as? HarnessError) ?? .effectUnknown); result = uncertain(request) }
-        return try finish(request, result: result)
+        return try finish(request, result: result, admission: admission)
     }
-    public func executeAsync(_ request: ActionRequest, method: ExecutionMethod = .semantic,
+    public func executeAsync(_ request: ActionRequest, method: ExecutionMethod = .semantic, admission: () throws -> Void = {},
                              operation: @MainActor (Session) async throws -> ActionResult) async throws -> ActionResult {
-        let (session, previous) = try prepare(request, method: method)
+        let (session, previous) = try prepare(request, method: method, admission: admission)
         if let previous { return previous }
         defer { executing = false }
-        if let refusal = dispatchRefusal(request, session: session) {
-            return try finish(request, result: refusal, method: method)
+        if let refusal = dispatchRefusal(request, session: session, admission: admission) {
+            return try finish(request, result: refusal, method: method, admission: admission)
         }
         let result: ActionResult
         do { result = try await operation(session) }
         catch { onFailure((error as? HarnessError) ?? .effectUnknown); result = uncertain(request) }
-        return try finish(request, result: result, method: method)
+        return try finish(request, result: result, method: method, admission: admission)
     }
     /// Journal persistence can consume the remaining lease. Before entering any
     /// effect-producing callback, refusal is known not to have applied an effect.
-    private func dispatchRefusal(_ request: ActionRequest, session: Session) -> ActionResult? {
+    private func dispatchRefusal(_ request: ActionRequest, session: Session, admission: () throws -> Void) -> ActionResult? {
         do {
+            try admission()
             try Task.checkCancellation()
             _ = try sessions.requireReady(session.id, generation: session.generation)
             return nil

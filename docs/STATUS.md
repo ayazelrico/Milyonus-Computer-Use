@@ -624,3 +624,9 @@ Dedicated post-change validation completed with 235 cases / 2504 assertions / ze
 Final Debug build/selftest passed 235 cases / 2504 assertions / zero failures in `ownership-final-tests-2026-10-28.log`. The same core/IPC code passed the optimized Release suite; the later companion capability-only change also passed Release compilation. Fresh development package/receipt verification passed. The shared intermediate selftest log is superseded by these dedicated final files.
 
 Next: independently launched companion native approval/revocation acceptance, then execution admission across durable journal/native input and concurrent heartbeat/Stop transport. These remain open; no claim of complete XPC native action migration or production permission ownership is made.
+
+## Transport ownership across execution admission — 2026-10-28
+
+The execution engine now accepts trusted server-side admission checks before and after observation/preflight, after durable intent before dispatch, and before successful completion verification. Companion routing passes its ownership check through engine calls and native sequence callbacks. Existing session, generation, journal and permission guards are preserved. Desktop methods remain disabled on the new XPC route pending concurrency and live native acceptance.
+
+New deterministic regressions revoke admission during journal persistence for both semantic and asynchronous routes: neither dispatches, and the notApplied refusal is persisted. Revocation during an applied action preserves the applied effect while withdrawing verification. Revocation during observation prevents publication and invalidates targets. Debug and optimized Release each passed 237 cases / 2520 assertions / zero failures (`dispatch-ownership-tests-2026-10-28.log` and its Release counterpart). Development package receipt matched all 45 source inputs. No new native approval or desktop action was used for this increment.

@@ -1,0 +1,16 @@
+[0/1] Planning build
+Building for production...
+[0/8] Write sources
+[3/8] Write swift-version--1AB21518FC5DEDBE.txt
+[5/8] Compiling ComputerUseCore ActionLedger.swift
+[6/11] Compiling ComputerUseAcceptance GestureAcceptance.swift
+[7/13] Compiling ComputerUseMacOS AccessibilityDesktop.swift
+[7/13] Write Objects.LinkFileList
+[8/14] Linking milyonus-cu
+[10/14] Compiling ComputerUseApp main.swift
+[10/15] Write Objects.LinkFileList
+[11/15] Linking MilyonusComputerUse
+[13/15] Compiling ComputerUseSelfTest ActionResultTests.swift
+[13/15] Write Objects.LinkFileList
+[14/15] Linking computer-use-selftest
+Build complete! (19.75s)
