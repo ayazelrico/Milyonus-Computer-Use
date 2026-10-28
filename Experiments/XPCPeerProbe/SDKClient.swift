@@ -31,9 +31,24 @@ import ComputerUseIPC
             let expected = args[2] == "session" ? Data("awaitingApproval".utf8) : challenge
             requestVerified = try await channel.request(challenge) == expected
         }
+        var independentControl = false
+        if args[2] == "control", authenticated {
+            let request = Task { try await channel.request(Data("hold".utf8)) }
+            let deadline = ContinuousClock.now.advanced(by: .seconds(2))
+            var waiting = false
+            while ContinuousClock.now < deadline {
+                if try await channel.control(Data("status".utf8)) == Data("waiting".utf8) { waiting = true; break }
+                try await Task.sleep(for: .milliseconds(10))
+            }
+            guard waiting else { throw BrokerConnectionError.timeout }
+            let heartbeat = try await channel.control(Data("heartbeat".utf8))
+            let stop = try await channel.control(Data("stop".utf8))
+            let completion = try await request.value
+            independentControl = heartbeat == Data("alive".utf8) && stop == Data("cancelled".utf8) && completion == Data("stopped".utf8)
+        }
         channel.close()
         let data = try JSONSerialization.data(withJSONObject: ["outcome": outcome,
-            "requestVerified": requestVerified, "authenticated": authenticated, "disconnected": disconnected, "closed": !channel.isAuthenticated], options: [.sortedKeys])
+            "independentControl": independentControl, "requestVerified": requestVerified, "authenticated": authenticated, "disconnected": disconnected, "closed": !channel.isAuthenticated], options: [.sortedKeys])
         print(String(decoding: data, as: UTF8.self))
     }
 }

@@ -20,6 +20,7 @@ private final class HandshakePeer: NSObject, NSXPCListenerDelegate, BrokerReques
         if mode == "silent" { return }
         reply(mode == "wrongNonce" ? "wrong" : nonce, mode == "wrongVersion" ? 2 : 1)
     }
+    func control(_ data: Data, reply: @escaping @Sendable (Data?, String?) -> Void) { reply(data, nil) }
     func request(_ data: Data, reply: @escaping @Sendable (Data?, String?) -> Void) {
         if mode == "silentRequest" { return }
         reply(data, nil)
@@ -129,6 +130,28 @@ final class BrokerConnectionTests: TestCase {
                 expectFalse(channel.isAuthenticated)
             }
         }
+    }
+
+    func testControlRemainsAvailableWhileRequestIsPending() async throws {
+        let pin = try identity()
+        let peer = HandshakePeer(mode: "silentRequest", identity: pin)
+        let listener = NSXPCListener.anonymous(); listener.delegate = peer; listener.resume()
+        let channel = AuthenticatedBrokerConnection()
+        defer { channel.close(); peer.shutdown(); listener.invalidate() }
+        try await channel.connect(endpoint: listener.endpoint, peer: pin)
+        let request = Task { try await channel.request(Data("held".utf8)) }
+        try await Task.sleep(for: .milliseconds(30))
+        do { _ = try await channel.request(Data("second".utf8)); fail("Second request admitted") }
+        catch { expectEqual(error as? BrokerConnectionError, .resourceLimit) }
+        do { _ = try await channel.control(Data(repeating: 0, count: 4097)); fail("Oversized control admitted") }
+        catch { expectEqual(error as? BrokerConnectionError, .resourceLimit) }
+        let heartbeat = try await channel.control(Data("heartbeat".utf8))
+        expectEqual(heartbeat, Data("heartbeat".utf8))
+        expectEqual(channel.isAuthenticated, true)
+        request.cancel()
+        do { _ = try await request.value; fail("Cancelled request completed") }
+        catch { expectEqual(error as? BrokerConnectionError, .cancelled) }
+        expectFalse(channel.isAuthenticated)
     }
 
 }

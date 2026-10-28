@@ -29,3 +29,7 @@ Before enabling desktop actions, the request concurrency design must also preser
 The execution engine now accepts a server-supplied admission closure alongside its existing session rules. It checks admission before observation, again before publishing observation data, before action preparation, after preflight, after durable intent immediately before dispatch, and before admitting successful verification. The companion passes its transport ownership closure through these calls and through each native sequence's authorization callback. Existing stdio calls use the default empty transport closure while retaining their original session/generation/permission checks.
 
 A refusal after intent but before dispatch is persisted as notApplied. Revocation after a reported applied effect preserves that effect and withdraws successful verification; it never rewrites history as if no effect occurred. The XPC route still denies desktop methods: admission integration alone is not live native acceptance, and independent heartbeat/Stop delivery during long actions remains required.
+
+## Independent control follow-up
+
+The single-request limitation above has now been addressed by a separate bounded heartbeat/pause/cancel lane on the same authenticated connection. See [XPC control lane](xpc-control-lane.md) for evidence and remaining native acceptance limits.

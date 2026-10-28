@@ -22,6 +22,17 @@ import ComputerUseIPC
         guard first["state"] as? String == "awaitingApproval", let firstID = first["id"] as? String else {
             throw BrokerConnectionError.protocolMismatch
         }
+        let forbidden = try JSONSerialization.data(withJSONObject: ["name": "session_open", "arguments": [:] as [String: String]])
+        let rejected = try await channel.control(forbidden)
+        guard let refusal = try JSONSerialization.jsonObject(with: rejected) as? [String: Any],
+              refusal["error"] as? String == "UNSUPPORTED_CAPABILITY" else { throw BrokerConnectionError.protocolMismatch }
+        let cancel = try JSONSerialization.data(withJSONObject: ["name": "session_cancel", "arguments": ["sessionId": firstID]])
+        let cancelled = try await channel.control(cancel)
+        guard let response = try JSONSerialization.jsonObject(with: cancelled) as? [String: Any],
+              let cancelledSession = response["result"] as? [String: Any],
+              cancelledSession["state"] as? String == "cancelled" else { throw BrokerConnectionError.protocolMismatch }
+        let pending = try await call("session_open")
+        guard pending["state"] as? String == "awaitingApproval" else { throw BrokerConnectionError.protocolMismatch }
         channel.close()
         try await Task.sleep(for: .milliseconds(500))
         try await channel.connect(serviceName: args[0], peer: peer)
@@ -29,6 +40,12 @@ import ComputerUseIPC
         guard second["state"] as? String == "awaitingApproval", let secondID = second["id"] as? String,
               firstID != secondID else { throw BrokerConnectionError.protocolMismatch }
         channel.close()
-        print("{\"status\":\"passed\",\"newSessionAfterDisconnect\":true,\"nativeApprovalGranted\":false,\"desktopActions\":0,\"desktopCapabilitiesDisabled\":true}")
+        let permissions = capabilities["permissions"] as? [String: Bool] ?? [:]
+        let report: [String: Any] = ["status": "passed", "newSessionAfterDisconnect": true,
+            "nativeApprovalGranted": false, "desktopActions": 0, "desktopCapabilitiesDisabled": true,
+            "controlCancelVerified": true, "controlOpenRejected": true,
+            "accessibilityGranted": permissions["accessibility"] ?? false,
+            "screenRecordingGranted": permissions["screenRecording"] ?? false]
+        print(String(decoding: try JSONSerialization.data(withJSONObject: report, options: [.sortedKeys]), as: UTF8.self))
     }
 }

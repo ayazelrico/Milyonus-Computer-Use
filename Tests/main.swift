@@ -262,5 +262,6 @@ runCase("ConnectionSessionOwnerTests.testDisconnectDoesNotCancelNativeReplacemen
 await runAsyncCase("BrokerConnectionTests.testBoundedRequestRoundTripAndTimeout") { try await BrokerConnectionTests().testBoundedRequestRoundTripAndTimeout() }
 await runAsyncCase("ExecutionTests.testExternalAdmissionRevokedDuringJournalAndCompletion") { let test = ExecutionTests(); defer { test.tearDown() }; try await test.testExternalAdmissionRevokedDuringJournalAndCompletion() }
 runCase("ExecutionTests.testExternalAdmissionPreventsObservationPublication") { let test = ExecutionTests(); defer { test.tearDown() }; try test.testExternalAdmissionPreventsObservationPublication() }
+await runAsyncCase("BrokerConnectionTests.testControlRemainsAvailableWhileRequestIsPending") { try await BrokerConnectionTests().testControlRemainsAvailableWhileRequestIsPending() }
 print("RESULT: \(testCount) cases, \(assertionCount) assertions, \(failureCount) failures")
 exit(failureCount == 0 ? 0 : 1)

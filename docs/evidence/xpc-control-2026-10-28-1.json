@@ -1,0 +1,160 @@
+{
+  "suite": "sdk-named-xpc",
+  "status": "passed-limited-sdk-probe",
+  "cases": [
+    {
+      "authenticated": true,
+      "closed": true,
+      "disconnected": false,
+      "independentControl": false,
+      "outcome": "authenticated",
+      "requestVerified": false,
+      "name": "matching",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "independentControl": false,
+      "outcome": "authenticationFailed",
+      "requestVerified": false,
+      "name": "wrong-client",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 0
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "independentControl": false,
+      "outcome": "authenticationFailed",
+      "requestVerified": false,
+      "name": "wrong-server",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "independentControl": false,
+      "outcome": "protocolMismatch",
+      "requestVerified": false,
+      "name": "wrong-nonce",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "independentControl": false,
+      "outcome": "protocolMismatch",
+      "requestVerified": false,
+      "name": "wrong-version",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "independentControl": false,
+      "outcome": "timeout",
+      "requestVerified": false,
+      "name": "silent-peer",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "independentControl": false,
+      "outcome": "cancelled",
+      "requestVerified": false,
+      "name": "client-cancellation",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": true,
+      "closed": true,
+      "disconnected": true,
+      "independentControl": false,
+      "outcome": "authenticated",
+      "requestVerified": false,
+      "name": "peer-exit",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": true,
+      "closed": true,
+      "disconnected": false,
+      "independentControl": false,
+      "outcome": "authenticated",
+      "requestVerified": true,
+      "cancelledSessions": 0,
+      "disconnectCallbacks": 1,
+      "name": "library-listener-close",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 0
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "independentControl": false,
+      "outcome": "authenticationFailed",
+      "requestVerified": false,
+      "cancelledSessions": 0,
+      "disconnectCallbacks": 1,
+      "name": "library-listener-rejects-client",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 0
+    },
+    {
+      "authenticated": true,
+      "closed": true,
+      "disconnected": false,
+      "independentControl": false,
+      "outcome": "authenticated",
+      "requestVerified": true,
+      "cancelledSessions": 1,
+      "disconnectCallbacks": 1,
+      "name": "connection-session-close",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 0
+    },
+    {
+      "authenticated": true,
+      "closed": true,
+      "disconnected": false,
+      "independentControl": true,
+      "outcome": "authenticated",
+      "requestVerified": false,
+      "name": "independent-heartbeat-stop",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 0
+    }
+  ],
+  "startedAt": "2026-10-28T09:44:09.931594+00:00",
+  "limitations": "Handshake, bounded echo and unapproved session lifecycle; exact development CDHash pins. No desktop actions, native grants, TCC or Developer ID acceptance.",
+  "libraryObjects": {
+    "AuthenticatedBrokerConnection.swift.o": "e7e09a4e915afa73df7ea7da1547f1b8a75f31bd3e7e34e13434cc961e55507f",
+    "BrokerConnectionContext.swift.o": "082656bcffca402e9de58b6bafcd99d84f8f1ee3ace24ba002861ac642844392",
+    "BrokerHandshakeListener.swift.o": "90bfe0203d5c838a5c53ddb179589c0eac500c15e8390864f416d27c770b11fc",
+    "BrokerRequestChannel.swift.o": "1d5ff77145cf02d63018e818bde2f6a133c20fe551d74e3f9f339efd9be79c44",
+    "PeerIdentity.swift.o": "7bb77c61f16883f9f876cc6296bcda0c193dcf2fa867d3af16c00a4f40b1faef"
+  },
+  "binarySHA256": {
+    "SDKPeer": "27cc76cb856eaee33a98edb372ce70ed8ef764618ff59da4c09b5cc8692ad4e7",
+    "SDKClient": "aa1c683496d1bfddbf0a2cabb54acc9ab2fabb51e8b3c1f46c11219337bb2653",
+    "SDKListener": "bb6097baadf9104defa60e7303b20fe0fd8399b65fecbc34ad573edb8392dbca",
+    "SDKSessionListener": "e473d03b086e1e082e3a9a434db30c6b414c450c5212ae523f78084225f854fd"
+  },
+  "finishedAt": "2026-10-28T09:44:25.076223+00:00"
+}

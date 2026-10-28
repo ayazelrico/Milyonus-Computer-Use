@@ -1,0 +1,7 @@
+Another instance of SwiftPM (PID: 21672) is already running using '/Users/example/Desktop/Milyonus-Computer-Use/.build', waiting until that process has finished execution...[0/1] Planning build
+Building for debugging...
+[0/9] Write swift-version--1AB21518FC5DEDBE.txt
+Build complete! (0.20s)
+/Users/example/Desktop/Milyonus-Computer-Use/build/.package-29fk9d3w/MilyonusComputerUse.app: replacing existing signature
+/Users/example/Desktop/Milyonus-Computer-Use/build/.package-29fk9d3w/ComputerUseFixture.app: replacing existing signature
+Development bundles are ready in /Users/example/Desktop/Milyonus-Computer-Use/build (ad-hoc signed, not notarized).
