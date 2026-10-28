@@ -1,0 +1,101 @@
+{
+  "suite": "sdk-named-xpc",
+  "status": "passed-limited-sdk-probe",
+  "cases": [
+    {
+      "authenticated": true,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "authenticated",
+      "name": "matching",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "authenticationFailed",
+      "name": "wrong-client",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 0
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "authenticationFailed",
+      "name": "wrong-server",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "protocolMismatch",
+      "name": "wrong-nonce",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "protocolMismatch",
+      "name": "wrong-version",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "timeout",
+      "name": "silent-peer",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "cancelled",
+      "name": "client-cancellation",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": true,
+      "closed": true,
+      "disconnected": true,
+      "outcome": "authenticated",
+      "name": "peer-exit",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": true,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "authenticated",
+      "disconnectCallbacks": 1,
+      "name": "library-listener-close",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 0
+    }
+  ],
+  "startedAt": "2026-10-28T09:13:50.515716+00:00",
+  "limitations": "Read-only handshake; exact development CDHash pins. No desktop actions, native grants, TCC or Developer ID acceptance.",
+  "libraryObjects": {
+    "AuthenticatedBrokerConnection.swift.o": "d80c0bceb0f6583ec6120a750c9cf2cc075334efb3b617fd24875977e05ae2cb",
+    "BrokerHandshakeListener.swift.o": "6c03d4d5c88e28895fafcb65d42f24e4d60ed44c6fee317e4f3912497119639e",
+    "PeerIdentity.swift.o": "b3a872d0b01824543b381ce19b9c6e4437380e9a2cef22dbffbe668ed74bc1d6"
+  },
+  "binarySHA256": {
+    "SDKPeer": "8554dba8dd84c4fdc48b149ef9089a25416e2a899b2904c94b39411458f6575e",
+    "SDKClient": "dde2a32650774538d965fc1a24e672b5310423013d4dd572b72874181ea51ea2",
+    "SDKListener": "ef8584d1b94d3080eb0fa79538486dfea74cbdf5f4927741ad20d8254498fa6d"
+  },
+  "finishedAt": "2026-10-28T09:13:59.187036+00:00"
+}

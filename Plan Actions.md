@@ -6,7 +6,9 @@
 
 Follow [docs/ACCEPTANCE-NEXT.md](docs/ACCEPTANCE-NEXT.md): establish a local Git checkpoint, then native gestures, real OpenAI execution, Ultra live acceptance and signed distribution. Missing foreground availability, provider configuration and signing credentials are explicit prerequisites. Do not replace these gates with more generic synthetic hardening.
 
-## Current implementation record (English, 2026-10-27)
+## Current implementation record (English, 2026-10-28)
+
+P1/P4 now includes a separate authenticated XPC connection and bounded handshake-only listener. Ten independent-process signing and lifecycle scenarios passed using development CDHash pins. This is not yet the native execution transport: visible companion registration, connection-owned grants, request routing and TCC lifecycle acceptance remain open. See `docs/authenticated-ipc.md`.
 
 P2 capture geometry now uses bounded uniform scaling, overflow-safe coordinate conversion and native post-capture identity/geometry checks, plus a monotonic result-admission deadline and shared unique-window revalidation. Synthetic verification and live acceptance are tracked separately in `docs/capture-geometry.md`.
 
@@ -41,12 +43,12 @@ The detailed historical checklist below defines full acceptance, not individual 
 |---|---|---|
 | CU-001–005 | Swift package, visible companion, TCC controls, AX/capture/input probes, development IPC ADR | Partial; production identity and peer authentication remain open |
 | CU-006–022 | Typed actions and independently checked wire schemas, session/generation policy, heartbeat lease, pause reasons, persistent idempotency, input cleanup, semantic/native text/native click, fixture verification | Partial; full scenario/hardware/interruption matrix remains open |
-| CU-023–026 | Swift SDK, MCP, agent loop, OpenAI Responses and Anthropic Messages planners, independent completion, budgets, no-progress detection | Partial; real inference acceptance remains open |
+| CU-023–026 | Swift SDK, MCP, agent loop, OpenAI Responses and Anthropic Messages planners, independent completion, budgets, no-progress detection | One-action native Anthropic and OpenAI slices passed; broader pilot acceptance remains open |
 | CU-027–031 | Native coordinator and default-disabled Ultra preview wired; token-based selection suspension and drain; host regression suite 3296/0; isolated native pending-session Stop/close verified | Isolated approved action/Stop/close passed on 2026-10-27; normal-host lifecycle, production broker and full agent pilot pending |
 | CU-032–036 | Threat model, private-state file admission and adversarial tests, verification scripts, ad-hoc packaging, notarization runbook, source/evidence hashes | Partial; distribution identity and release acceptance remain open |
 | CU-037–042 | Expansion backlog retained | Deferred until core release gates pass |
 
-Background validation: Latest Debug and optimized Release self-test suites pass 227 cases / 2448 assertions; independent wire-schema validation passes 59 checks. Earlier stdio inherited-output and mismatch/closed-input timeouts remain recorded as unresolved reliability findings. A bounded focused reproduction mode and payload-free stage diagnostics are available; see `docs/stdio-timeout-investigation.md`. The runner now rejects completion across a changed session generation and stops on unavailable effect verification. One user-approved native SDK fixture run has now passed with an 18-second synthetic planning delay, one action and independent completion verification. A real Anthropic one-action native fixture pilot passed on 2026-10-27; A one-action OpenAI native pilot also passed on 2026-10-27; the full agent acceptance matrix remains pending.
+Background validation: Latest Debug and optimized Release self-test suites pass 231 cases / 2476 assertions; independent wire-schema validation passes 59 checks. Earlier stdio inherited-output and mismatch/closed-input timeouts remain recorded as unresolved reliability findings. A bounded focused reproduction mode and payload-free stage diagnostics are available; see `docs/stdio-timeout-investigation.md`. The runner now rejects completion across a changed session generation and stops on unavailable effect verification. One user-approved native SDK fixture run has now passed with an 18-second synthetic planning delay, one action and independent completion verification. A real Anthropic one-action native fixture pilot passed on 2026-10-27; A one-action OpenAI native pilot also passed on 2026-10-27; the full agent acceptance matrix remains pending.
 
 All new implementation and technical documentation is English. Detailed current commands and evidence are in the root README and `docs/evidence/README.md`.
 

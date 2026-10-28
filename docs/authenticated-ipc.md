@@ -12,7 +12,7 @@ The package now declares Swift tools 6.2 because actor-isolated destruction is u
 
 ## Independent process evidence
 
-Run `python3 scripts/xpc-sdk-probe.py --evidence <new-json-path>` to build the real library and link separate peer/client executables against its object files. Each is ad-hoc signed independently. Eight temporary per-user launchd jobs exercise matching peers, wrong client signature, wrong server signature, wrong nonce, wrong version a silent peer, client cancellation and peer exit. Each job is removed in a finally block. This exposes only the handshake and uses no desktop APIs or user content.
+Run `python3 scripts/xpc-sdk-probe.py --evidence <new-json-path>` to build the real library and link separate peer/client executables against its object files. Each is ad-hoc signed independently. Ten temporary per-user launchd jobs exercise matching peers, wrong client signature, wrong server signature, wrong nonce, wrong version a silent peer, client cancellation, peer exit, and the library listener’s successful and refused client lifecycles. Each job is removed in a finally block. This exposes only the handshake and uses no desktop APIs or user content.
 
 The first run on 2026-10-28 authenticated matching peers, then crashed in the Foundation error callback on wrong-client rejection. A symbol-only crash inspection identified `_dispatch_assert_queue_fail` in `AuthenticatedBrokerConnection`'s actor-inferred proxy error closure. The explicit Sendable callback fix passed all six separate-process cases in `evidence/xpc-sdk-2026-10-28-2.json`; the failed first record is preserved. The earlier full-suite run also exited with signal 5 and its incomplete buffered output is retained as `selftest-xpc-first-attempt.log`.
 
@@ -21,3 +21,11 @@ The expanded eight-case run passed in `evidence/xpc-sdk-2026-10-28-3.json`, incl
 ## Remaining integration
 
 This is an authenticated connection foundation, not a production broker. The visible independently launched companion still needs a registered service, trusted host policy, bounded request routing, connection-owned native grants, disconnect cancellation and a tested permission grant/revoke lifecycle. Do not route native actions through this library until those server boundaries are implemented. Existing fixture-only scope and all execution checks remain unchanged. Developer ID, normal Ultra integration, minimum-OS and distribution acceptance remain separate gates.
+
+## Server connection ownership foundation
+
+`BrokerHandshakeListener` owns a bounded set of XPC connections (default four; configurable from one to eight). It sets the trusted client signing requirement before resuming each connection and exports only the bounded nonce handshake. Connection admission itself is not a native grant or a verified handshake. UUIDs identify transport lifetimes only.
+
+Interruption, invalidation and explicit shutdown remove owned connections before invoking the disconnect observer, outside the state lock. Removal is idempotent, so the observer runs once per removed connection. The observer may arrive on an XPC queue and must transfer any UI/core work to its owning actor. A future native router must bind the exact connection ID to its session and cancel only that session; no such router is implemented here.
+
+The real SDK client also connects to a separate executable using this actual library listener. Evidence checks authentication followed by exactly one disconnect notification, and rejection of an incorrectly pinned client followed by cleanup. All temporary launchd registrations are removed. No app is installed or permission requested by this probe. Peer limits are a resource bound, not a same-user denial-of-service guarantee.
