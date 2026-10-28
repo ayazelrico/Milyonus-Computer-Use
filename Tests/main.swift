@@ -265,5 +265,6 @@ runCase("ExecutionTests.testExternalAdmissionPreventsObservationPublication") { 
 await runAsyncCase("BrokerConnectionTests.testControlRemainsAvailableWhileRequestIsPending") { try await BrokerConnectionTests().testControlRemainsAvailableWhileRequestIsPending() }
 await runAsyncCase("XPCSessionClientTests.testTypedIdentityMismatchAndDuplicateEnvelopeCloseTransport") { try await XPCSessionClientTests().testTypedIdentityMismatchAndDuplicateEnvelopeCloseTransport() }
 await runAsyncCase("XPCSessionClientTests.testAutomaticHeartbeatUsesControlAndStopsAfterShutdown") { try await XPCSessionClientTests().testAutomaticHeartbeatUsesControlAndStopsAfterShutdown() }
+await runAsyncCase("XPCSessionClientTests.testNativeInputOptInAndReplyIdentity") { try await XPCSessionClientTests().testNativeInputOptInAndReplyIdentity() }
 print("RESULT: \(testCount) cases, \(assertionCount) assertions, \(failureCount) failures")
 exit(failureCount == 0 ? 0 : 1)

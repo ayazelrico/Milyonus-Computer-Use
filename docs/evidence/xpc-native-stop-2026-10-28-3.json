@@ -1,0 +1,38 @@
+{
+  "suite": "packaged-companion-xpc-lifecycle",
+  "status": "failed",
+  "startedAt": "2026-10-28T10:34:13.988286+00:00",
+  "limitations": "Development signing; fixture-only native receiver evidence. No production distribution acceptance.",
+  "companionSHA256": "808a754db8f36cf74107eff715d2fbd68f6d13a1fc70c73e1447c39d64e8abe7",
+  "temporaryJobRemoved": true,
+  "receiverEvents": [
+    {
+      "event": "down",
+      "uptime": 5930.667939875
+    },
+    {
+      "event": "drag",
+      "uptime": 5930.66818475
+    },
+    {
+      "event": "drag",
+      "uptime": 5930.740310375
+    },
+    {
+      "event": "drag",
+      "uptime": 5930.809532416667
+    },
+    {
+      "event": "drag",
+      "uptime": 5930.881605166667
+    },
+    {
+      "event": "up",
+      "uptime": 5931.001118708334
+    }
+  ],
+  "errorType": "CalledProcessError",
+  "error": "Command '['/private/var/folders/dk/nhlf8cts0wl0jrtp04gvxpww0000gn/T/milyonus-companion-xpc-0bfnge17/client', 'com.milyonus.computeruse.lifecycle.3445870b1f3e4aa1b47e35ad5816d4c3', 'e7e3460d63b7bcd8c093a3cd5057f9ebb2a2adf2', 'stop', '/private/var/folders/dk/nhlf8cts0wl0jrtp04gvxpww0000gn/T/milyonus-companion-xpc-0bfnge17/events.ndjson']' returned non-zero exit status 1.",
+  "diagnostic": "STAGE connect\nSTAGE open\nSTAGE approval-observed\nSTAGE native-text\nSTAGE native-click\nSTAGE scroll-drag-baseline\n{\"error\":\"VERIFICATION_FAILED\",\"status\":\"failed\"}\n",
+  "finishedAt": "2026-10-28T10:34:23.163492+00:00"
+}

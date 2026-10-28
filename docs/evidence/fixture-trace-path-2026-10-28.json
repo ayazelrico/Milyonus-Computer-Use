@@ -1,0 +1,20 @@
+{
+  "suite": "fixture-event-trace-path-admission",
+  "cases": [
+    {
+      "name": "canonical-private-var-root",
+      "passed": true
+    },
+    {
+      "name": "existing-file-not-overwritten",
+      "passed": true
+    },
+    {
+      "name": "symlink-not-followed",
+      "passed": true
+    }
+  ],
+  "priorFailure": "Canonical URL string equality rejected the existing private-var alias; replaced with root device/inode identity and leaf lstat checks.",
+  "status": "passed",
+  "recordedAt": "2026-10-28T10:33:05.071993+00:00"
+}

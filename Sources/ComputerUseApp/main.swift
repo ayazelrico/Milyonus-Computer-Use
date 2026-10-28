@@ -27,13 +27,15 @@ final class Companion: NSObject, NSApplicationDelegate {
     private var broker: BrokerHandshakeListener?
     private let isBroker = CommandLine.arguments.contains("--broker-development")
     private let brokerFixtureActions = CommandLine.arguments.contains("--fixture-actions")
+    private let brokerNativeInput = CommandLine.arguments.contains("--native-fixture-input")
     private lazy var connectionOwner = ConnectionSessionOwner(sessions: sessions) { [weak self] in
         self?.desktop.invalidate()
     }
 
     private func startBroker() throws {
         let args = Array(CommandLine.arguments.dropFirst())
-        guard (args.count == 3 || (args.count == 4 && args[3] == "--fixture-actions")), args[0] == "--broker-development", !isMCP else { throw HarnessError.invalidRequest }
+        guard args.count >= 3, args[0] == "--broker-development", !isMCP,
+              Array(args.dropFirst(3)) == (brokerNativeInput ? ["--fixture-actions", "--native-fixture-input"] : (brokerFixtureActions ? ["--fixture-actions"] : [])) else { throw HarnessError.invalidRequest }
         // Explicit trusted local launch configuration. Never read identity policy from RPC.
         let listener = try BrokerHandshakeListener(serviceName: args[1], peer: .developmentCDHash(args[2]),
             onDisconnect: { [weak self] id in
@@ -65,7 +67,8 @@ final class Companion: NSObject, NSApplicationDelegate {
             }
             let lifecycleMethods = ["session_open", "session_status", "session_cancel", "session_pause", "session_heartbeat", "system_capabilities"]
             // Explicit trusted launch opt-in; never selected through an RPC or model proposal.
-            let fixtureMethods = brokerFixtureActions ? ["desktop_observe", "desktop_action"] : []
+            let fixtureMethods = (brokerFixtureActions ? ["desktop_observe", "desktop_action"] : [])
+                + (brokerNativeInput ? ["desktop_type_text", "desktop_click", "desktop_scroll", "desktop_drag"] : [])
             guard (lifecycleMethods + fixtureMethods).contains(name) else {
                 throw HarnessError.unsupportedCapability
             }
@@ -77,10 +80,10 @@ final class Companion: NSObject, NSApplicationDelegate {
                 guard args.isEmpty else { throw HarnessError.invalidRequest }
                 var capabilities = HarnessCapabilities(permissions: Permissions.status())
                 capabilities.supportedActions = brokerFixtureActions ? [.press, .setValue] : []
-                capabilities.nativeTextInput = false
-                capabilities.nativeElementClick = false
-                capabilities.experimentalNativeFixtureDrag = false
-                capabilities.experimentalNativeFixtureScroll = false
+                capabilities.nativeTextInput = brokerNativeInput
+                capabilities.nativeElementClick = brokerNativeInput
+                capabilities.experimentalNativeFixtureDrag = brokerNativeInput
+                capabilities.experimentalNativeFixtureScroll = brokerNativeInput
                 result = try object(capabilities)
             } else {
                 guard let session = sessions.current() else { throw HarnessError.unauthorized }

@@ -30,12 +30,15 @@ final class GestureCanvas: NSView {
         start = bounds.contains(point) ? point : nil
         last = start; needsDisplay = true
         result.stringValue = "Drag in progress"
+        FixtureEventTrace.shared.record("down")
     }
     override func mouseDragged(with event: NSEvent) {
         guard start != nil else { return }
         last = convert(event.locationInWindow, from: nil); needsDisplay = true
+        FixtureEventTrace.shared.record("drag")
     }
     override func mouseUp(with event: NSEvent) {
+        FixtureEventTrace.shared.record("up")
         guard let start else { return }
         let end = convert(event.locationInWindow, from: nil)
         last = end; self.start = nil; needsDisplay = true

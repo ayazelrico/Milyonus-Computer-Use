@@ -1,0 +1,33 @@
+{
+  "suite": "packaged-companion-xpc-lifecycle",
+  "status": "passed-native-interruption",
+  "startedAt": "2026-10-28T10:36:00.472491+00:00",
+  "limitations": "Development signing; fixture-only native receiver evidence. No production distribution acceptance.",
+  "companionSHA256": "808a754db8f36cf74107eff715d2fbd68f6d13a1fc70c73e1447c39d64e8abe7",
+  "result": {
+    "baselineActions": 0,
+    "interruptedMotionCount": 1,
+    "mode": "disconnect",
+    "nativeApprovalGranted": true,
+    "pendingActionRefused": true,
+    "receiverSawCleanupMouseUp": true,
+    "receiverSawMouseDownAndMotion": true,
+    "status": "passed"
+  },
+  "temporaryJobRemoved": true,
+  "receiverEvents": [
+    {
+      "event": "down",
+      "uptime": 6040.455827125001
+    },
+    {
+      "event": "drag",
+      "uptime": 6040.498444833333
+    },
+    {
+      "event": "up",
+      "uptime": 6040.530857333334
+    }
+  ],
+  "finishedAt": "2026-10-28T10:36:12.667283+00:00"
+}

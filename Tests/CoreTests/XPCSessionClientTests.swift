@@ -24,6 +24,12 @@ private final class TypedSessionPeer: NSObject, NSXPCListenerDelegate, BrokerReq
     func control(_ data: Data, reply: @escaping @Sendable (Data?, String?) -> Void) { respond(data, reply: reply) }
     private func respond(_ data: Data, reply: @escaping @Sendable (Data?, String?) -> Void) {
         let name = ((try? JSONSerialization.jsonObject(with: data)) as? [String: Any])?["name"] as? String
+        if mode == "wrongAction", name?.hasPrefix("desktop_") == true {
+            let result = ActionResult(requestId: "wrong-request", effect: .applied, verification: .passed)
+            let encoded = try! JSONEncoder().encode(result)
+            let object = try! JSONSerialization.jsonObject(with: encoded)
+            reply(try! JSONSerialization.data(withJSONObject: ["result": object]), nil); return
+        }
         if mode == "duplicate" {
             reply(Data("{\"error\":\"UNAUTHORIZED\",\"error\":\"CANCELLED\"}".utf8), nil); return
         }
@@ -105,6 +111,35 @@ private final class TypedSessionPeer: NSObject, NSXPCListenerDelegate, BrokerReq
         try await Task.sleep(for: .milliseconds(5200))
         expectEqual(peer.heartbeatCount(), count)
         expectFalse(channel.isAuthenticated)
+    }
+
+    func testNativeInputOptInAndReplyIdentity() async throws {
+        let pin = try identity()
+        for enabled in [false, true] {
+            for kind in ["type", "click", "scroll", "drag"] {
+                let peer = TypedSessionPeer(mode: "wrongAction", identity: pin)
+                let listener = NSXPCListener.anonymous(); listener.delegate = peer; listener.resume()
+                let channel = AuthenticatedBrokerConnection()
+                try await channel.connect(endpoint: listener.endpoint, peer: pin)
+                let client = XPCSessionClient(connectedChannel: channel, peer: pin, allowNativeFixtureInput: enabled)
+                let session = try await client.openFixtureSession()
+                let request = ActionRequest(requestId: "expected-request", sessionId: session.id, idempotencyKey: "test-key",
+                    observationId: "test-observation", generation: session.generation, elementId: "test-element",
+                    kind: kind == "type" ? .setValue : kind == "scroll" ? .scroll : kind == "drag" ? .drag : .press,
+                    text: kind == "type" ? "synthetic" : nil, scrollPixels: kind == "scroll" ? 100 : nil)
+                do {
+                    switch kind {
+                    case "type": _ = try await client.typeText(request)
+                    case "click": _ = try await client.click(request)
+                    case "scroll": _ = try await client.scroll(request)
+                    default: _ = try await client.drag(request)
+                    }
+                    fail("Unaccepted native action returned success")
+                } catch { expectEqual(error as? HarnessError, enabled ? .protocolMismatch : .unsupportedCapability) }
+                expectEqual(channel.isAuthenticated, !enabled)
+                await client.shutdown(); peer.close(); listener.invalidate()
+            }
+        }
     }
 
 }

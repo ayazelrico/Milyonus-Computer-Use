@@ -8,6 +8,7 @@ final class FixtureDelegate: NSObject, NSApplicationDelegate {
     var saves = 0
     func applicationDidFinishLaunching(_ notification: Notification) {
         let gestures = CommandLine.arguments.contains("--gesture-fixture")
+        if gestures { _ = FixtureEventTrace.shared }
         window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 620, height: gestures ? 680 : 380),
                           styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
         window.title = "Computer Use Fixture"
