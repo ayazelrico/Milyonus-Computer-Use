@@ -15,8 +15,14 @@ import uuid
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--evidence', required=True)
 parser.add_argument('--typed', action='store_true')
+parser.add_argument('--permission-revoke', action='store_true', help='Observe user-authorized companion permission revocation and refuse a captured action')
+parser.add_argument('--fixture-action', action='store_true', help='One approved fixture AX edit and independent verification')
 parser.add_argument('--approval', action='store_true', help='Await manual native approval; launches only project fixture and companion')
 args = parser.parse_args()
+if args.permission_revoke:
+    args.fixture_action = True
+if args.fixture_action:
+    args.approval = True
 if args.approval and not args.typed:
     parser.error('--approval requires --typed')
 root = Path(__file__).resolve().parent.parent
@@ -25,7 +31,7 @@ if output.exists():
     raise SystemExit('Evidence already exists')
 record = {'suite': 'packaged-companion-xpc-lifecycle', 'status': 'failed',
           'startedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(),
-          'limitations': ('Development signing; manual native approval lifecycle, zero desktop effects.' if args.approval else 'Development signing; unapproved sessions only.') + ' No TCC revoke or production distribution acceptance.'}
+          'limitations': ('Development signing; actual companion permission revocation plus possible physical-input pause, zero desktop effects.' if args.permission_revoke else ('Development signing; one manually approved fixture AX edit.' if args.fixture_action else ('Development signing; manual native approval lifecycle, zero desktop effects.' if args.approval else 'Development signing; unapproved sessions only.'))) + ' No production distribution acceptance.'}
 
 def run(argv, timeout=30):
     return subprocess.run(argv, check=True, capture_output=True, text=True, timeout=timeout, cwd=root)
@@ -63,17 +69,17 @@ try:
         domain = 'gui/' + str(os.getuid())
         plist = folder / 'service.plist'
         plist.write_bytes(plistlib.dumps({'Label': label, 'ProgramArguments': [str(companion),
-            '--broker-development', label, pin(client)], 'MachServices': {label: True},
+            '--broker-development', label, pin(client)] + (['--fixture-actions'] if args.fixture_action else []), 'MachServices': {label: True},
             'StandardOutPath': str(folder / 'stdout'), 'StandardErrorPath': str(folder / 'stderr')}))
         run(['launchctl', 'bootstrap', domain, str(plist)])
         try:
-            record['result'] = json.loads(run([str(client), label, pin(companion)] + (['approval'] if args.approval else []), timeout=140 if args.approval else 30).stdout)
+            record['result'] = json.loads(run([str(client), label, pin(companion)] + (['revoke' if args.permission_revoke else ('fixture' if args.fixture_action else 'approval')] if args.approval else []), timeout=230 if args.permission_revoke else (140 if args.approval else 30)).stdout)
             if record['result'].get('status') != 'passed':
                 raise RuntimeError('Lifecycle did not pass')
         finally:
             run(['launchctl', 'bootout', domain + '/' + label])
             record['temporaryJobRemoved'] = True
-        record['status'] = 'passed-approved-lifecycle' if args.approval else 'passed-unapproved-lifecycle'
+        record['status'] = 'passed-permission-interruption' if args.permission_revoke else ('passed-fixture-action' if args.fixture_action else ('passed-approved-lifecycle' if args.approval else 'passed-unapproved-lifecycle'))
 except Exception as error:
     record['errorType'] = type(error).__name__
     record['error'] = str(error)[:500]
@@ -89,4 +95,4 @@ finally:
     record['finishedAt'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
     output.write_text(json.dumps(record, indent=2) + '\n')
     print(json.dumps(record))
-raise SystemExit(0 if record['status'] in ['passed-unapproved-lifecycle', 'passed-approved-lifecycle'] else 1)
+raise SystemExit(0 if record['status'] in ['passed-unapproved-lifecycle', 'passed-approved-lifecycle', 'passed-fixture-action', 'passed-permission-interruption'] else 1)

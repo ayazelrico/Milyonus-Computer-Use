@@ -1,0 +1,18 @@
+{
+  "suite": "packaged-companion-xpc-lifecycle",
+  "status": "passed-fixture-action",
+  "startedAt": "2026-10-28T10:04:26.519394+00:00",
+  "limitations": "Development signing; one manually approved fixture AX edit. No TCC revoke or production distribution acceptance.",
+  "companionSHA256": "f1f984503975bee1b54631a00a11e8a4b064fbb186a952d0861d2b08283a6a3d",
+  "result": {
+    "status": "passed",
+    "typedSDK": true,
+    "nativeApprovalGranted": true,
+    "heartbeatVerified": true,
+    "desktopActions": 1,
+    "independentPostcondition": true,
+    "cancelled": true
+  },
+  "temporaryJobRemoved": true,
+  "finishedAt": "2026-10-28T10:04:53.283769+00:00"
+}

@@ -37,3 +37,9 @@ The single-request limitation above has now been addressed by a separate bounded
 ## Typed SDK and native approval acceptance
 
 `XPCSessionClient` provides typed lifecycle operations through the existing managed SDK interfaces. The caller explicitly drives heartbeat; automatic liveness renewal is not yet implemented. Desktop methods remain unavailable in this increment. The independently launched packaged companion passed a manually approved session, real heartbeat and disconnect/reconnect requiring fresh approval on 2026-10-28; see `xpc-approved-lifecycle-2026-10-28-1.json`. This closes the approved lifecycle slice only.
+
+## Explicit fixture AX execution increment
+
+Trusted startup may additionally select `--fixture-actions`; the typed SDK requires `allowFixtureActions: true`. Only fixture AX observation and semantic press/setValue are enabled. Capabilities advertise those two actions and leave native input flags off. Existing native text/click/scroll/drag routes remain unsupported on XPC. The default lifecycle-only policy remains available.
+
+The real independently launched companion completed one approved typed-SDK fixture edit with fresh independent postcondition verification and cancellation. Its own Accessibility toggle was also measured true→false during a separate approved session, and a captured action was rejected. That run also paused for physical input, so permission-only effect admission was not isolated. These slices do not complete the full native interruption or provider matrix.

@@ -6,8 +6,8 @@ import ComputerUseIPC
 @main struct TypedSessionClient {
     @MainActor static func main() async throws {
         let args = Array(CommandLine.arguments.dropFirst())
-        guard args.count == 2 || (args.count == 3 && args[2] == "approval") else { exit(64) }
-        let client = XPCSessionClient(serviceName: args[0], peer: try .developmentCDHash(args[1]))
+        guard args.count == 2 || (args.count == 3 && ["approval", "fixture", "revoke"].contains(args[2])) else { exit(64) }
+        let client = XPCSessionClient(serviceName: args[0], peer: try .developmentCDHash(args[1]), allowFixtureActions: args.count == 3 && ["fixture", "revoke"].contains(args[2]))
         try await client.connect()
         let capabilities = try await client.capabilities()
         let session = try await client.openFixtureSession()
@@ -23,6 +23,56 @@ import ComputerUseIPC
             guard let approved else { throw HarnessError.timeout }
             let heartbeat = try await client.heartbeat(sessionID: approved.id, generation: approved.generation)
             guard heartbeat.state == .ready else { throw HarnessError.protocolMismatch }
+            if ["fixture", "revoke"].contains(args[2]) {
+                // Approval requests foreground activation asynchronously; observe may safely retry focus refusal.
+                let focusDeadline = ContinuousClock.now.advanced(by: .seconds(3))
+                var observation: Observation?
+                while ContinuousClock.now < focusDeadline {
+                    do { observation = try await client.observe(sessionID: approved.id); break }
+                    catch HarnessError.focusChanged { try await Task.sleep(for: .milliseconds(100)) }
+                }
+                guard let before = observation, !before.truncated,
+                      let target = before.elements.first(where: { $0.identifier == "fixture.input" }),
+                      target.enabled, target.actions.contains(.setValue) else { throw HarnessError.targetNotFound }
+                let value = "XPC fixture acceptance " + UUID().uuidString.prefix(8)
+                let request = ActionRequest(requestId: UUID().uuidString, sessionId: approved.id,
+                    idempotencyKey: UUID().uuidString, observationId: before.id, generation: approved.generation,
+                    elementId: target.id, kind: .setValue, text: value)
+                if args[2] == "revoke" {
+                    try FileHandle.standardError.write(contentsOf: Data("READY_FOR_PERMISSION_REVOCATION\n".utf8))
+                    let deadline = ContinuousClock.now.advanced(by: .seconds(90))
+                    var revoked = false
+                    while ContinuousClock.now < deadline {
+                        if try await client.capabilities().permissions["accessibility"] == false { revoked = true; break }
+                        try await Task.sleep(for: .milliseconds(250))
+                    }
+                    guard revoked else { throw HarnessError.timeout }
+                    let state = try await client.status()
+                    let refusal: HarnessError
+                    do { _ = try await client.act(request); throw BrokerConnectionError.requestFailed }
+                    catch let error as HarnessError { refusal = error }
+                    guard [.unauthorized, .permissionRequired, .staleObservation, .focusChanged].contains(refusal) else {
+                        throw BrokerConnectionError.protocolMismatch
+                    }
+                    try await client.cancel(sessionID: approved.id)
+                    await client.shutdown()
+                    let report: [String: Any] = ["status": "passed", "typedSDK": true,
+                        "nativeApprovalGranted": true, "permissionRevoked": true, "desktopActions": 0,
+                        "actionRefusal": refusal.rawValue, "stateAfterRevocation": state?.state.rawValue ?? "none",
+                        "pauseReason": state?.pauseReason?.rawValue ?? "none", "cancelled": true]
+                    print(String(decoding: try JSONSerialization.data(withJSONObject: report, options: [.sortedKeys]), as: UTF8.self))
+                    return
+                }
+                let result = try await client.act(request)
+                guard result.effect == .applied, result.verification == .passed else { throw HarnessError.verificationFailed }
+                let after = try await client.observe(sessionID: approved.id)
+                guard after.id != before.id, !after.truncated,
+                      after.elements.first(where: { $0.identifier == "fixture.input" })?.value == value else { throw HarnessError.verificationFailed }
+                try await client.cancel(sessionID: approved.id)
+                await client.shutdown()
+                print("{\"status\":\"passed\",\"typedSDK\":true,\"nativeApprovalGranted\":true,\"heartbeatVerified\":true,\"desktopActions\":1,\"independentPostcondition\":true,\"cancelled\":true}")
+                return
+            }
             // Close an actually approved connection. A new connection must start awaitingApproval.
             await client.shutdown()
             try await Task.sleep(for: .milliseconds(500))

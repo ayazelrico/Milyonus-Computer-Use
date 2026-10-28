@@ -1,0 +1,10 @@
+{
+  "suite": "packaged-companion-xpc-lifecycle",
+  "status": "failed",
+  "startedAt": "2026-10-28T10:03:02.278789+00:00",
+  "limitations": "Development signing; unapproved sessions only. No TCC revoke or production distribution acceptance.",
+  "errorType": "CalledProcessError",
+  "error": "Command '['python3', 'scripts/package-dev.py', '--verify-receipt']' returned non-zero exit status 1.",
+  "diagnostic": "",
+  "finishedAt": "2026-10-28T10:03:02.361922+00:00"
+}
