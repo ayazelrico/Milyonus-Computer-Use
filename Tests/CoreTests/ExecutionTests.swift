@@ -443,4 +443,47 @@ final class ExecutionTests: TestCase {
         expectEqual(result.verification, .passed)
     }
 
+    func testExternalAdmissionRevokedDuringJournalAndCompletion() async throws {
+        for asynchronous in [false, true] {
+            var connected = true
+            let (engine, _, driver, request, directory) = try setup(writeCheckpoint: { stage in
+                if stage == .beforeDirectorySync { connected = false }
+            })
+            let admission = { if !connected { throw HarnessError.unauthorized } }
+            let method: ExecutionMethod = asynchronous ? .nativeClick : .semantic
+            let result: ActionResult
+            if asynchronous {
+                result = try await engine.executeAsync(request, method: method, admission: admission) { _ in
+                    fail("Disconnected transport dispatched an effect")
+                    return ActionResult(requestId: request.requestId, effect: .applied, verification: .passed)
+                }
+            } else { result = try engine.execute(request, admission: admission) }
+            expectEqual(result.effect, .notApplied)
+            expectEqual(result.error, .unauthorized)
+            expectEqual(driver.applied, 0)
+            let ledger = try ActionLedger(url: directory.appendingPathComponent("journal.json"))
+            expectEqual(try ledger.previous(request, method: method), result)
+        }
+        var connected = true
+        let (engine, _, driver, request, directory) = try setup()
+        driver.onExecute = { connected = false }
+        let result = try engine.execute(request, admission: { if !connected { throw HarnessError.unauthorized } })
+        expectEqual(result.effect, .applied)
+        expectEqual(result.verification, .unavailable)
+        expectEqual(result.error, .unauthorized)
+        expectEqual(driver.applied, 1)
+        let ledger = try ActionLedger(url: directory.appendingPathComponent("journal.json"))
+        expectEqual(try ledger.previous(request), result)
+    }
+
+    func testExternalAdmissionPreventsObservationPublication() throws {
+        var connected = true
+        let (engine, _, driver, request, _) = try setup()
+        driver.onObserve = { connected = false }
+        expectThrows(try engine.observe(sessionID: request.sessionId, admission: {
+            if !connected { throw HarnessError.unauthorized }
+        })) { expectEqual($0 as? HarnessError, .unauthorized) }
+        expectEqual(driver.invalidated, 1)
+    }
+
 }

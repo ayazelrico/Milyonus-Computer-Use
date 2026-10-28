@@ -1,0 +1,24 @@
+[0/1] Planning build
+Building for debugging...
+[0/12] Write sources
+[3/12] Write swift-version--1AB21518FC5DEDBE.txt
+[5/12] Compiling ComputerUseCore ExecutionEngine.swift
+[6/12] Emitting module ComputerUseCore
+[7/20] Emitting module ComputerUseMacOS
+[7/20] Write Objects.LinkFileList
+[8/22] Linking milyonus-cu
+[9/22] Applying milyonus-cu
+[11/22] Compiling ComputerUseApp main.swift
+[12/22] Emitting module ComputerUseApp
+[12/23] Write Objects.LinkFileList
+[14/23] Emitting module ComputerUseSelfTest
+[15/23] Compiling ComputerUseSelfTest main.swift
+[16/23] Compiling ComputerUseSelfTest ScrollExecutionTests.swift
+[17/23] Compiling ComputerUseSelfTest ExecutionTests.swift
+[18/23] Compiling ComputerUseSelfTest DragExecutionTests.swift
+[18/23] Write Objects.LinkFileList
+[19/23] Linking MilyonusComputerUse
+[20/23] Linking computer-use-selftest
+[21/23] Applying MilyonusComputerUse
+[22/23] Applying computer-use-selftest
+Build complete! (5.33s)

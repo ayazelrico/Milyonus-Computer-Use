@@ -427,13 +427,13 @@ final class Companion: NSObject, NSApplicationDelegate {
         case "desktop_observe":
             guard let id = args["sessionId"] as? String else { throw HarnessError.invalidRequest }
             guard let engine else { throw HarnessError.persistenceFailed }
-            return try object(engine.observe(sessionID: id))
+            return try object(engine.observe(sessionID: id, admission: admission))
         case "desktop_action", "desktop_type_text", "desktop_click", "desktop_scroll", "desktop_drag":
             let request = try JSONDecoder().decode(ActionRequest.self, from: JSONSerialization.data(withJSONObject: args))
             guard let engine, lease != nil else { throw HarnessError.persistenceFailed }
             if name == "desktop_drag" {
                 guard request.kind == .drag else { throw HarnessError.invalidRequest }
-                return try await object(engine.executeAsync(request, method: .nativeDrag) { [self] session in
+                return try await object(engine.executeAsync(request, method: .nativeDrag, admission: admission) { [self] session in
                     try await desktop.executeNativeDrag(request, session: session) {
                         try admission()
                         _ = try self.sessions.requireReady(session.id, generation: session.generation)
@@ -442,7 +442,7 @@ final class Companion: NSObject, NSApplicationDelegate {
             }
             if name == "desktop_scroll" {
                 guard request.kind == .scroll else { throw HarnessError.invalidRequest }
-                return try await object(engine.executeAsync(request, method: .nativeScroll) { [self] session in
+                return try await object(engine.executeAsync(request, method: .nativeScroll, admission: admission) { [self] session in
                     try await desktop.executeNativeScroll(request, session: session) {
                         try admission()
                         _ = try self.sessions.requireReady(session.id, generation: session.generation)
@@ -452,7 +452,7 @@ final class Companion: NSObject, NSApplicationDelegate {
             guard request.kind != .scroll, request.kind != .drag else { throw HarnessError.unsupportedCapability }
             if name == "desktop_click" {
                 guard request.kind == .press, request.text == nil else { throw HarnessError.invalidRequest }
-                return try await object(engine.executeAsync(request, method: .nativeClick) { [self] session in
+                return try await object(engine.executeAsync(request, method: .nativeClick, admission: admission) { [self] session in
                     try await desktop.executeNativeClick(request, session: session) {
                         try admission()
                         _ = try self.sessions.requireReady(session.id, generation: session.generation)
@@ -461,14 +461,14 @@ final class Companion: NSObject, NSApplicationDelegate {
             }
             if name == "desktop_type_text" {
                 guard request.kind == .setValue, let text = request.text, text.utf16.count <= 1024 else { throw HarnessError.invalidRequest }
-                return try await object(engine.executeAsync(request, method: .nativeText) { [self] session in
+                return try await object(engine.executeAsync(request, method: .nativeText, admission: admission) { [self] session in
                     try await desktop.executeNativeText(request, session: session) {
                         try admission()
                         _ = try self.sessions.requireReady(session.id, generation: session.generation)
                     }
                 })
             }
-            return try object(engine.execute(request))
+            return try object(engine.execute(request, admission: admission))
         default: throw HarnessError.unsupportedCapability
         }
     }
