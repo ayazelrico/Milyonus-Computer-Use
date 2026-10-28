@@ -1,0 +1,12 @@
+{
+  "suite": "packaged-companion-xpc-lifecycle",
+  "status": "failed",
+  "startedAt": "2026-10-28T10:30:03.543882+00:00",
+  "limitations": "Development signing; fixture-only native receiver evidence. No production distribution acceptance.",
+  "companionSHA256": "808a754db8f36cf74107eff715d2fbd68f6d13a1fc70c73e1447c39d64e8abe7",
+  "temporaryJobRemoved": true,
+  "errorType": "CalledProcessError",
+  "error": "Command '['/private/var/folders/dk/nhlf8cts0wl0jrtp04gvxpww0000gn/T/milyonus-companion-xpc-mrv2txqu/client', 'com.milyonus.computeruse.lifecycle.95a08119fe4e499f944fe8c089ea7e3d', 'e7e3460d63b7bcd8c093a3cd5057f9ebb2a2adf2', 'stop', '/private/var/folders/dk/nhlf8cts0wl0jrtp04gvxpww0000gn/T/milyonus-companion-xpc-mrv2txqu/events.ndjson']' returned non-zero exit status 1.",
+  "diagnostic": "STAGE connect\nSTAGE open\nSTAGE approval-observed\nSTAGE native-text\nSTAGE native-click\nSTAGE scroll-drag-baseline\nSTAGE capture-interruption-target\nSTAGE start-interrupted-drag\nSTAGE receiver-motion-check\n{\"error\":\"VERIFICATION_FAILED\",\"status\":\"failed\"}\n",
+  "finishedAt": "2026-10-28T10:30:57.872699+00:00"
+}

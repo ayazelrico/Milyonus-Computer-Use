@@ -1,0 +1,44 @@
+[0/1] Planning build
+Building for debugging...
+[0/13] Write sources
+[3/13] Write swift-version--1AB21518FC5DEDBE.txt
+[5/20] Compiling ComputerUseFixture FixtureEventTrace.swift
+[6/20] Emitting module ComputerUseFixture
+[7/20] Compiling ComputerUseFixture GestureFixture.swift
+[7/20] Write Objects.LinkFileList
+[9/20] Compiling ComputerUseClient XPCSessionClient.swift
+[10/20] Emitting module ComputerUseClient
+[11/25] Emitting module ComputerUseAcceptance
+[12/25] Compiling ComputerUseAcceptance GestureAcceptance.swift
+[13/25] Emitting module ComputerUseAgent
+[14/25] Compiling ComputerUseAgent AgentRunner.swift
+[15/31] Compiling ComputerUseIntegration ComputerUseSessionCoordinator.swift
+[16/31] Emitting module ComputerUseIntegration
+[17/31] Emitting module ComputerUseApp
+[18/31] Compiling ComputerUseApp main.swift
+[18/31] Linking ComputerUseFixture
+[19/32] Write Objects.LinkFileList
+[20/32] Applying ComputerUseFixture
+[22/42] Emitting module ComputerUseCLI
+[23/42] Compiling ComputerUseCLI main.swift
+[24/42] Compiling ComputerUseCLI GestureAcceptanceCommand.swift
+[24/42] Write Objects.LinkFileList
+[26/42] Compiling ComputerUseSelfTest AgentTests.swift
+[27/42] Compiling ComputerUseSelfTest CapabilitiesTests.swift
+[27/43] Linking MilyonusComputerUse
+[28/43] Linking milyonus-cu
+[29/43] Applying MilyonusComputerUse
+[30/43] Applying milyonus-cu
+[32/43] Compiling ComputerUseSelfTest XPCSessionClientTests.swift
+[33/43] Compiling ComputerUseSelfTest RPCReplyTests.swift
+[34/43] Emitting module ComputerUseSelfTest
+[35/43] Compiling ComputerUseSelfTest ToolReplyTests.swift
+[36/43] Compiling ComputerUseSelfTest StrictJSONTests.swift
+[37/43] Compiling ComputerUseSelfTest NegotiatedClientTests.swift
+[38/43] Compiling ComputerUseSelfTest GestureAcceptanceTests.swift
+[39/43] Compiling ComputerUseSelfTest IntegrationTests.swift
+[40/43] Compiling ComputerUseSelfTest StdioFailureTests.swift
+[40/43] Write Objects.LinkFileList
+[41/43] Linking computer-use-selftest
+[42/43] Applying computer-use-selftest
+Build complete! (5.50s)

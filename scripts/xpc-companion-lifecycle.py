@@ -10,15 +10,20 @@ import plistlib
 import re
 import subprocess
 import tempfile
+import time
 import uuid
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--evidence', required=True)
 parser.add_argument('--typed', action='store_true')
+parser.add_argument('--native-interruption', choices=['baseline', 'stop', 'disconnect'])
 parser.add_argument('--permission-revoke', action='store_true', help='Observe user-authorized companion permission revocation and refuse a captured action')
 parser.add_argument('--fixture-action', action='store_true', help='One approved fixture AX edit and independent verification')
 parser.add_argument('--approval', action='store_true', help='Await manual native approval; launches only project fixture and companion')
 args = parser.parse_args()
+if args.native_interruption:
+    args.typed = True
+    args.fixture_action = True
 if args.permission_revoke:
     args.fixture_action = True
 if args.fixture_action:
@@ -29,9 +34,18 @@ root = Path(__file__).resolve().parent.parent
 output = Path(args.evidence)
 if output.exists():
     raise SystemExit('Evidence already exists')
+scope = 'Development signing; unapproved sessions only.'
+if args.native_interruption:
+    scope = 'Development signing; fixture-only native receiver evidence.'
+elif args.permission_revoke:
+    scope = 'Development signing; actual companion permission revocation plus possible physical-input pause, zero desktop effects.'
+elif args.fixture_action:
+    scope = 'Development signing; one manually approved fixture AX edit.'
+elif args.approval:
+    scope = 'Development signing; manual native approval lifecycle, zero desktop effects.'
 record = {'suite': 'packaged-companion-xpc-lifecycle', 'status': 'failed',
           'startedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(),
-          'limitations': ('Development signing; actual companion permission revocation plus possible physical-input pause, zero desktop effects.' if args.permission_revoke else ('Development signing; one manually approved fixture AX edit.' if args.fixture_action else ('Development signing; manual native approval lifecycle, zero desktop effects.' if args.approval else 'Development signing; unapproved sessions only.'))) + ' No production distribution acceptance.'}
+          'limitations': scope + ' No production distribution acceptance.'}
 
 def run(argv, timeout=30):
     return subprocess.run(argv, check=True, capture_output=True, text=True, timeout=timeout, cwd=root)
@@ -48,19 +62,33 @@ try:
     build = root / '.build/debug'
     companion = root / 'build/MilyonusComputerUse.app/Contents/MacOS/MilyonusComputerUse'
     record['companionSHA256'] = hashlib.sha256(companion.read_bytes()).hexdigest()
+    record['fixtureSHA256'] = hashlib.sha256((root / 'build/ComputerUseFixture.app/Contents/MacOS/ComputerUseFixture').read_bytes()).hexdigest()
     fixture = None
     if args.approval:
         if subprocess.run(['pgrep', '-x', 'ComputerUseFixture'], capture_output=True).returncode == 0:
             raise RuntimeError('Existing fixture detected; no launch attempted')
-        fixture = subprocess.Popen([str(root / 'build/ComputerUseFixture.app/Contents/MacOS/ComputerUseFixture')],
-                                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if not args.native_interruption:
+            fixture = subprocess.Popen([str(root / 'build/ComputerUseFixture.app/Contents/MacOS/ComputerUseFixture')],
+                                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     with tempfile.TemporaryDirectory(prefix='milyonus-companion-xpc-') as folder:
         folder = Path(folder)
+        folder = folder.resolve()
+        trace = folder / 'events.ndjson'
+        if args.native_interruption:
+            fixture = subprocess.Popen([str(root / 'build/ComputerUseFixture.app/Contents/MacOS/ComputerUseFixture'),
+                '--gesture-fixture', '--event-trace', str(trace)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            trace_deadline = time.monotonic() + 3
+            while not trace.exists() and fixture.poll() is None and time.monotonic() < trace_deadline:
+                time.sleep(0.02)
+            if not trace.exists():
+                raise RuntimeError('Fixture receiver trace unavailable; no approval requested')
         client = folder / 'client'
         objects = sorted((build / 'ComputerUseIPC.build').glob('*.swift.o'))
         if args.typed:
             objects += sorted((build / 'ComputerUseClient.build').glob('*.swift.o')) + sorted((build / 'ComputerUseContracts.build').glob('*.swift.o'))
-        source = 'TypedSessionClient.swift' if args.typed else 'CompanionSessionClient.swift'
+        source = 'NativeInterruptionClient.swift' if args.native_interruption else ('TypedSessionClient.swift' if args.typed else 'CompanionSessionClient.swift')
+        if args.native_interruption:
+            objects += sorted((build / 'ComputerUseAcceptance.build').glob('*.swift.o')) + sorted((build / 'ComputerUseCore.build').glob('*.swift.o'))
         run(['swiftc', '-swift-version', '6', '-parse-as-library', '-I', str(build / 'Modules'),
              str(root / 'Experiments/XPCPeerProbe' / source),
              *map(str, objects), '-o', str(client)])
@@ -69,17 +97,23 @@ try:
         domain = 'gui/' + str(os.getuid())
         plist = folder / 'service.plist'
         plist.write_bytes(plistlib.dumps({'Label': label, 'ProgramArguments': [str(companion),
-            '--broker-development', label, pin(client)] + (['--fixture-actions'] if args.fixture_action else []), 'MachServices': {label: True},
+            '--broker-development', label, pin(client)] + (['--fixture-actions'] if args.fixture_action else []) + (['--native-fixture-input'] if args.native_interruption else []), 'MachServices': {label: True},
             'StandardOutPath': str(folder / 'stdout'), 'StandardErrorPath': str(folder / 'stderr')}))
         run(['launchctl', 'bootstrap', domain, str(plist)])
         try:
-            record['result'] = json.loads(run([str(client), label, pin(companion)] + (['revoke' if args.permission_revoke else ('fixture' if args.fixture_action else 'approval')] if args.approval else []), timeout=230 if args.permission_revoke else (140 if args.approval else 30)).stdout)
+            mode_args = [args.native_interruption, str(trace)] if args.native_interruption else (['revoke' if args.permission_revoke else ('fixture' if args.fixture_action else 'approval')] if args.approval else [])
+            record['result'] = json.loads(run([str(client), label, pin(companion)] + mode_args, timeout=230 if args.permission_revoke else (140 if args.approval else 30)).stdout)
             if record['result'].get('status') != 'passed':
                 raise RuntimeError('Lifecycle did not pass')
         finally:
             run(['launchctl', 'bootout', domain + '/' + label])
             record['temporaryJobRemoved'] = True
-        record['status'] = 'passed-permission-interruption' if args.permission_revoke else ('passed-fixture-action' if args.fixture_action else ('passed-approved-lifecycle' if args.approval else 'passed-unapproved-lifecycle'))
+            if args.native_interruption and trace.exists():
+                raw = trace.read_bytes()
+                if len(raw) > 16384:
+                    raise RuntimeError('Receiver trace exceeded bound')
+                record['receiverEvents'] = [json.loads(line) for line in raw.splitlines()]
+        record['status'] = ('passed-native-input' if args.native_interruption == 'baseline' else 'passed-native-interruption') if args.native_interruption else 'passed-permission-interruption' if args.permission_revoke else ('passed-fixture-action' if args.fixture_action else ('passed-approved-lifecycle' if args.approval else 'passed-unapproved-lifecycle'))
 except Exception as error:
     record['errorType'] = type(error).__name__
     record['error'] = str(error)[:500]
@@ -95,4 +129,4 @@ finally:
     record['finishedAt'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
     output.write_text(json.dumps(record, indent=2) + '\n')
     print(json.dumps(record))
-raise SystemExit(0 if record['status'] in ['passed-unapproved-lifecycle', 'passed-approved-lifecycle', 'passed-fixture-action', 'passed-permission-interruption'] else 1)
+raise SystemExit(0 if record['status'] in ['passed-unapproved-lifecycle', 'passed-approved-lifecycle', 'passed-fixture-action', 'passed-permission-interruption', 'passed-native-interruption', 'passed-native-input'] else 1)

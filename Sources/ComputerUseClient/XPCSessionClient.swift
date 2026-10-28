@@ -3,29 +3,32 @@ import ComputerUseContracts
 import ComputerUseIPC
 
 /// Opt-in lifecycle adapter for an independently registered companion.
-/// Fixture AX actions require an explicit trusted host opt-in; native input routes are unavailable.
+/// Fixture AX actions and native input each require explicit trusted host opt-ins.
 @MainActor
-public final class XPCSessionClient: ManagedHarnessClient, CapabilityHarnessClient, HeartbeatHarnessClient {
+public final class XPCSessionClient: ManagedHarnessClient, CapabilityHarnessClient, HeartbeatHarnessClient, NativeTextHarnessClient, NativePointerHarnessClient, NativeScrollHarnessClient, NativeDragHarnessClient {
     private let channel: AuthenticatedBrokerConnection
     private let serviceName: String
     private let peer: BrokerPeerIdentity
     private let allowFixtureActions: Bool
+    private let allowNativeFixtureInput: Bool
     private var lifecycle = UUID()
     private var ownedSessionID: String?
     private var opening = false
     private var latestSession: Session?
     private var heartbeatTask: Task<Void, Never>?
 
-    public init(serviceName: String, peer: BrokerPeerIdentity, allowFixtureActions: Bool = false) {
+    public init(serviceName: String, peer: BrokerPeerIdentity, allowFixtureActions: Bool = false, allowNativeFixtureInput: Bool = false) {
         self.serviceName = serviceName
         self.peer = peer
         self.channel = AuthenticatedBrokerConnection()
         self.allowFixtureActions = allowFixtureActions
+        self.allowNativeFixtureInput = allowFixtureActions && allowNativeFixtureInput
     }
-    package init(connectedChannel: AuthenticatedBrokerConnection, peer: BrokerPeerIdentity) {
+    package init(connectedChannel: AuthenticatedBrokerConnection, peer: BrokerPeerIdentity, allowNativeFixtureInput: Bool = false) {
         self.channel = connectedChannel
         self.serviceName = "com.milyonus.test"
-        self.allowFixtureActions = false
+        self.allowFixtureActions = allowNativeFixtureInput
+        self.allowNativeFixtureInput = allowNativeFixtureInput
         self.peer = peer
     }
     public func connect() async throws { try await channel.connect(serviceName: serviceName, peer: peer) }
@@ -96,8 +99,9 @@ public final class XPCSessionClient: ManagedHarnessClient, CapabilityHarnessClie
     public func capabilities() async throws -> HarnessCapabilities {
         let result: HarnessCapabilities = try await call("system_capabilities")
         guard (try? result.validate()) != nil, Set(result.supportedActions) == (allowFixtureActions ? [.press, .setValue] : []),
-              !result.nativeTextInput, !result.nativeElementClick,
-              !result.experimentalNativeFixtureScroll, !result.experimentalNativeFixtureDrag else { try reject() }
+              result.nativeTextInput == allowNativeFixtureInput, result.nativeElementClick == allowNativeFixtureInput,
+              result.experimentalNativeFixtureScroll == allowNativeFixtureInput,
+              result.experimentalNativeFixtureDrag == allowNativeFixtureInput else { try reject() }
         return result
     }
 
@@ -170,8 +174,37 @@ public final class XPCSessionClient: ManagedHarnessClient, CapabilityHarnessClie
         guard ownedSessionID == request.sessionId else { throw HarnessError.unauthorized }
         try request.validate()
         guard request.kind == .press || request.kind == .setValue else { throw HarnessError.unsupportedCapability }
-        let result: ActionResult = try await call("desktop_action", arguments: JSONEncoder().encode(request))
+        return try await actionCall("desktop_action", request: request)
+    }
+    private func actionCall(_ name: String, request: ActionRequest) async throws -> ActionResult {
+        guard ownedSessionID == request.sessionId else { throw HarnessError.unauthorized }
+        let result: ActionResult = try await call(name, arguments: JSONEncoder().encode(request))
         guard (try? result.validate()) != nil, result.requestId == request.requestId else { try reject() }
         return result
     }
+    public func typeText(_ request: ActionRequest) async throws -> ActionResult {
+        guard allowNativeFixtureInput else { throw HarnessError.unsupportedCapability }
+        try request.validate()
+        guard request.kind == .setValue, let text = request.text, text.utf16.count <= 1024 else { throw HarnessError.invalidRequest }
+        return try await actionCall("desktop_type_text", request: request)
+    }
+    public func click(_ request: ActionRequest) async throws -> ActionResult {
+        guard allowNativeFixtureInput else { throw HarnessError.unsupportedCapability }
+        try request.validate()
+        guard request.kind == .press, request.text == nil else { throw HarnessError.invalidRequest }
+        return try await actionCall("desktop_click", request: request)
+    }
+    public func scroll(_ request: ActionRequest) async throws -> ActionResult {
+        guard allowNativeFixtureInput else { throw HarnessError.unsupportedCapability }
+        try request.validate()
+        guard request.kind == .scroll else { throw HarnessError.invalidRequest }
+        return try await actionCall("desktop_scroll", request: request)
+    }
+    public func drag(_ request: ActionRequest) async throws -> ActionResult {
+        guard allowNativeFixtureInput else { throw HarnessError.unsupportedCapability }
+        try request.validate()
+        guard request.kind == .drag else { throw HarnessError.invalidRequest }
+        return try await actionCall("desktop_drag", request: request)
+    }
+
 }

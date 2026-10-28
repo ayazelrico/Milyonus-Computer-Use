@@ -1,0 +1,106 @@
+{
+  "suite": "packaged-companion-xpc-lifecycle",
+  "status": "passed-native-input",
+  "startedAt": "2026-10-28T10:38:08.121608+00:00",
+  "limitations": "Development signing; fixture-only native receiver evidence. No production distribution acceptance.",
+  "companionSHA256": "808a754db8f36cf74107eff715d2fbd68f6d13a1fc70c73e1447c39d64e8abe7",
+  "result": {
+    "status": "passed",
+    "mode": "baseline",
+    "baselineActions": 4,
+    "independentVerification": true,
+    "nativeApprovalGranted": true
+  },
+  "temporaryJobRemoved": true,
+  "receiverEvents": [
+    {
+      "event": "down",
+      "uptime": 6161.700855083333
+    },
+    {
+      "event": "drag",
+      "uptime": 6161.701114291667
+    },
+    {
+      "event": "drag",
+      "uptime": 6161.740044833334
+    },
+    {
+      "event": "drag",
+      "uptime": 6161.810881750001
+    },
+    {
+      "event": "drag",
+      "uptime": 6161.83824025
+    },
+    {
+      "event": "drag",
+      "uptime": 6161.89465225
+    },
+    {
+      "event": "drag",
+      "uptime": 6161.9750045
+    },
+    {
+      "event": "drag",
+      "uptime": 6162.013442208334
+    },
+    {
+      "event": "drag",
+      "uptime": 6162.0933833750005
+    },
+    {
+      "event": "drag",
+      "uptime": 6162.161881625
+    },
+    {
+      "event": "drag",
+      "uptime": 6162.234386375
+    },
+    {
+      "event": "drag",
+      "uptime": 6162.30086975
+    },
+    {
+      "event": "drag",
+      "uptime": 6162.367449458334
+    },
+    {
+      "event": "drag",
+      "uptime": 6162.434095625001
+    },
+    {
+      "event": "drag",
+      "uptime": 6162.467387625001
+    },
+    {
+      "event": "drag",
+      "uptime": 6162.540515541667
+    },
+    {
+      "event": "drag",
+      "uptime": 6162.60700125
+    },
+    {
+      "event": "drag",
+      "uptime": 6162.667207583334
+    },
+    {
+      "event": "drag",
+      "uptime": 6162.709235916667
+    },
+    {
+      "event": "drag",
+      "uptime": 6162.784002291667
+    },
+    {
+      "event": "drag",
+      "uptime": 6162.824048666667
+    },
+    {
+      "event": "up",
+      "uptime": 6162.894475041667
+    }
+  ],
+  "finishedAt": "2026-10-28T10:38:15.086768+00:00"
+}

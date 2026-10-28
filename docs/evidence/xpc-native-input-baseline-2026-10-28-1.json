@@ -1,0 +1,13 @@
+{
+  "suite": "packaged-companion-xpc-lifecycle",
+  "status": "failed",
+  "startedAt": "2026-10-28T10:36:55.723291+00:00",
+  "limitations": "Development signing; fixture-only native receiver evidence. No production distribution acceptance.",
+  "companionSHA256": "808a754db8f36cf74107eff715d2fbd68f6d13a1fc70c73e1447c39d64e8abe7",
+  "temporaryJobRemoved": true,
+  "receiverEvents": [],
+  "errorType": "CalledProcessError",
+  "error": "Command '['/private/var/folders/dk/nhlf8cts0wl0jrtp04gvxpww0000gn/T/milyonus-companion-xpc-0jjhkc65/client', 'com.milyonus.computeruse.lifecycle.6b32d5b193424b9eb5f10bfb19963ea0', 'e7e3460d63b7bcd8c093a3cd5057f9ebb2a2adf2', 'baseline', '/private/var/folders/dk/nhlf8cts0wl0jrtp04gvxpww0000gn/T/milyonus-companion-xpc-0jjhkc65/events.ndjson']' returned non-zero exit status 1.",
+  "diagnostic": "STAGE connect\nSTAGE open\nSTAGE approval-observed\n{\"pauseReason\":\"none\",\"sessionState\":\"ready\",\"error\":\"TARGET_AMBIGUOUS\",\"status\":\"failed\"}\n",
+  "finishedAt": "2026-10-28T10:37:07.728388+00:00"
+}
