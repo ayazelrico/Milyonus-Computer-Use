@@ -1,5 +1,5 @@
 {
-  "recordedAt": "2026-10-28T10:15:42.981195+00:00",
+  "recordedAt": "2026-10-28T10:20:16.089260+00:00",
   "algorithm": "SHA-256",
   "files": {
     "Experiments/XPCPeerProbe/CompanionSessionClient.swift": "ada6866d32f7fcc8ac3bde5c2500790cc082483d3e903875994886425db94778",
@@ -10,7 +10,8 @@
     "Experiments/XPCPeerProbe/SDKSessionListener.swift": "d8a42a98789003ba23f756fe5b6f60152b16158d90d67a550b49c130dafafdaa",
     "Experiments/XPCPeerProbe/TypedSessionClient.swift": "2b1dba0341d7b8effd1bff4ef48e48b77827000a39cdca455981a7774f00e5a7",
     "Experiments/XPCPeerProbe/main.swift": "fb91c32903d2572b70c636a29073c9d6edfbbb30f1988fbae661f93240d721cd",
-    "Integrations/AgentUltra/README.md": "10301bc870c0e60f2c6f2c6e0d922124af2dcddbfa6818ebec5795db0cd1bbce",
+    "Integrations/AgentUltra/README.md": "b7fe2e7f7101fc586f4e60ce40ecb33759436b0fddf6036ea2df89931cab4252",
+    "Integrations/AgentUltra/XPCFactoryExample.swift": "4985beac1c4cc49d4008667cae655ac9f873947a8c5b8a08a31879a50d352f96",
     "Package.swift": "1f37c92137964f094ae9807daaad07b6f4c5efd28770c63c2c35d639ae059584",
     "Schemas/README.md": "26af4b0528628090acd33c36bb939882018553f971f7fb45290ee9697a05e7b8",
     "Schemas/v1/action.schema.json": "372ae20d7d48a38d3ff7645b6e1f794b3942ccf6c130af7ff61d2d5119b066e1",
@@ -61,7 +62,7 @@
     "Sources/ComputerUseIPC/BrokerHandshakeListener.swift": "2839caa0babf2ecc60cae837d2931725308588bc57e9c338b05356ac359abc93",
     "Sources/ComputerUseIPC/BrokerRequestChannel.swift": "e69d4da9796fc63c803003f54d3e61e6a3c8f2f521b1965caaa4c17b5768d325",
     "Sources/ComputerUseIPC/PeerIdentity.swift": "9e600b7febf934d736c47ea082cb7a79cde56f77cbed3c717ebb4f636a4c9c42",
-    "Sources/ComputerUseIntegration/ComputerUseSessionCoordinator.swift": "9c0a66a039677e641d617b0080ae4a348ddd40b9152324a2c4939b52f22ba4c7",
+    "Sources/ComputerUseIntegration/ComputerUseSessionCoordinator.swift": "12c3a2b20ac589053d763a2db9ca08905f1ddea961b5edd3e436b27799a8fd1f",
     "Sources/ComputerUseMacOS/AccessibilityDesktop.swift": "d0046fdfe9557df559926675d108e68e61a6185451ed5f7c95a8f7d00733b0bc",
     "Sources/ComputerUseMacOS/NativeInputEmitter.swift": "6601eecd5a86d62c60edfd65ac5437596308f2b1cbe990eca2524347f8105c95",
     "Sources/ComputerUseMacOS/Permissions.swift": "98cc80b40ccbf9da0f64b71ec36b493d9ea76bb54108f2e365bc5b875c8f98df",

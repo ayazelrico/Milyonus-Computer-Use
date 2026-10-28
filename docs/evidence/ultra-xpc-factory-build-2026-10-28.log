@@ -1,0 +1,18 @@
+[0/1] Planning build
+Building for debugging...
+[0/5] Write sources
+[2/5] Write swift-version--1AB21518FC5DEDBE.txt
+[4/6] Emitting module ComputerUseContracts
+[5/8] Compiling ComputerUseClient XPCSessionClient.swift
+[6/8] Emitting module ComputerUseClient
+[7/10] Emitting module ComputerUseAgent
+[8/12] Compiling ComputerUseIntegration ComputerUseSessionCoordinator.swift
+[9/12] Emitting module ComputerUseIntegration
+[10/16] Emitting module MilyonusAgentUltra
+[11/16] Compiling MilyonusAgentUltra DesktopSelfTest+ComputerUse.swift
+[12/16] Compiling MilyonusAgentUltra AppDelegate.swift
+[13/16] Compiling MilyonusAgentUltra ComputerUsePreviewController.swift
+[13/16] Write Objects.LinkFileList
+[14/16] Linking MilyonusAgentUltra
+[15/16] Applying MilyonusAgentUltra
+Build complete! (7.07s)

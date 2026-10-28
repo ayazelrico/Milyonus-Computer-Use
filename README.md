@@ -144,4 +144,4 @@ The explicit `gesture-fixture-selftest` CLI can record a future approved two-act
 
 Typed feature and permission snapshots are available through `CapabilityHarnessClient.capabilities()`. See [Capability discovery](docs/capability-discovery.md) for compatibility checks and the distinction between discovery and native authorization.
 
-Authenticated broker connection foundation and independent-process evidence: [docs/authenticated-ipc.md](docs/authenticated-ipc.md). This separate library is not yet the native execution transport.
+Authenticated XPC implementation and evidence: [docs/authenticated-ipc.md](docs/authenticated-ipc.md), [connection-owned sessions](docs/connection-session-ownership.md), and [independent control lane](docs/xpc-control-lane.md). The opt-in typed SDK and independently started companion have passed one approved fixture AX edit; the full native, integration and distribution gates remain open.

@@ -86,3 +86,11 @@ The direct-child stdio client belongs in a trusted native host. It must not be m
 A live controller-operated check verified pending-session display, Stop, companion exit and closing the pending-session window with preview process exit code 0. The existing Ultra app remained running. This is limited lifecycle evidence, not approved action or normal-host selection-monitor acceptance. See `ultra-preview-lifecycle.json` for the exact tested binary.
 
 Subsequent review fixed release of a suspension accidentally enabling a monitor that had never started. `start()` is idempotent and tracking installation now requires that lifecycle to have started. Diagnostic output records state changes rather than every poll revision.
+
+## Optional authenticated XPC factory
+
+The harness now includes an opt-in `XPCSessionClient` using an independently registered companion service. `XPCFactoryExample.swift` shows the native host injection point; it is compiler-checked against the actual package modules. The coordinator's factory is explicitly main-actor isolated, allowing Foundation XPC connection ownership without unsafe isolation assumptions. Existing stdio factories remain supported.
+
+The example defaults to enabled=false. A trusted host must supply the service name and peer signing policy; WebView messages, model proposals and sandboxed tools must not choose them. For the current development fixture route, the companion must be independently started with `--broker-development <service> <client-cdhash> --fixture-actions`. The typed client also explicitly opts into fixture actions. Native session approval remains in the companion, and automatic heartbeats use the independent control lane after ready is observed.
+
+This example does not install a service, change Ultra launch preferences or replace its current preview transport. The actual normal-host selection/clipboard and mid-action lifecycle acceptance remains open. Ad-hoc rebuilds currently require renewed permission registration on this host; production needs stable signing and distribution acceptance.
