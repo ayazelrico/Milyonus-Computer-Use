@@ -1,8 +1,9 @@
 [0/1] Planning build
 Building for production...
-[0/6] Write sources
-[1/6] Write swift-version--1AB21518FC5DEDBE.txt
-[3/4] Compiling ComputerUseApp main.swift
-[3/5] Write Objects.LinkFileList
-[4/5] Linking MilyonusComputerUse
-Build complete! (4.98s)
+[0/3] Write sources
+[2/8] Write swift-version--1AB21518FC5DEDBE.txt
+[4/6] Compiling ComputerUseIPC AuthenticatedBrokerConnection.swift
+[5/7] Compiling ComputerUseSelfTest ActionResultTests.swift
+[5/7] Write Objects.LinkFileList
+[6/7] Linking computer-use-selftest
+Build complete! (17.37s)

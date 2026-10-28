@@ -231,4 +231,8 @@ PASS: PlannerResponseValidationTests.testAnthropicDuplicateMembersRejectedInEnve
 PASS: PlannerResponseValidationTests.testDeepIgnoredMetadataCannotBypassBounds
 STDIO_TIMEOUT mode=pending stage=request-received request=2 queued=0 writtenBytes=325 receivedFrames=1 readerFinished=false childRunning=true
 PASS: StdioFailureTests.testTimeoutDiagnosticsPreserveDeadlineAndTerminalCleanup
-RESULT: 227 cases, 2448 assertions, 0 failures
+PASS: BrokerConnectionTests.testIdentityRejectsInjectedOrAmbiguousPolicy
+PASS: BrokerConnectionTests.testRealXPCHandshakeAndClose
+PASS: BrokerConnectionTests.testInvalidReplySignatureAndTimeoutFailClosed
+PASS: BrokerConnectionTests.testCancellationDoesNotAuthenticate
+RESULT: 231 cases, 2476 assertions, 0 failures

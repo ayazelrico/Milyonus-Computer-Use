@@ -1,0 +1,28 @@
+{
+  "suite": "sdk-named-xpc",
+  "status": "failed",
+  "cases": [
+    {
+      "authenticated": true,
+      "closed": true,
+      "outcome": "authenticated",
+      "name": "matching",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    }
+  ],
+  "startedAt": "2026-10-28T09:07:24.896857+00:00",
+  "limitations": "Read-only handshake; exact development CDHash pins. No desktop actions, native grants, TCC or Developer ID acceptance.",
+  "libraryObjects": {
+    "AuthenticatedBrokerConnection.swift.o": "f2afc213988a46c759ccad7d3aac02cff0b58296b012918ae3bf1d1e484aad51",
+    "PeerIdentity.swift.o": "b3a872d0b01824543b381ce19b9c6e4437380e9a2cef22dbffbe668ed74bc1d6"
+  },
+  "binarySHA256": {
+    "SDKPeer": "86b63d90a8e64ce3f27e1ad99bbc9917f68bb5f9054be35e77807c02d67e84de",
+    "SDKClient": "51a7d7fc1f6adf65002931aa15e2a549935f5ae2ea833717e6419f93eeefe583"
+  },
+  "errorType": "CalledProcessError",
+  "error": "Command '['/var/folders/dk/nhlf8cts0wl0jrtp04gvxpww0000gn/T/milyonus-sdk-xpc-2oor7g5c/SDKClient', 'com.milyonus.computeruse.sdkprobe.7ce3c2d4d9f34131b0ccddf688e6d11e', '9d2bf78eb03ae0f0d0589b0ec7e64780aec99d40']' died with <Signals.SIGTRAP: 5>.",
+  "diagnostic": "",
+  "finishedAt": "2026-10-28T09:07:31.775487+00:00"
+}

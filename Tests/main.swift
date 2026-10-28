@@ -252,5 +252,9 @@ await runAsyncCase("PlannerResponseValidationTests.testOpenAIDuplicateMembersRej
 await runAsyncCase("PlannerResponseValidationTests.testAnthropicDuplicateMembersRejectedInEnvelopeAndInput") { let test = PlannerResponseValidationTests(); defer { test.tearDown() }; try await test.testAnthropicDuplicateMembersRejectedInEnvelopeAndInput() }
 await runAsyncCase("PlannerResponseValidationTests.testDeepIgnoredMetadataCannotBypassBounds") { let test = PlannerResponseValidationTests(); defer { test.tearDown() }; try await test.testDeepIgnoredMetadataCannotBypassBounds() }
 await runAsyncCase("StdioFailureTests.testTimeoutDiagnosticsPreserveDeadlineAndTerminalCleanup") { let test = StdioFailureTests(); defer { test.tearDown() }; try await test.testTimeoutDiagnosticsPreserveDeadlineAndTerminalCleanup() }
+runCase("BrokerConnectionTests.testIdentityRejectsInjectedOrAmbiguousPolicy") { try BrokerConnectionTests().testIdentityRejectsInjectedOrAmbiguousPolicy() }
+await runAsyncCase("BrokerConnectionTests.testRealXPCHandshakeAndClose") { try await BrokerConnectionTests().testRealXPCHandshakeAndClose() }
+await runAsyncCase("BrokerConnectionTests.testInvalidReplySignatureAndTimeoutFailClosed") { try await BrokerConnectionTests().testInvalidReplySignatureAndTimeoutFailClosed() }
+await runAsyncCase("BrokerConnectionTests.testCancellationDoesNotAuthenticate") { try await BrokerConnectionTests().testCancellationDoesNotAuthenticate() }
 print("RESULT: \(testCount) cases, \(assertionCount) assertions, \(failureCount) failures")
 exit(failureCount == 0 ? 0 : 1)

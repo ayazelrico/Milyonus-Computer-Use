@@ -1,4 +1,4 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 6.2
 import PackageDescription
 
 let package = Package(
@@ -6,6 +6,7 @@ let package = Package(
     platforms: [.macOS(.v14)],
     products: [
         .library(name: "ComputerUseContracts", targets: ["ComputerUseContracts"]),
+        .library(name: "ComputerUseIPC", targets: ["ComputerUseIPC"]),
         .library(name: "ComputerUseClient", targets: ["ComputerUseClient"]),
         .library(name: "ComputerUseAgent", targets: ["ComputerUseAgent"]),
         .library(name: "ComputerUseIntegration", targets: ["ComputerUseIntegration"]),
@@ -16,6 +17,7 @@ let package = Package(
     ],
     targets: [
         .target(name: "ComputerUseContracts"),
+        .target(name: "ComputerUseIPC"),
         .target(name: "ComputerUseCore", dependencies: ["ComputerUseContracts"]),
         .target(name: "ComputerUseMacOS", dependencies: ["ComputerUseContracts", "ComputerUseCore"]),
         .target(name: "ComputerUseAcceptance", dependencies: ["ComputerUseContracts", "ComputerUseCore", "ComputerUseClient"]),
@@ -25,6 +27,6 @@ let package = Package(
         .executableTarget(name: "ComputerUseCLI", dependencies: ["ComputerUseAcceptance", "ComputerUseMacOS", "ComputerUseClient", "ComputerUseAgent"]),
         .executableTarget(name: "ComputerUseApp", dependencies: ["ComputerUseMacOS", "ComputerUseCore"]),
         .executableTarget(name: "ComputerUseFixture"),
-        .executableTarget(name: "ComputerUseSelfTest", dependencies: ["ComputerUseAcceptance", "ComputerUseContracts", "ComputerUseCore", "ComputerUseAgent", "ComputerUseClient", "ComputerUseIntegration"], path: "Tests")
+        .executableTarget(name: "ComputerUseSelfTest", dependencies: ["ComputerUseAcceptance", "ComputerUseContracts", "ComputerUseCore", "ComputerUseAgent", "ComputerUseClient", "ComputerUseIntegration", "ComputerUseIPC"], path: "Tests")
     ]
 )

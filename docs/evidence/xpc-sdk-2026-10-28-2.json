@@ -1,0 +1,65 @@
+{
+  "suite": "sdk-named-xpc",
+  "status": "passed-limited-sdk-probe",
+  "cases": [
+    {
+      "authenticated": true,
+      "closed": true,
+      "outcome": "authenticated",
+      "name": "matching",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "outcome": "authenticationFailed",
+      "name": "wrong-client",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 0
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "outcome": "authenticationFailed",
+      "name": "wrong-server",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "outcome": "protocolMismatch",
+      "name": "wrong-nonce",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "outcome": "protocolMismatch",
+      "name": "wrong-version",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "outcome": "timeout",
+      "name": "silent-peer",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    }
+  ],
+  "startedAt": "2026-10-28T09:08:09.028087+00:00",
+  "limitations": "Read-only handshake; exact development CDHash pins. No desktop actions, native grants, TCC or Developer ID acceptance.",
+  "libraryObjects": {
+    "AuthenticatedBrokerConnection.swift.o": "d80c0bceb0f6583ec6120a750c9cf2cc075334efb3b617fd24875977e05ae2cb",
+    "PeerIdentity.swift.o": "b3a872d0b01824543b381ce19b9c6e4437380e9a2cef22dbffbe668ed74bc1d6"
+  },
+  "binarySHA256": {
+    "SDKPeer": "cf67bf1ad010821d83ba6e8f7ada0af635c1969d3e62a6187f3c47b8622ce4da",
+    "SDKClient": "ce2c1edd240c221c0a74e214a81b9eb46321790a3bce73155bebac989f8ed15a"
+  },
+  "finishedAt": "2026-10-28T09:08:16.277503+00:00"
+}

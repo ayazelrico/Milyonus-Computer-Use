@@ -8,7 +8,7 @@ All implementation code, UI copy, runtime messages, and implementation documenta
 
 ## Build
 
-Requirements: macOS 14 or newer, Swift 6 toolchain. This checkout has been compiled and tested on macOS 26.6.2, Apple Silicon, Swift 6.3.3. macOS 14 runtime and Intel are not yet verified.
+Requirements: macOS 14 or newer, Swift 6.2 or newer toolchain. This checkout has been compiled and tested on macOS 26.6.2, Apple Silicon, Swift 6.3.3. macOS 14 runtime and Intel are not yet verified.
 
 ```sh
 swift build
@@ -143,3 +143,5 @@ The optional gesture fixture and SDK/MCP vertical scrolling and fixed drag imple
 The explicit `gesture-fixture-selftest` CLI can record a future approved two-action native run, including executable hashes and independent post-action observations. See the gesture guide for prerequisites; the basic two-action native fixture slice passed on 2026-10-27; the full interruption matrix remains open.
 
 Typed feature and permission snapshots are available through `CapabilityHarnessClient.capabilities()`. See [Capability discovery](docs/capability-discovery.md) for compatibility checks and the distinction between discovery and native authorization.
+
+Authenticated broker connection foundation and independent-process evidence: [docs/authenticated-ipc.md](docs/authenticated-ipc.md). This separate library is not yet the native execution transport.
