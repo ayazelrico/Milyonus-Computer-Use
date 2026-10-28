@@ -1,0 +1,17 @@
+{
+  "suite": "packaged-companion-xpc-lifecycle",
+  "status": "passed-approved-lifecycle",
+  "startedAt": "2026-10-28T09:59:53.067365+00:00",
+  "limitations": "Development signing; unapproved sessions only. No native actions, TCC grant/revoke or production distribution acceptance.",
+  "companionSHA256": "667baa12ad428b053c9b17a38f63ea6e04bef056cf78076fb2b31a3137cf51b3",
+  "result": {
+    "status": "passed",
+    "typedSDK": true,
+    "nativeApprovalGranted": true,
+    "heartbeatVerified": true,
+    "newSessionAfterDisconnect": true,
+    "desktopActions": 0
+  },
+  "temporaryJobRemoved": true,
+  "finishedAt": "2026-10-28T10:00:08.718089+00:00"
+}

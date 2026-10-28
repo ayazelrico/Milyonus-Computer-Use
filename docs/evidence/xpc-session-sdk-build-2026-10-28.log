@@ -1,0 +1,32 @@
+[0/1] Planning build
+Building for debugging...
+[0/12] Write sources
+[1/12] Write swift-version--1AB21518FC5DEDBE.txt
+[3/10] Emitting module ComputerUseClient
+[4/10] Compiling ComputerUseClient XPCSessionClient.swift
+[5/14] Emitting module ComputerUseAcceptance
+[6/14] Compiling ComputerUseAcceptance GestureAcceptance.swift
+[7/14] Compiling ComputerUseAgent AgentRunner.swift
+[8/14] Emitting module ComputerUseAgent
+[9/19] Compiling ComputerUseIntegration ComputerUseSessionCoordinator.swift
+[10/19] Emitting module ComputerUseIntegration
+[11/28] Compiling ComputerUseCLI GestureAcceptanceCommand.swift
+[12/28] Compiling ComputerUseCLI main.swift
+[13/28] Emitting module ComputerUseCLI
+[13/28] Write Objects.LinkFileList
+[15/28] Compiling ComputerUseSelfTest StdioFailureTests.swift
+[16/28] Compiling ComputerUseSelfTest StrictJSONTests.swift
+[17/28] Compiling ComputerUseSelfTest IntegrationTests.swift
+[18/28] Emitting module ComputerUseSelfTest
+[19/28] Compiling ComputerUseSelfTest GestureAcceptanceTests.swift
+[20/28] Compiling ComputerUseSelfTest NegotiatedClientTests.swift
+[21/28] Compiling ComputerUseSelfTest RPCReplyTests.swift
+[22/28] Compiling ComputerUseSelfTest AgentTests.swift
+[23/28] Compiling ComputerUseSelfTest CapabilitiesTests.swift
+[24/29] Compiling ComputerUseSelfTest ToolReplyTests.swift
+[24/29] Write Objects.LinkFileList
+[25/29] Linking milyonus-cu
+[26/29] Applying milyonus-cu
+[27/29] Linking computer-use-selftest
+[28/29] Applying computer-use-selftest
+Build complete! (4.20s)

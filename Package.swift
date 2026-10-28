@@ -21,7 +21,7 @@ let package = Package(
         .target(name: "ComputerUseCore", dependencies: ["ComputerUseContracts"]),
         .target(name: "ComputerUseMacOS", dependencies: ["ComputerUseContracts", "ComputerUseCore"]),
         .target(name: "ComputerUseAcceptance", dependencies: ["ComputerUseContracts", "ComputerUseCore", "ComputerUseClient"]),
-        .target(name: "ComputerUseClient", dependencies: ["ComputerUseContracts"]),
+        .target(name: "ComputerUseClient", dependencies: ["ComputerUseContracts", "ComputerUseIPC"]),
         .target(name: "ComputerUseIntegration", dependencies: ["ComputerUseContracts", "ComputerUseClient", "ComputerUseAgent"]),
         .target(name: "ComputerUseAgent", dependencies: ["ComputerUseContracts", "ComputerUseClient"]),
         .executableTarget(name: "ComputerUseCLI", dependencies: ["ComputerUseAcceptance", "ComputerUseMacOS", "ComputerUseClient", "ComputerUseAgent"]),
