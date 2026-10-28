@@ -662,3 +662,19 @@ Rebuilding the ad-hoc companion invalidated effective permission trust again. Af
 After manual approval, the XPC SDK captured a fixture request, then the project's Accessibility toggle was turned off through System Settings. The actual independent companion reported Accessibility=false and refused the captured action with UNAUTHORIZED; its session was paused/userInput. Cancellation and cleanup succeeded. Zero desktop effects were dispatched in this run. The permission was restored and its switch observed on afterward; no unrelated app's permission changed.
 
 Evidence `xpc-permission-interruption-2026-10-28-1.json` establishes that the companion's own toggle changes its effective trust in this topology. It does not isolate permission as the sole refusal reason: the same click triggered the preserved physical-input safeguard. The legacy limitations string in that record is inaccurate (it mentions an edit and no TCC revoke); explicit result fields and this clarification describe the actual run. Future runner text is corrected. Mid-event permission revocation and independent Screen Recording revocation remain open.
+
+## Persistent operator authorization — 2026-10-28
+
+The user explicitly confirmed that test authorization persists and requested Accessibility/authorization to be recorded as granted for test work. General authorization and the requested app-specific permission repair are recorded in [operator authorization](operator-authorization.md). Measured OS state and actual native session grants remain evidence, not constants. No core checks or native approval requirements were changed.
+
+Automatic XPC SDK heartbeat is implemented and under native acceptance. Debug selftests passed 239 cases / 2535 assertions / zero failures. The first 18-second native planning-delay run ended with a non-ready state and generic timeout; it is retained as failed (`xpc-native-heartbeat-2026-10-28-1.json`). Its log cannot distinguish heartbeat loss from physical-input pause, so no root cause or passing heartbeat claim is assigned. A follow-up adds state/pause-reason diagnostics without altering timing or guards.
+
+## Automatic SDK heartbeat validation — 2026-10-28
+
+The new SDK task renews only a caller-observed ready session on its exact identity/lifecycle and uses the independent control lane. It does not compete for the ordinary action slot. Pause/stale generation suppresses further renewal until refreshed state is observed. Cancel/shutdown cancels the task and fences old replies.
+
+The diagnosed second native 18-second attempt failed with state=paused, pauseReason=userInput (`xpc-native-heartbeat-2026-10-28-2.json`). It establishes physical-input interruption, not a heartbeat defect or successful delayed native completion. No input safeguard was relaxed. Expected runner failures now produce structured error output/status 1 instead of a fatal Swift top-level exception.
+
+A new real anonymous-XPC regression verified an automatic heartbeat after five seconds and no further calls after shutdown across another timer interval. Debug passed 240 cases / 2539 assertions / zero failures in `xpc-heartbeat-final-tests-2026-10-28.log`; optimized Release verification is tracked in the corresponding dedicated file. Native delayed completion remains open.
+
+Optimized Release also passed 240 cases / 2539 assertions / zero failures (`xpc-heartbeat-final-release-tests-2026-10-28.log`). The earlier SDK-only package receipt remains current for source inputs; final test/experiment/documentation changes do not change packaged source. Automatic native completion after the planning delay is still unaccepted because the observed native run paused for physical input.

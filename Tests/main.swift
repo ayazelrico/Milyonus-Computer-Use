@@ -264,5 +264,6 @@ await runAsyncCase("ExecutionTests.testExternalAdmissionRevokedDuringJournalAndC
 runCase("ExecutionTests.testExternalAdmissionPreventsObservationPublication") { let test = ExecutionTests(); defer { test.tearDown() }; try test.testExternalAdmissionPreventsObservationPublication() }
 await runAsyncCase("BrokerConnectionTests.testControlRemainsAvailableWhileRequestIsPending") { try await BrokerConnectionTests().testControlRemainsAvailableWhileRequestIsPending() }
 await runAsyncCase("XPCSessionClientTests.testTypedIdentityMismatchAndDuplicateEnvelopeCloseTransport") { try await XPCSessionClientTests().testTypedIdentityMismatchAndDuplicateEnvelopeCloseTransport() }
+await runAsyncCase("XPCSessionClientTests.testAutomaticHeartbeatUsesControlAndStopsAfterShutdown") { try await XPCSessionClientTests().testAutomaticHeartbeatUsesControlAndStopsAfterShutdown() }
 print("RESULT: \(testCount) cases, \(assertionCount) assertions, \(failureCount) failures")
 exit(failureCount == 0 ? 0 : 1)

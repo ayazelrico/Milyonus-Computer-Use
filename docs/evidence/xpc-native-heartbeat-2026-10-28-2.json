@@ -1,0 +1,12 @@
+{
+  "suite": "packaged-companion-xpc-lifecycle",
+  "status": "failed",
+  "startedAt": "2026-10-28T10:11:15.610144+00:00",
+  "limitations": "Development signing; one manually approved fixture AX edit. No production distribution acceptance.",
+  "companionSHA256": "f1f984503975bee1b54631a00a11e8a4b064fbb186a952d0861d2b08283a6a3d",
+  "temporaryJobRemoved": true,
+  "errorType": "CalledProcessError",
+  "error": "Command '['/var/folders/dk/nhlf8cts0wl0jrtp04gvxpww0000gn/T/milyonus-companion-xpc-rjpv0gd9/client', 'com.milyonus.computeruse.lifecycle.0c4ee856688840faa23f24bff9864366', 'd19adb22144901c091d96db52aa26750b40406ab', 'fixture']' died with <Signals.SIGTRAP: 5>.",
+  "diagnostic": "Awaiting manual native session approval in companion.\nAFTER_PLANNING state=paused pauseReason=userInput\nSwift/ErrorType.swift:254: Fatal error: Error raised at top level: ComputerUseContracts.HarnessError.timeout\n",
+  "finishedAt": "2026-10-28T10:11:39.140791+00:00"
+}

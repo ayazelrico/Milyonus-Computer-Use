@@ -9,6 +9,8 @@ private final class TypedSessionPeer: NSObject, NSXPCListenerDelegate, BrokerReq
     let identity: BrokerPeerIdentity
     private let lock = NSLock()
     private var channels: [NSXPCConnection] = []
+    private var heartbeatCalls = 0
+    func heartbeatCount() -> Int { lock.lock(); defer { lock.unlock() }; return heartbeatCalls }
     init(mode: String, identity: BrokerPeerIdentity) { self.mode = mode; self.identity = identity }
     func listener(_ listener: NSXPCListener, shouldAcceptNewConnection connection: NSXPCConnection) -> Bool {
         connection.setCodeSigningRequirement(identity.requirement)
@@ -26,10 +28,11 @@ private final class TypedSessionPeer: NSObject, NSXPCListenerDelegate, BrokerReq
             reply(Data("{\"error\":\"UNAUTHORIZED\",\"error\":\"CANCELLED\"}".utf8), nil); return
         }
         if mode == "domain" { reply(Data("{\"error\":\"LEASE_BUSY\"}".utf8), nil); return }
-        let state = name == "session_cancel" ? "cancelled" : "awaitingApproval"
+        if name == "session_heartbeat" { lock.lock(); heartbeatCalls += 1; lock.unlock() }
+        let state = name == "session_cancel" ? "cancelled" : (mode == "heartbeat" && name != "session_open" ? "ready" : "awaitingApproval")
         let id = mode == "wrongID" && name == "session_status" ? "other-session" : "fixture-session"
         let session = Session(id: id, bundleId: HarnessProtocol.fixtureBundleID,
-            generation: 1, state: state == "cancelled" ? .cancelled : .awaitingApproval,
+            generation: 1, state: state == "cancelled" ? .cancelled : (state == "ready" ? .ready : .awaitingApproval),
             expiresAt: Date().addingTimeInterval(300))
         let encoder = JSONEncoder(); encoder.dateEncodingStrategy = .iso8601
         let encoded = try! encoder.encode(session)
@@ -40,13 +43,16 @@ private final class TypedSessionPeer: NSObject, NSXPCListenerDelegate, BrokerReq
 }
 
 @MainActor final class XPCSessionClientTests: TestCase {
-    func testTypedIdentityMismatchAndDuplicateEnvelopeCloseTransport() async throws {
+    private func identity() throws -> BrokerPeerIdentity {
         var code: SecCode?, staticCode: SecStaticCode?, info: CFDictionary?
         guard SecCodeCopySelf([], &code) == errSecSuccess, let code,
               SecCodeCopyStaticCode(code, [], &staticCode) == errSecSuccess, let staticCode,
               SecCodeCopySigningInformation(staticCode, [], &info) == errSecSuccess,
               let hash = (info as? [String: Any])?[kSecCodeInfoUnique as String] as? Data else { throw BrokerConnectionError.invalidIdentity }
-        let pin = try BrokerPeerIdentity.developmentCDHash(hash.map { String(format: "%02x", $0) }.joined())
+        return try BrokerPeerIdentity.developmentCDHash(hash.map { String(format: "%02x", $0) }.joined())
+    }
+    func testTypedIdentityMismatchAndDuplicateEnvelopeCloseTransport() async throws {
+        let pin = try identity()
         for mode in ["wrongID", "duplicate", "domain", "valid"] {
             let peer = TypedSessionPeer(mode: mode, identity: pin)
             let listener = NSXPCListener.anonymous(); listener.delegate = peer; listener.resume()
@@ -78,4 +84,27 @@ private final class TypedSessionPeer: NSObject, NSXPCListenerDelegate, BrokerReq
             await client.shutdown(); peer.close(); listener.invalidate()
         }
     }
+    func testAutomaticHeartbeatUsesControlAndStopsAfterShutdown() async throws {
+        let pin = try identity()
+        let peer = TypedSessionPeer(mode: "heartbeat", identity: pin)
+        let listener = NSXPCListener.anonymous(); listener.delegate = peer; listener.resume()
+        let channel = AuthenticatedBrokerConnection()
+        try await channel.connect(endpoint: listener.endpoint, peer: pin)
+        let client = XPCSessionClient(connectedChannel: channel, peer: pin)
+        defer { channel.close(); peer.close(); listener.invalidate() }
+        _ = try await client.openFixtureSession()
+        let status = try await client.status()
+        expectEqual(status?.state, .ready)
+        let deadline = ContinuousClock.now.advanced(by: .seconds(7))
+        while peer.heartbeatCount() == 0 && ContinuousClock.now < deadline {
+            try await Task.sleep(for: .milliseconds(20))
+        }
+        expectEqual(peer.heartbeatCount() > 0, true)
+        await client.shutdown()
+        let count = peer.heartbeatCount()
+        try await Task.sleep(for: .milliseconds(5200))
+        expectEqual(peer.heartbeatCount(), count)
+        expectFalse(channel.isAuthenticated)
+    }
+
 }

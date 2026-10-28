@@ -4,7 +4,18 @@ import ComputerUseClient
 import ComputerUseIPC
 
 @main struct TypedSessionClient {
-    @MainActor static func main() async throws {
+    @MainActor static func main() async {
+        do { try await run() }
+        catch {
+            let code = (error as? HarnessError)?.rawValue ?? (error as? BrokerConnectionError).map { String(describing: $0) } ?? "INTERNAL_ERROR"
+            let report = ["status": "failed", "error": code]
+            if let data = try? JSONSerialization.data(withJSONObject: report, options: [.sortedKeys]) {
+                try? FileHandle.standardError.write(contentsOf: data + Data([10]))
+            }
+            exit(1)
+        }
+    }
+    @MainActor private static func run() async throws {
         let args = Array(CommandLine.arguments.dropFirst())
         guard args.count == 2 || (args.count == 3 && ["approval", "fixture", "revoke"].contains(args[2])) else { exit(64) }
         let client = XPCSessionClient(serviceName: args[0], peer: try .developmentCDHash(args[1]), allowFixtureActions: args.count == 3 && ["fixture", "revoke"].contains(args[2]))
@@ -23,6 +34,15 @@ import ComputerUseIPC
             guard let approved else { throw HarnessError.timeout }
             let heartbeat = try await client.heartbeat(sessionID: approved.id, generation: approved.generation)
             guard heartbeat.state == .ready else { throw HarnessError.protocolMismatch }
+            if args[2] == "fixture" {
+                // Simulate model planning beyond the server's 15-second liveness lease.
+                try await Task.sleep(for: .seconds(18))
+                let afterPlanning = try await client.status()
+                let diagnostic = "AFTER_PLANNING state=" + (afterPlanning?.state.rawValue ?? "none")
+                    + " pauseReason=" + (afterPlanning?.pauseReason?.rawValue ?? "none") + "\n"
+                try FileHandle.standardError.write(contentsOf: Data(diagnostic.utf8))
+                guard afterPlanning?.state == .ready else { throw HarnessError.timeout }
+            }
             if ["fixture", "revoke"].contains(args[2]) {
                 // Approval requests foreground activation asynchronously; observe may safely retry focus refusal.
                 let focusDeadline = ContinuousClock.now.advanced(by: .seconds(3))
@@ -70,7 +90,7 @@ import ComputerUseIPC
                       after.elements.first(where: { $0.identifier == "fixture.input" })?.value == value else { throw HarnessError.verificationFailed }
                 try await client.cancel(sessionID: approved.id)
                 await client.shutdown()
-                print("{\"status\":\"passed\",\"typedSDK\":true,\"nativeApprovalGranted\":true,\"heartbeatVerified\":true,\"desktopActions\":1,\"independentPostcondition\":true,\"cancelled\":true}")
+                print("{\"status\":\"passed\",\"typedSDK\":true,\"nativeApprovalGranted\":true,\"heartbeatVerified\":true,\"planningDelaySeconds\":18,\"automaticHeartbeatVerified\":true,\"desktopActions\":1,\"independentPostcondition\":true,\"cancelled\":true}")
                 return
             }
             // Close an actually approved connection. A new connection must start awaitingApproval.
