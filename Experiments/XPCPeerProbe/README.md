@@ -46,4 +46,4 @@ Evidence: `docs/evidence/xpc-connection-ownership-2026-10-27-1.json`. The same r
 
 ## Real SDK module probe
 
-`SDKPeer.swift` and `SDKClient.swift` link the actual `ComputerUseIPC` module as separate signed executables. Run `python3 scripts/xpc-sdk-probe.py --evidence <new-path>` for eight bounded named-service cases. See [authenticated IPC](../../docs/authenticated-ipc.md). The original feasibility probe remains separate evidence.
+`SDKPeer.swift` and `SDKClient.swift` link the actual `ComputerUseIPC` module as separate signed executables. Run `python3 scripts/xpc-sdk-probe.py --evidence <new-path>` for ten bounded named-service cases. See [authenticated IPC](../../docs/authenticated-ipc.md). The original feasibility probe remains separate evidence.

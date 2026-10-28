@@ -11,6 +11,7 @@ import re
 import subprocess
 import tempfile
 import uuid
+import time
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--evidence', required=True)
@@ -30,13 +31,13 @@ try:
     run(['swift', 'build'], cwd=root)
     build = Path(run(['swift', 'build', '--show-bin-path'], cwd=root).stdout.strip())
     objects = sorted((build / 'ComputerUseIPC.build').glob('*.swift.o'))
-    if len(objects) != 2:
+    if {p.name for p in objects} != {"AuthenticatedBrokerConnection.swift.o", "PeerIdentity.swift.o", "BrokerHandshakeListener.swift.o"}:
         raise RuntimeError('Unexpected IPC object inventory')
     record['libraryObjects'] = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in objects}
     with tempfile.TemporaryDirectory(prefix='milyonus-sdk-xpc-') as folder:
         folder = Path(folder)
         binaries, pins = {}, {}
-        for name in ['SDKPeer', 'SDKClient']:
+        for name in ['SDKPeer', 'SDKClient', 'SDKListener']:
             binary = folder / name
             run(['swiftc', '-swift-version', '6', '-parse-as-library', '-I', str(build / 'Modules'),
                  str(root / 'Experiments/XPCPeerProbe' / (name + '.swift')),
@@ -53,20 +54,30 @@ try:
                      ('wrong-version', 'wrongVersion', False, False, 'protocolMismatch', 1),
                      ('silent-peer', 'silent', False, False, 'timeout', 1),
                      ('client-cancellation', 'silent', False, False, 'cancelled', None),
-                     ('peer-exit', 'disconnect', False, False, 'authenticated', 1)]
+                     ('peer-exit', 'disconnect', False, False, 'authenticated', 1),
+                     ('library-listener-close', 'library', False, False, 'authenticated', 0),
+                     ('library-listener-rejects-client', 'library', True, False, 'authenticationFailed', 0)]
         for name, mode, wrong_client, wrong_server, expected, calls in scenarios:
             label = 'com.milyonus.computeruse.sdkprobe.' + uuid.uuid4().hex
             domain = 'gui/' + str(os.getuid())
             plist = folder / (label + '.plist')
             log = folder / (label + '.stdout')
-            plist.write_bytes(plistlib.dumps({'Label': label, 'ProgramArguments': [str(binaries['SDKPeer']), label,
+            server_name = 'SDKListener' if mode == 'library' else 'SDKPeer'
+            plist.write_bytes(plistlib.dumps({'Label': label, 'ProgramArguments': [str(binaries[server_name]), label,
                 '0' * 40 if wrong_client else pins['SDKClient'], mode], 'MachServices': {label: True},
                 'StandardOutPath': str(log), 'StandardErrorPath': str(folder / (label + '.stderr'))}))
             run(['launchctl', 'bootstrap', domain, str(plist)])
             try:
                 result = json.loads(run([str(binaries['SDKClient']), label,
-                    '0' * 40 if wrong_server else pins['SDKPeer'],
+                    '0' * 40 if wrong_server else pins[server_name],
                     'cancel' if name == 'client-cancellation' else mode]).stdout)
+                if mode == 'library':
+                    deadline = time.monotonic() + 2
+                    while time.monotonic() < deadline:
+                        if log.exists() and 'disconnected' in log.read_text().splitlines():
+                            break
+                        time.sleep(0.01)
+                    result['disconnectCallbacks'] = log.read_text().splitlines().count('disconnected') if log.exists() else 0
             finally:
                 run(['launchctl', 'bootout', domain + '/' + label])
             result.update(name=name, temporaryJobRemoved=True,
@@ -74,7 +85,8 @@ try:
             record['cases'].append(result)
             if (result['outcome'] != expected or result['authenticated'] != (expected == 'authenticated')
                     or not result['closed'] or (calls is not None and result['helloInvocations'] != calls)
-                    or (name == 'peer-exit' and not result['disconnected'])):
+                    or (name == 'peer-exit' and not result['disconnected'])
+                    or (mode == 'library' and result.get('disconnectCallbacks') != 1)):
                 raise RuntimeError('Unexpected admission result: ' + name)
         record['status'] = 'passed-limited-sdk-probe'
 except Exception as error:
