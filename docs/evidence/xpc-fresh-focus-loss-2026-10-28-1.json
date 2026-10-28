@@ -1,0 +1,24 @@
+{
+  "suite": "packaged-companion-xpc-lifecycle",
+  "status": "passed-native-interruption",
+  "startedAt": "2026-10-28T10:45:01.667564+00:00",
+  "limitations": "Development signing; fixture-only native receiver evidence. No production distribution acceptance.",
+  "companionSHA256": "808a754db8f36cf74107eff715d2fbd68f6d13a1fc70c73e1447c39d64e8abe7",
+  "fixtureSHA256": "c82daee8f27ae5a7faeb1e143a74a4b79eec3c3d374bed35ea5b748f9dc6d374",
+  "result": {
+    "actionRefusal": "FOCUS_CHANGED",
+    "cancelled": true,
+    "capturedObservationAgeSeconds": 0.167091965675354,
+    "desktopActions": 0,
+    "fixtureHidden": true,
+    "fixtureWindowClosed": false,
+    "generationUnchanged": true,
+    "mode": "focus-loss",
+    "nativeApprovalGranted": true,
+    "sessionReadyAfterClose": true,
+    "status": "passed"
+  },
+  "temporaryJobRemoved": true,
+  "receiverEvents": [],
+  "finishedAt": "2026-10-28T10:45:15.218143+00:00"
+}

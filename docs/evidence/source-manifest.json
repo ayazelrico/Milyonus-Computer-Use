@@ -1,9 +1,9 @@
 {
-  "recordedAt": "2026-10-28T10:40:40.983819+00:00",
+  "recordedAt": "2026-10-28T10:47:35.478589+00:00",
   "algorithm": "SHA-256",
   "files": {
     "Experiments/XPCPeerProbe/CompanionSessionClient.swift": "ada6866d32f7fcc8ac3bde5c2500790cc082483d3e903875994886425db94778",
-    "Experiments/XPCPeerProbe/NativeInterruptionClient.swift": "dc5a1ac3f8ae4a1740133c5837769300427043fa55f89f9c4e5c9f78ce4bc963",
+    "Experiments/XPCPeerProbe/NativeInterruptionClient.swift": "fcd84460f8c9a1bb402b76877e746c6214d57c6f24b0da8c8b54745c27e7db3f",
     "Experiments/XPCPeerProbe/README.md": "e2f38b2585ced0097451f482d735f9bfc265e8d7d3cae4f520974a2865a43de4",
     "Experiments/XPCPeerProbe/SDKClient.swift": "5544281049ac3697775139bcf76c753370f19b4cc89ba0efc07b2743139967ef",
     "Experiments/XPCPeerProbe/SDKListener.swift": "ad15274e31fc9176d7101e5b352d8d5bee2fb051f583c0840f7ca34d49e4f76a",
@@ -58,7 +58,7 @@
     "Sources/ComputerUseCore/SessionController.swift": "b7376b0c5a41ef3149adbc977a3e092fcd79798091a7c616d82c60e5a73ed9e2",
     "Sources/ComputerUseFixture/FixtureEventTrace.swift": "ccb80315b421fd0bfa8edbcafb5c692ed6a314841a039572739d144d021a2c89",
     "Sources/ComputerUseFixture/GestureFixture.swift": "c86b64a5644073d27919d6008a16ee803e94167a0d9486f634185f2ed3bc942b",
-    "Sources/ComputerUseFixture/main.swift": "aa4ef368b721f9a48bbc6cfb9e28eb2679984957aab9982c3a8fa30f85fa53cf",
+    "Sources/ComputerUseFixture/main.swift": "285b4979113b5e972610a54a5e4ef6933b1cd94f6a716ff3d45924aac7a97066",
     "Sources/ComputerUseIPC/AuthenticatedBrokerConnection.swift": "a0c86f6487a59b66ac3daf82bfcecbeed631b6e5b7cec146d563789258009e24",
     "Sources/ComputerUseIPC/BrokerConnectionContext.swift": "6905bcf9ff6b57b2de0a2097e177e57f1d81cf88504c8f38ce3f01b9660a3e96",
     "Sources/ComputerUseIPC/BrokerHandshakeListener.swift": "2839caa0babf2ecc60cae837d2931725308588bc57e9c338b05356ac359abc93",
@@ -119,7 +119,7 @@
     "scripts/validate-schemas.py": "351d0d01f020c58ea97478f315eb9d9f18dc80c279bc531f11982694aa9a3c00",
     "scripts/verify-background.sh": "c4c76af2d9170efc44b9dc52f71126cde43e7bf887fc24fa2c73c7fa856e0201",
     "scripts/verify.sh": "ca94c6e6fc4a1ffcab6386562d566a511c4b846d4c3d9abdd71fb82d8fb27ab5",
-    "scripts/xpc-companion-lifecycle.py": "2ea9e114f0f1555e0807062f702ce0f5a49ca51ad22f0d75f460841bbf97640e",
+    "scripts/xpc-companion-lifecycle.py": "17a0df62e01c8825e66d5b8cc336ad773336e2fb7ea22a3fe4d0447292d28754",
     "scripts/xpc-peer-probe.py": "3cfbed6ae0ae3e9201fc7b3857529c1db189311bb7faa8dffa1188f11369f2ff",
     "scripts/xpc-sdk-probe.py": "ebdefd257760088ad876a83684428a123d4e601f97d0097463f8b98aedb6fe0a"
   },

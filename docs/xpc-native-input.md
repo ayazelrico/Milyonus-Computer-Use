@@ -33,3 +33,13 @@ All three use companion SHA-256 `808a754db8f36cf74107eff715d2fbd68f6d13a1fc70c73
 Earlier attempts remain failed: initial stale observation without stage trace; trace-path refusal; interrupted positive baseline without a distinguishing pause reason; and initial target ambiguity before effects. Read-only initial observation now retries focus/absent/ambiguous target refusals for at most three seconds, with every native identity check unchanged. Mutations are never retried. The receiver trace fixed `/var` versus `/private/var` alias admission using temporary-root device/inode identity and an owner-only non-symlink leaf directory; exclusive output/no-follow checks remain. Direct trace tests passed valid alias admission, no overwrite and no symlink following.
 
 These slices do not establish rollback, zero partial effect, long-held keys, sleep/lock during delivery, hardware or arbitrary-app support. The interrupted drag visibly moved; cleanup restores released input, not prior UI state.
+
+## Fresh closure and focus slices
+
+The fixture has explicit test-only signal hooks to performClose on its own window (SIGUSR1) or hide itself (SIGUSR2). These are installed only by the matching startup flags. They create no native approval and accept no RPC. The runner passes the exact owned fixture PID; the client matches it against its fresh observation and bundle identity before signaling. No unrelated process or window is signaled.
+
+`xpc-fresh-window-close-2026-10-28-1.json` passed: the actual window closed, its process exited, and an approximately 0.80-second-old captured action was refused with TARGET_NOT_FOUND. The session remained ready with the same generation, isolating target loss from physical-input pause or lease expiry. Zero desktop actions executed.
+
+`xpc-fresh-focus-loss-2026-10-28-1.json` passed: the fixture hid while remaining alive, and the approximately 0.17-second-old captured action was refused with FOCUS_CHANGED. The session remained ready with unchanged generation; no physical mouse/key input was used to trigger the interruption. Both sessions cancelled and all owned processes/jobs were cleaned up. Exact companion and fixture hashes are in each evidence record.
+
+These are fixture-specific target/focus checks. They do not complete occlusion, multiple displays, application replacement, hostile AX, sleep or locked-session input cleanup matrices.

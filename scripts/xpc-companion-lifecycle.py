@@ -16,7 +16,7 @@ import uuid
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--evidence', required=True)
 parser.add_argument('--typed', action='store_true')
-parser.add_argument('--native-interruption', choices=['baseline', 'stop', 'disconnect'])
+parser.add_argument('--native-interruption', choices=['baseline', 'stop', 'disconnect', 'window-close', 'focus-loss'])
 parser.add_argument('--permission-revoke', action='store_true', help='Observe user-authorized companion permission revocation and refuse a captured action')
 parser.add_argument('--fixture-action', action='store_true', help='One approved fixture AX edit and independent verification')
 parser.add_argument('--approval', action='store_true', help='Await manual native approval; launches only project fixture and companion')
@@ -76,7 +76,7 @@ try:
         trace = folder / 'events.ndjson'
         if args.native_interruption:
             fixture = subprocess.Popen([str(root / 'build/ComputerUseFixture.app/Contents/MacOS/ComputerUseFixture'),
-                '--gesture-fixture', '--event-trace', str(trace)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                '--gesture-fixture', '--event-trace', str(trace)] + (['--close-on-test-signal'] if args.native_interruption == 'window-close' else (['--hide-on-test-signal'] if args.native_interruption == 'focus-loss' else [])), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             trace_deadline = time.monotonic() + 3
             while not trace.exists() and fixture.poll() is None and time.monotonic() < trace_deadline:
                 time.sleep(0.02)
@@ -101,7 +101,7 @@ try:
             'StandardOutPath': str(folder / 'stdout'), 'StandardErrorPath': str(folder / 'stderr')}))
         run(['launchctl', 'bootstrap', domain, str(plist)])
         try:
-            mode_args = [args.native_interruption, str(trace)] if args.native_interruption else (['revoke' if args.permission_revoke else ('fixture' if args.fixture_action else 'approval')] if args.approval else [])
+            mode_args = [args.native_interruption, str(trace), str(fixture.pid)] if args.native_interruption else (['revoke' if args.permission_revoke else ('fixture' if args.fixture_action else 'approval')] if args.approval else [])
             record['result'] = json.loads(run([str(client), label, pin(companion)] + mode_args, timeout=230 if args.permission_revoke else (140 if args.approval else 30)).stdout)
             if record['result'].get('status') != 'passed':
                 raise RuntimeError('Lifecycle did not pass')

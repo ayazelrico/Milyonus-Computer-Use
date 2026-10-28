@@ -1,4 +1,6 @@
 import Foundation
+import AppKit
+import Darwin
 import ComputerUseContracts
 import ComputerUseClient
 import ComputerUseIPC
@@ -47,7 +49,7 @@ import ComputerUseAcceptance
     }
     @MainActor private static func run() async throws {
         let args = Array(CommandLine.arguments.dropFirst())
-        guard args.count == 4, ["baseline", "stop", "disconnect"].contains(args[2]) else { exit(64) }
+        guard args.count == 5, ["baseline", "stop", "disconnect", "window-close", "focus-loss"].contains(args[2]), let expectedPID = Int32(args[4]), expectedPID > 0 else { exit(64) }
         let client = XPCSessionClient(serviceName: args[0], peer: try .developmentCDHash(args[1]),
                                      allowFixtureActions: true, allowNativeFixtureInput: true)
         activeClient = client
@@ -95,6 +97,36 @@ import ComputerUseAcceptance
         }
         stage("capture-interruption-target")
         let before = try await observe(client, session: session)
+        guard before.pid == expectedPID else { throw HarnessError.targetAmbiguous }
+        if ["window-close", "focus-loss"].contains(args[2]) {
+            guard let input = before.elements.first(where: { $0.identifier == "fixture.input" }),
+                  let target = NSRunningApplication(processIdentifier: expectedPID),
+                  target.bundleIdentifier == HarnessProtocol.fixtureBundleID else { throw HarnessError.targetNotFound }
+            let captured = ProcessInfo.processInfo.systemUptime
+            let request = ActionRequest(requestId: UUID().uuidString, sessionId: session.id, idempotencyKey: UUID().uuidString,
+                observationId: before.id, generation: session.generation, elementId: input.id, kind: .setValue,
+                text: "This closed-window action must be refused")
+            let closing = args[2] == "window-close"
+            guard kill(expectedPID, closing ? SIGUSR1 : SIGUSR2) == 0 else { throw HarnessError.targetNotFound }
+            let deadline = ContinuousClock.now.advanced(by: .seconds(1))
+            while (closing ? !target.isTerminated : target.isActive) && ContinuousClock.now < deadline { try await Task.sleep(for: .milliseconds(5)) }
+            guard closing ? target.isTerminated : (!target.isActive && !target.isTerminated) else { throw HarnessError.timeout }
+            let age = Date().timeIntervalSince(before.capturedAt)
+            guard age >= 0, age < 3, ProcessInfo.processInfo.systemUptime - captured < 1 else { throw HarnessError.staleObservation }
+            var refusal: HarnessError?
+            do { _ = try await client.act(request) } catch let error as HarnessError { refusal = error }
+            guard refusal == (closing ? .targetNotFound : .focusChanged) else { throw HarnessError.verificationFailed }
+            let current = try await client.status()
+            guard current?.state == .ready, current?.generation == session.generation else { throw HarnessError.unauthorized }
+            try await client.cancel(sessionID: session.id)
+            await client.shutdown()
+            let report: [String: Any] = ["status": "passed", "mode": args[2], "fixtureWindowClosed": closing,
+                "fixtureHidden": !closing, "nativeApprovalGranted": true,
+                "capturedObservationAgeSeconds": age, "actionRefusal": refusal!.rawValue,
+                "generationUnchanged": true, "sessionReadyAfterClose": true, "desktopActions": 0, "cancelled": true]
+            print(String(decoding: try JSONSerialization.data(withJSONObject: report, options: [.sortedKeys]), as: UTF8.self))
+            return
+        }
         guard let canvas = before.elements.first(where: { $0.identifier == "fixture.drag.canvas" }) else { throw HarnessError.targetNotFound }
         let initial = try trace(args[3])
         let initialDown = initial.filter { $0.event == "down" }.count
