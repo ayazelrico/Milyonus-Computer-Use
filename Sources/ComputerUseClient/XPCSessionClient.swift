@@ -13,6 +13,8 @@ public final class XPCSessionClient: ManagedHarnessClient, CapabilityHarnessClie
     private var lifecycle = UUID()
     private var ownedSessionID: String?
     private var opening = false
+    private var latestSession: Session?
+    private var heartbeatTask: Task<Void, Never>?
 
     public init(serviceName: String, peer: BrokerPeerIdentity, allowFixtureActions: Bool = false) {
         self.serviceName = serviceName
@@ -30,11 +32,14 @@ public final class XPCSessionClient: ManagedHarnessClient, CapabilityHarnessClie
     public func shutdown() async {
         lifecycle = UUID()
         ownedSessionID = nil
+        latestSession = nil
+        heartbeatTask?.cancel(); heartbeatTask = nil
         channel.close()
     }
 
     private func reject() throws -> Never {
-        lifecycle = UUID(); ownedSessionID = nil; channel.close()
+        lifecycle = UUID(); ownedSessionID = nil; latestSession = nil
+        heartbeatTask?.cancel(); heartbeatTask = nil; channel.close()
         throw HarnessError.protocolMismatch
     }
 
@@ -74,6 +79,8 @@ public final class XPCSessionClient: ManagedHarnessClient, CapabilityHarnessClie
         try validate(session)
         guard session.state == .awaitingApproval, session.generation == 1 else { try reject() }
         ownedSessionID = session.id
+        latestSession = session
+        startHeartbeat(sessionID: session.id, epoch: lifecycle)
         return session
     }
 
@@ -82,6 +89,7 @@ public final class XPCSessionClient: ManagedHarnessClient, CapabilityHarnessClie
         let session: Session? = try await call("session_status")
         guard let session else { try reject() }
         try validate(session, expectedID: id)
+        latestSession = session
         return session
     }
 
@@ -100,6 +108,7 @@ public final class XPCSessionClient: ManagedHarnessClient, CapabilityHarnessClie
             arguments: JSONEncoder().encode(Arguments(sessionId: sessionID, generation: generation)), control: true)
         try validate(result, expectedID: sessionID)
         guard result.state == .ready, result.generation == generation else { try reject() }
+        latestSession = result
         return result
     }
 
@@ -107,6 +116,8 @@ public final class XPCSessionClient: ManagedHarnessClient, CapabilityHarnessClie
         guard ownedSessionID == sessionID else { throw HarnessError.unauthorized }
         // Fence any old status/heartbeat response before dispatching cancellation.
         lifecycle = UUID()
+        heartbeatTask?.cancel(); heartbeatTask = nil
+        latestSession = nil
         let result: Session
         do {
             result = try await call("session_cancel",
@@ -121,6 +132,30 @@ public final class XPCSessionClient: ManagedHarnessClient, CapabilityHarnessClie
         guard [.cancelled, .expired].contains(result.state) else { try reject() }
         ownedSessionID = nil
     }
+
+    private func startHeartbeat(sessionID: String, epoch: UUID) {
+        heartbeatTask?.cancel()
+        heartbeatTask = Task { [weak self] in
+            while !Task.isCancelled {
+                do { try await Task.sleep(for: .seconds(5)) } catch { return }
+                guard let self, self.lifecycle == epoch, self.ownedSessionID == sessionID else { return }
+                // Status polling belongs to the caller. The timer never competes for the action lane.
+                guard let session = self.latestSession, session.state == .ready else { continue }
+                do { _ = try await self.heartbeat(sessionID: sessionID, generation: session.generation) }
+                catch {
+                    guard self.lifecycle == epoch, self.ownedSessionID == sessionID else { return }
+                    if let error = error as? HarnessError, [.unauthorized, .staleObservation].contains(error) {
+                        self.latestSession = nil // A fresh caller status must observe a renewed native grant.
+                    } else if error as? BrokerConnectionError != .resourceLimit {
+                        await self.shutdown()
+                        return
+                    }
+                }
+            }
+        }
+    }
+
+    isolated deinit { heartbeatTask?.cancel() }
 
     public func observe(sessionID: String) async throws -> Observation {
         guard allowFixtureActions else { throw HarnessError.unsupportedCapability }
