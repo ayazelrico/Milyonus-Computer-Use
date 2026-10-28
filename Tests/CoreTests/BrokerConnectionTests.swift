@@ -2,7 +2,7 @@ import Foundation
 import Security
 import ComputerUseIPC
 
-private final class HandshakePeer: NSObject, NSXPCListenerDelegate, BrokerHandshake, @unchecked Sendable {
+private final class HandshakePeer: NSObject, NSXPCListenerDelegate, BrokerRequestChannel, @unchecked Sendable {
     let mode: String
     let identity: BrokerPeerIdentity
     private let lock = NSLock()
@@ -10,7 +10,7 @@ private final class HandshakePeer: NSObject, NSXPCListenerDelegate, BrokerHandsh
     init(mode: String, identity: BrokerPeerIdentity) { self.mode = mode; self.identity = identity }
     func listener(_ listener: NSXPCListener, shouldAcceptNewConnection channel: NSXPCConnection) -> Bool {
         channel.setCodeSigningRequirement(identity.requirement)
-        channel.exportedInterface = NSXPCInterface(with: BrokerHandshake.self)
+        channel.exportedInterface = NSXPCInterface(with: BrokerRequestChannel.self)
         channel.exportedObject = self
         lock.lock(); connections.append(channel); lock.unlock()
         channel.resume()
@@ -19,6 +19,10 @@ private final class HandshakePeer: NSObject, NSXPCListenerDelegate, BrokerHandsh
     func hello(_ nonce: String, reply: @escaping (String, Int) -> Void) {
         if mode == "silent" { return }
         reply(mode == "wrongNonce" ? "wrong" : nonce, mode == "wrongVersion" ? 2 : 1)
+    }
+    func request(_ data: Data, reply: @escaping @Sendable (Data?, String?) -> Void) {
+        if mode == "silentRequest" { return }
+        reply(data, nil)
     }
     func shutdown() {
         lock.lock(); let existing = connections; connections.removeAll(); lock.unlock()
@@ -102,4 +106,29 @@ final class BrokerConnectionTests: TestCase {
         expectFalse(channel.isAuthenticated)
         channel.close()
     }
+    func testBoundedRequestRoundTripAndTimeout() async throws {
+        let pin = try identity()
+        for mode in ["echo", "silentRequest"] {
+            let peer = HandshakePeer(mode: mode, identity: pin)
+            let listener = NSXPCListener.anonymous(); listener.delegate = peer; listener.resume()
+            let channel = AuthenticatedBrokerConnection()
+            defer { channel.close(); peer.shutdown(); listener.invalidate() }
+            do { _ = try await channel.request(Data("test".utf8)); fail("Unauthenticated request accepted") }
+            catch { expectEqual(error as? BrokerConnectionError, .unauthorized) }
+            try await channel.connect(endpoint: listener.endpoint, peer: pin)
+            do { _ = try await channel.request(Data(repeating: 0, count: 262_145)); fail("Oversized request accepted") }
+            catch { expectEqual(error as? BrokerConnectionError, .resourceLimit) }
+            expectEqual(channel.isAuthenticated, true)
+            if mode == "echo" {
+                let payload = Data("bounded".utf8)
+                let received = try await channel.request(payload)
+                expectEqual(received, payload)
+            } else {
+                do { _ = try await channel.request(Data("test".utf8), timeoutSeconds: 1); fail("Silent request accepted") }
+                catch { expectEqual(error as? BrokerConnectionError, .timeout) }
+                expectFalse(channel.isAuthenticated)
+            }
+        }
+    }
+
 }

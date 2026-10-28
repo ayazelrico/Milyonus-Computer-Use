@@ -605,3 +605,22 @@ The next increment adds `BrokerHandshakeListener` to the actual IPC library. It 
 Ten separate-process cases passed in `evidence/xpc-listener-2026-10-28-2.json`. The real library listener accepted a correctly pinned SDK client and reported one disconnect callback after client close; it rejected an incorrectly pinned client and also reported exactly one cleanup callback. Temporary launchd jobs were removed. The companion and user windows were not launched or controlled. This advances the independent broker foundation but does not establish companion TCC ownership or connection-bound native session acceptance.
 
 After adding the listener, both required Debug and optimized Release suites again passed 231 cases / 2476 assertions / zero failures. Development packaging and receipt verification passed with sourceInputsMatch=true. This is ad-hoc packaging, not signed distribution acceptance. Source inspection of the stdio path did not establish the intermittent timeout cause; no speculative transport change or deadline relaxation was made.
+
+## Connection-owned core sessions and development route — 2026-10-28
+
+Added server-created revocable connection contexts, a bounded post-handshake request channel and `ConnectionSessionOwner`. Disconnect cancels only the bound core session; stale notifications cannot cancel a replacement. Independent-process evidence `xpc-session-2026-10-28-1.json` passed eleven scenarios, including a real awaitingApproval session opened through XPC and cancelled on client close. No native grant or desktop effect occurred.
+
+The companion now compiles an opt-in `--broker-development` route accepting only session lifecycle/capability requests. It does not register itself, and desktop methods remain denied until disconnect checks across journal/native dispatch are implemented and accepted. The route itself has not yet received an independently launched companion acceptance run. See [connection session ownership](connection-session-ownership.md). Existing stdio/Ultra behavior is preserved.
+
+During validation, an older Debug suite and its replacement overlapped while writing the same evidence path. The older runner had already exited when targeted cleanup was attempted; that shared log is not accepted evidence. Final verification must use a fresh dedicated output path. This is a validation orchestration issue, not evidence of a product failure or a fix for the historical stdio timeout.
+
+
+Dedicated post-change validation completed with 235 cases / 2504 assertions / zero failures in both Debug and optimized Release (`ownership-debug-tests-2026-10-28.log`, `ownership-release-tests-2026-10-28.log`). These include bounded XPC request round trip, rejection before authentication, size admission and timeout invalidation. A final companion-only capability change disables desktop capability flags for the lifecycle route; its final build/test record is tracked separately. No full native or distribution gate is closed by these results.
+
+## Packaged independent companion lifecycle accepted — 2026-10-28
+
+`xpc-companion-lifecycle-2026-10-28-1.json` passed against packaged companion SHA-256 `2144cd7836e45ca83be18da0de98277b858f710004053e81e4e7e48104ed7544`. A temporary user launchd service independently started the actual visible companion. The real SDK authenticated it, verified disabled desktop capabilities, opened an awaitingApproval session, disconnected, then opened a distinct awaitingApproval session on a fresh connection. This demonstrates cleanup sufficient to release the prior session lease. No approval, native effect, provider request or unrelated window interaction occurred. The temporary service was removed.
+
+Final Debug build/selftest passed 235 cases / 2504 assertions / zero failures in `ownership-final-tests-2026-10-28.log`. The same core/IPC code passed the optimized Release suite; the later companion capability-only change also passed Release compilation. Fresh development package/receipt verification passed. The shared intermediate selftest log is superseded by these dedicated final files.
+
+Next: independently launched companion native approval/revocation acceptance, then execution admission across durable journal/native input and concurrent heartbeat/Stop transport. These remain open; no claim of complete XPC native action migration or production permission ownership is made.

@@ -1,7 +1,7 @@
 [0/1] Planning build
 Building for debugging...
 [0/3] Write swift-version--1AB21518FC5DEDBE.txt
-Build of product 'computer-use-selftest' complete! (0.15s)
+Build of product 'computer-use-selftest' complete! (0.19s)
 PASS: ContractTests.testPressRejectsText
 PASS: ContractTests.testSetValueRequiresText
 PASS: ContractTests.testUnicodeInputRoundTrip
@@ -235,4 +235,18 @@ PASS: BrokerConnectionTests.testIdentityRejectsInjectedOrAmbiguousPolicy
 PASS: BrokerConnectionTests.testRealXPCHandshakeAndClose
 PASS: BrokerConnectionTests.testInvalidReplySignatureAndTimeoutFailClosed
 PASS: BrokerConnectionTests.testCancellationDoesNotAuthenticate
-RESULT: 231 cases, 2476 assertions, 0 failures
+PASS: ConnectionSessionOwnerTests.testDisconnectedOwnerCancelsBeforeDelayedCallback
+PASS: ConnectionSessionOwnerTests.testReplacementCannotInheritGrantOrBeCancelledByOldPeer
+PASS: ConnectionSessionOwnerTests.testDisconnectDoesNotCancelNativeReplacement
+PASS: BrokerConnectionTests.testBoundedRequestRoundTripAndTimeout
+RESULT: 235 cases, 2504 assertions, 0 failures
+tionFailed) != Optional(ComputerUseIPC.BrokerConnectionError.protocolMismatch)
+FAIL /Users/ayazelrico/Desktop/Milyonus-Computer-Use/Tests/CoreTests/BrokerConnectionTests.swift:86: Optional(ComputerUseIPC.BrokerConnectionError.authenticationFailed) != Optional(ComputerUseIPC.BrokerConnectionError.protocolMismatch)
+FAIL /Users/ayazelrico/Desktop/Milyonus-Computer-Use/Tests/CoreTests/BrokerConnectionTests.swift:86: Optional(ComputerUseIPC.BrokerConnectionError.authenticationFailed) != Optional(ComputerUseIPC.BrokerConnectionError.timeout)
+FAIL: BrokerConnectionTests.testInvalidReplySignatureAndTimeoutFailClosed
+FAIL /Users/ayazelrico/Desktop/Milyonus-Computer-Use/Tests/CoreTests/BrokerConnectionTests.swift:101: Optional(ComputerUseIPC.BrokerConnectionError.authenticationFailed) != Optional(ComputerUseIPC.BrokerConnectionError.cancelled)
+FAIL: BrokerConnectionTests.testCancellationDoesNotAuthenticate
+PASS: ConnectionSessionOwnerTests.testDisconnectedOwnerCancelsBeforeDelayedCallback
+PASS: ConnectionSessionOwnerTests.testReplacementCannotInheritGrantOrBeCancelledByOldPeer
+PASS: ConnectionSessionOwnerTests.testDisconnectDoesNotCancelNativeReplacement
+RESULT: 234 cases, 2491 assertions, 5 failures

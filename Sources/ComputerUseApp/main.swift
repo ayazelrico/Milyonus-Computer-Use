@@ -2,10 +2,11 @@ import AppKit
 import ComputerUseContracts
 import ComputerUseCore
 import ComputerUseMacOS
+import ComputerUseIPC
 
 @MainActor
 final class Companion: NSObject, NSApplicationDelegate {
-    private let sessions = SessionController(heartbeatTimeout: CommandLine.arguments.contains("--mcp") ? 15 : nil)
+    private let sessions = SessionController(heartbeatTimeout: (CommandLine.arguments.contains("--mcp") || CommandLine.arguments.contains("--broker-development")) ? 15 : nil)
     private let desktop = AccessibilityDesktop()
     private var engine: ExecutionEngine?
     private var lease: ProcessLease?
@@ -23,6 +24,71 @@ final class Companion: NSObject, NSApplicationDelegate {
     private var sessionWatchdog: Timer?
     private var startupFailure: String?
     private var nativeNotice: String?
+    private var broker: BrokerHandshakeListener?
+    private let isBroker = CommandLine.arguments.contains("--broker-development")
+    private lazy var connectionOwner = ConnectionSessionOwner(sessions: sessions) { [weak self] in
+        self?.desktop.invalidate()
+    }
+
+    private func startBroker() throws {
+        let args = Array(CommandLine.arguments.dropFirst())
+        guard args.count == 3, args[0] == "--broker-development", !isMCP else { throw HarnessError.invalidRequest }
+        // Explicit trusted local launch configuration. Never read identity policy from RPC.
+        let listener = try BrokerHandshakeListener(serviceName: args[1], peer: .developmentCDHash(args[2]),
+            onDisconnect: { [weak self] id in
+                Task { @MainActor in
+                    self?.connectionOwner.disconnect(id)
+                    self?.refresh()
+                }
+            }, requestHandler: { [weak self] context, data in
+                guard let self else { return Data("{\"error\":\"CANCELLED\"}".utf8) }
+                return await self.receiveBroker(context: context, data: data)
+            })
+        try listener.start()
+        broker = listener
+    }
+
+    private func receiveBroker(context: BrokerConnectionContext, data: Data) async -> Data {
+        let response: Any
+        do {
+            guard startupFailure == nil, context.isConnected, !Task.isCancelled,
+                  let message = try StrictJSON.object(data) as? [String: Any],
+                  Set(message.keys) == ["name", "arguments"],
+                  let name = message["name"] as? String,
+                  let args = message["arguments"] as? [String: Any] else { throw HarnessError.invalidRequest }
+            // Native effects remain on the accepted stdio route until XPC dispatch/journal
+            // interruption acceptance is complete. This route currently owns session lifecycle only.
+            guard ["session_open", "session_status", "session_cancel", "session_pause", "session_heartbeat", "system_capabilities"].contains(name) else {
+                throw HarnessError.unsupportedCapability
+            }
+            let result: Any
+            if name == "session_open" {
+                guard args.isEmpty else { throw HarnessError.invalidRequest }
+                result = try object(connectionOwner.open(connectionID: context.id, isConnected: { context.isConnected }))
+            } else if name == "system_capabilities" {
+                guard args.isEmpty else { throw HarnessError.invalidRequest }
+                var capabilities = HarnessCapabilities(permissions: Permissions.status())
+                capabilities.supportedActions = []
+                capabilities.nativeTextInput = false
+                capabilities.nativeElementClick = false
+                capabilities.experimentalNativeFixtureDrag = false
+                capabilities.experimentalNativeFixtureScroll = false
+                result = try object(capabilities)
+            } else {
+                guard let session = sessions.current() else { throw HarnessError.unauthorized }
+                try connectionOwner.requireOwnership(connectionID: context.id, sessionID: session.id)
+                result = try await call(name, args: args, admission: { [self] in
+                    guard !Task.isCancelled else { throw HarnessError.cancelled }
+                    try connectionOwner.requireOwnership(connectionID: context.id, sessionID: session.id)
+                })
+            }
+            response = ["result": result]
+        } catch {
+            response = ["error": (error as? HarnessError)?.rawValue ?? "INVALID_REQUEST"]
+        }
+        refresh()
+        return (try? JSONSerialization.data(withJSONObject: response, options: [.sortedKeys])) ?? Data("{\"error\":\"INTERNAL_ERROR\"}".utf8)
+    }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         do {
@@ -37,6 +103,10 @@ final class Companion: NSObject, NSApplicationDelegate {
                 self?.diagnostic("execution failure=" + error.rawValue)
             })
         } catch { startupFailure = "Startup failed: \(error). No actions will execute." }
+        if isBroker, startupFailure == nil {
+            do { try startBroker() }
+            catch { startupFailure = "Broker startup failed. No actions will execute." }
+        }
         buildWindow()
         monitor = NSEvent.addGlobalMonitorForEvents(matching: [.keyDown, .leftMouseDown, .rightMouseDown, .otherMouseDown]) { [weak self] event in
             MainActor.assumeIsolated {
@@ -51,7 +121,7 @@ final class Companion: NSObject, NSApplicationDelegate {
                                                           name: NSWorkspace.sessionDidResignActiveNotification, object: nil)
         DistributedNotificationCenter.default().addObserver(self, selector: #selector(environmentChanged),
                                                              name: NSNotification.Name("com.apple.screenIsLocked"), object: nil)
-        if isMCP { startInput() }
+        if isMCP && !isBroker { startInput() }
         sessionWatchdog = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
             Task { @MainActor [weak self] in
                 guard let self else { return }
@@ -89,6 +159,7 @@ final class Companion: NSObject, NSApplicationDelegate {
     @objc private func requestAccessibility() { Permissions.requestAccessibilityFromNativeUI(); refresh() }
     @objc private func requestCapture() { Permissions.requestCaptureFromNativeUI(); refresh() }
     @objc private func createSession() {
+        guard !isBroker else { return }
         do { guard startupFailure == nil else { return }; _ = try sessions.open(bundleID: SessionController.fixtureBundleID) }
         catch { showNativeFailure("Cannot create session", error: error); return }
         nativeNotice = nil
@@ -150,6 +221,7 @@ final class Companion: NSObject, NSApplicationDelegate {
     }
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { true }
     func applicationWillTerminate(_ notification: Notification) {
+        broker?.close(); broker = nil
         sessionWatchdog?.invalidate()
         stop(); if let monitor { NSEvent.removeMonitor(monitor) }
     }
@@ -325,7 +397,8 @@ final class Companion: NSObject, NSApplicationDelegate {
         definitions.append(nativeText)
         return definitions
     }
-    private func call(_ name: String, args: [String: Any]) async throws -> Any {
+    private func call(_ name: String, args: [String: Any], admission: @escaping @MainActor () throws -> Void = {}) async throws -> Any {
+        try admission()
         let allowed: Set<String>
         switch name {
         case "system_capabilities", "session_open", "session_status": allowed = []
@@ -362,6 +435,7 @@ final class Companion: NSObject, NSApplicationDelegate {
                 guard request.kind == .drag else { throw HarnessError.invalidRequest }
                 return try await object(engine.executeAsync(request, method: .nativeDrag) { [self] session in
                     try await desktop.executeNativeDrag(request, session: session) {
+                        try admission()
                         _ = try self.sessions.requireReady(session.id, generation: session.generation)
                     }
                 })
@@ -370,6 +444,7 @@ final class Companion: NSObject, NSApplicationDelegate {
                 guard request.kind == .scroll else { throw HarnessError.invalidRequest }
                 return try await object(engine.executeAsync(request, method: .nativeScroll) { [self] session in
                     try await desktop.executeNativeScroll(request, session: session) {
+                        try admission()
                         _ = try self.sessions.requireReady(session.id, generation: session.generation)
                     }
                 })
@@ -379,6 +454,7 @@ final class Companion: NSObject, NSApplicationDelegate {
                 guard request.kind == .press, request.text == nil else { throw HarnessError.invalidRequest }
                 return try await object(engine.executeAsync(request, method: .nativeClick) { [self] session in
                     try await desktop.executeNativeClick(request, session: session) {
+                        try admission()
                         _ = try self.sessions.requireReady(session.id, generation: session.generation)
                     }
                 })
@@ -387,6 +463,7 @@ final class Companion: NSObject, NSApplicationDelegate {
                 guard request.kind == .setValue, let text = request.text, text.utf16.count <= 1024 else { throw HarnessError.invalidRequest }
                 return try await object(engine.executeAsync(request, method: .nativeText) { [self] session in
                     try await desktop.executeNativeText(request, session: session) {
+                        try admission()
                         _ = try self.sessions.requireReady(session.id, generation: session.generation)
                     }
                 })

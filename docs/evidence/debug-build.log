@@ -1,12 +1,11 @@
 [0/1] Planning build
 Building for debugging...
-[0/11] Write sources
-[1/11] Write swift-version--1AB21518FC5DEDBE.txt
-[3/7] Compiling ComputerUseIPC BrokerHandshakeListener.swift
-[4/7] Emitting module ComputerUseIPC
-[5/9] Emitting module ComputerUseSelfTest
-[6/9] Compiling ComputerUseSelfTest BrokerConnectionTests.swift
-[6/9] Write Objects.LinkFileList
-[7/9] Linking computer-use-selftest
-[8/9] Applying computer-use-selftest
-Build complete! (1.44s)
+[0/10] Write sources
+[1/10] Write swift-version--1AB21518FC5DEDBE.txt
+[3/7] Compiling ComputerUseSelfTest BrokerConnectionTests.swift
+[4/7] Emitting module ComputerUseSelfTest
+[5/7] Compiling ComputerUseSelfTest main.swift
+[5/8] Write Objects.LinkFileList
+[6/8] Linking computer-use-selftest
+[7/8] Applying computer-use-selftest
+Build complete! (3.68s)

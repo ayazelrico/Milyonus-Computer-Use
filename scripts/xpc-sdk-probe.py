@@ -22,7 +22,7 @@ if output.exists():
     raise SystemExit('Evidence already exists')
 record = {'suite': 'sdk-named-xpc', 'status': 'failed', 'cases': [],
           'startedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(),
-          'limitations': 'Read-only handshake; exact development CDHash pins. No desktop actions, native grants, TCC or Developer ID acceptance.'}
+          'limitations': 'Handshake, bounded echo and unapproved session lifecycle; exact development CDHash pins. No desktop actions, native grants, TCC or Developer ID acceptance.'}
 
 def run(argv, **kwargs):
     return subprocess.run(argv, check=True, capture_output=True, text=True, timeout=60, **kwargs)
@@ -31,17 +31,20 @@ try:
     run(['swift', 'build'], cwd=root)
     build = Path(run(['swift', 'build', '--show-bin-path'], cwd=root).stdout.strip())
     objects = sorted((build / 'ComputerUseIPC.build').glob('*.swift.o'))
-    if {p.name for p in objects} != {"AuthenticatedBrokerConnection.swift.o", "PeerIdentity.swift.o", "BrokerHandshakeListener.swift.o"}:
+    if {p.name for p in objects} != {"AuthenticatedBrokerConnection.swift.o", "PeerIdentity.swift.o", "BrokerHandshakeListener.swift.o", "BrokerConnectionContext.swift.o", "BrokerRequestChannel.swift.o"}:
         raise RuntimeError('Unexpected IPC object inventory')
     record['libraryObjects'] = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in objects}
     with tempfile.TemporaryDirectory(prefix='milyonus-sdk-xpc-') as folder:
         folder = Path(folder)
         binaries, pins = {}, {}
-        for name in ['SDKPeer', 'SDKClient', 'SDKListener']:
+        for name in ['SDKPeer', 'SDKClient', 'SDKListener', 'SDKSessionListener']:
             binary = folder / name
+            linked_objects = objects
+            if name == 'SDKSessionListener':
+                linked_objects = objects + sorted((build / 'ComputerUseCore.build').glob('*.swift.o')) + sorted((build / 'ComputerUseContracts.build').glob('*.swift.o'))
             run(['swiftc', '-swift-version', '6', '-parse-as-library', '-I', str(build / 'Modules'),
                  str(root / 'Experiments/XPCPeerProbe' / (name + '.swift')),
-                 *map(str, objects), '-o', str(binary)])
+                 *map(str, linked_objects), '-o', str(binary)])
             run(['codesign', '--force', '--sign', '-', str(binary)])
             signature = run(['codesign', '-dv', '--verbose=4', str(binary)])
             pins[name] = re.search(r'^CDHash=([0-9a-f]{40})$', signature.stderr, re.M).group(1)
@@ -56,13 +59,14 @@ try:
                      ('client-cancellation', 'silent', False, False, 'cancelled', None),
                      ('peer-exit', 'disconnect', False, False, 'authenticated', 1),
                      ('library-listener-close', 'library', False, False, 'authenticated', 0),
-                     ('library-listener-rejects-client', 'library', True, False, 'authenticationFailed', 0)]
+                     ('library-listener-rejects-client', 'library', True, False, 'authenticationFailed', 0),
+                     ('connection-session-close', 'session', False, False, 'authenticated', 0)]
         for name, mode, wrong_client, wrong_server, expected, calls in scenarios:
             label = 'com.milyonus.computeruse.sdkprobe.' + uuid.uuid4().hex
             domain = 'gui/' + str(os.getuid())
             plist = folder / (label + '.plist')
             log = folder / (label + '.stdout')
-            server_name = 'SDKListener' if mode == 'library' else 'SDKPeer'
+            server_name = 'SDKSessionListener' if mode == 'session' else ('SDKListener' if mode == 'library' else 'SDKPeer')
             plist.write_bytes(plistlib.dumps({'Label': label, 'ProgramArguments': [str(binaries[server_name]), label,
                 '0' * 40 if wrong_client else pins['SDKClient'], mode], 'MachServices': {label: True},
                 'StandardOutPath': str(log), 'StandardErrorPath': str(folder / (label + '.stderr'))}))
@@ -71,12 +75,13 @@ try:
                 result = json.loads(run([str(binaries['SDKClient']), label,
                     '0' * 40 if wrong_server else pins[server_name],
                     'cancel' if name == 'client-cancellation' else mode]).stdout)
-                if mode == 'library':
+                if mode in ['library', 'session']:
                     deadline = time.monotonic() + 2
                     while time.monotonic() < deadline:
                         if log.exists() and 'disconnected' in log.read_text().splitlines():
                             break
                         time.sleep(0.01)
+                    result['cancelledSessions'] = log.read_text().splitlines().count('session-cancelled') if log.exists() else 0
                     result['disconnectCallbacks'] = log.read_text().splitlines().count('disconnected') if log.exists() else 0
             finally:
                 run(['launchctl', 'bootout', domain + '/' + label])
@@ -85,8 +90,10 @@ try:
             record['cases'].append(result)
             if (result['outcome'] != expected or result['authenticated'] != (expected == 'authenticated')
                     or not result['closed'] or (calls is not None and result['helloInvocations'] != calls)
+                    or (mode == 'session' and result.get('cancelledSessions') != 1)
                     or (name == 'peer-exit' and not result['disconnected'])
-                    or (mode == 'library' and result.get('disconnectCallbacks') != 1)):
+                    or (mode in ['library', 'session'] and result.get('disconnectCallbacks') != 1)
+                    or (mode in ['library', 'session'] and expected == 'authenticated' and not result['requestVerified'])):
                 raise RuntimeError('Unexpected admission result: ' + name)
         record['status'] = 'passed-limited-sdk-probe'
 except Exception as error:

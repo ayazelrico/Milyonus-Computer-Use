@@ -25,9 +25,15 @@ import ComputerUseIPC
             }
             disconnected = !channel.isAuthenticated
         }
+        var requestVerified = false
+        if ["library", "session"].contains(args[2]), authenticated {
+            let challenge = Data((args[2] == "session" ? "open" : "bounded-test-request").utf8)
+            let expected = args[2] == "session" ? Data("awaitingApproval".utf8) : challenge
+            requestVerified = try await channel.request(challenge) == expected
+        }
         channel.close()
         let data = try JSONSerialization.data(withJSONObject: ["outcome": outcome,
-            "authenticated": authenticated, "disconnected": disconnected, "closed": !channel.isAuthenticated], options: [.sortedKeys])
+            "requestVerified": requestVerified, "authenticated": authenticated, "disconnected": disconnected, "closed": !channel.isAuthenticated], options: [.sortedKeys])
         print(String(decoding: data, as: UTF8.self))
     }
 }

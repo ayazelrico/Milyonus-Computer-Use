@@ -29,3 +29,7 @@ This is an authenticated connection foundation, not a production broker. The vis
 Interruption, invalidation and explicit shutdown remove owned connections before invoking the disconnect observer, outside the state lock. Removal is idempotent, so the observer runs once per removed connection. The observer may arrive on an XPC queue and must transfer any UI/core work to its owning actor. A future native router must bind the exact connection ID to its session and cancel only that session; no such router is implemented here.
 
 The real SDK client also connects to a separate executable using this actual library listener. Evidence checks authentication followed by exactly one disconnect notification, and rejection of an incorrectly pinned client followed by cleanup. All temporary launchd registrations are removed. No app is installed or permission requested by this probe. Peer limits are a resource bound, not a same-user denial-of-service guarantee.
+
+## Connection-owned lifecycle increment
+
+The library now also provides bounded requests and synchronously revocable connection contexts. The companion has an opt-in development session-lifecycle route; desktop methods are deliberately not enabled there yet. See [connection session ownership](connection-session-ownership.md) for current behavior and acceptance boundaries. Earlier handshake-only descriptions above describe the preceding increment.

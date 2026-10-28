@@ -6,7 +6,7 @@ public protocol BrokerHandshake {
     func hello(_ nonce: String, reply: @escaping (String, Int) -> Void)
 }
 
-/// Connection authentication only. Deliberately exposes no native actions or underlying XPC proxy.
+/// Authenticated bounded request transport. Exposes no native approval or underlying XPC proxy.
 @MainActor
 public final class AuthenticatedBrokerConnection {
     public private(set) var isAuthenticated = false
@@ -14,6 +14,7 @@ public final class AuthenticatedBrokerConnection {
     private var generation = UUID()
     private var pending: CheckedContinuation<Void, Error>?
     private var timer: Task<Void, Never>?
+    private var requestContinuation: CheckedContinuation<Data, Error>?
 
     public init() {}
 
@@ -35,7 +36,7 @@ public final class AuthenticatedBrokerConnection {
         let epoch = UUID()
         generation = epoch
         let nonce = UUID().uuidString
-        channel.remoteObjectInterface = NSXPCInterface(with: BrokerHandshake.self)
+        channel.remoteObjectInterface = NSXPCInterface(with: BrokerRequestChannel.self)
         channel.setCodeSigningRequirement(peer.requirement)
         channel.invalidationHandler = { @Sendable [weak self] in
             Task { @MainActor in self?.fail(.authenticationFailed, epoch: epoch) }
@@ -72,6 +73,44 @@ public final class AuthenticatedBrokerConnection {
         }
     }
 
+    /// Sends only after the signature-checked nonce reply. No retry or replay is performed.
+    public func request(_ data: Data, timeoutSeconds: Int = 10) async throws -> Data {
+        guard isAuthenticated, let connection else { throw BrokerConnectionError.unauthorized }
+        guard requestContinuation == nil, !data.isEmpty, data.count <= BrokerEndpoint.maximumBytes,
+              (1...30).contains(timeoutSeconds) else { throw BrokerConnectionError.resourceLimit }
+        if Task.isCancelled { close(); throw BrokerConnectionError.cancelled }
+        let epoch = generation
+        let result: Data = try await withTaskCancellationHandler {
+            try await withCheckedThrowingContinuation { continuation in
+                requestContinuation = continuation
+                timer = Task { [weak self] in
+                    do { try await Task.sleep(for: .seconds(timeoutSeconds)) } catch { return }
+                    self?.fail(.timeout, epoch: epoch)
+                }
+                guard let proxy = connection.remoteObjectProxyWithErrorHandler({ @Sendable [weak self] _ in
+                    Task { @MainActor in self?.fail(.authenticationFailed, epoch: epoch) }
+                }) as? BrokerRequestChannel else { fail(.protocolMismatch, epoch: epoch); return }
+                proxy.request(data) { @Sendable [weak self] payload, error in
+                    Task { @MainActor in
+                        guard let self, self.generation == epoch, self.requestContinuation != nil else { return }
+                        guard error == nil, let payload, !payload.isEmpty, payload.count <= BrokerEndpoint.maximumBytes else {
+                            self.fail(.requestFailed, epoch: epoch); return
+                        }
+                        self.timer?.cancel(); self.timer = nil
+                        let continuation = self.requestContinuation; self.requestContinuation = nil
+                        continuation?.resume(returning: payload)
+                    }
+                }
+            }
+        } onCancel: {
+            Task { @MainActor [weak self] in self?.fail(.cancelled, epoch: epoch) }
+        }
+        guard !Task.isCancelled, generation == epoch, isAuthenticated else {
+            close(); throw BrokerConnectionError.cancelled
+        }
+        return result
+    }
+
     public func close() { fail(.cancelled, epoch: generation) }
 
     private func fail(_ error: BrokerConnectionError, epoch: UUID) {
@@ -83,6 +122,8 @@ public final class AuthenticatedBrokerConnection {
         let old = connection; connection = nil
         old?.invalidate()
         continuation?.resume(throwing: error)
+        let request = requestContinuation; requestContinuation = nil
+        request?.resume(throwing: error)
     }
 
     isolated deinit { timer?.cancel(); connection?.invalidate() }

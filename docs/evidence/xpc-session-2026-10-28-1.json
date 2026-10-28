@@ -1,0 +1,138 @@
+{
+  "suite": "sdk-named-xpc",
+  "status": "passed-limited-sdk-probe",
+  "cases": [
+    {
+      "authenticated": true,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "authenticated",
+      "requestVerified": false,
+      "name": "matching",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "authenticationFailed",
+      "requestVerified": false,
+      "name": "wrong-client",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 0
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "authenticationFailed",
+      "requestVerified": false,
+      "name": "wrong-server",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "protocolMismatch",
+      "requestVerified": false,
+      "name": "wrong-nonce",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "protocolMismatch",
+      "requestVerified": false,
+      "name": "wrong-version",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "timeout",
+      "requestVerified": false,
+      "name": "silent-peer",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "cancelled",
+      "requestVerified": false,
+      "name": "client-cancellation",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": true,
+      "closed": true,
+      "disconnected": true,
+      "outcome": "authenticated",
+      "requestVerified": false,
+      "name": "peer-exit",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": true,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "authenticated",
+      "requestVerified": true,
+      "cancelledSessions": 0,
+      "disconnectCallbacks": 1,
+      "name": "library-listener-close",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 0
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "authenticationFailed",
+      "requestVerified": false,
+      "cancelledSessions": 0,
+      "disconnectCallbacks": 1,
+      "name": "library-listener-rejects-client",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 0
+    },
+    {
+      "authenticated": true,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "authenticated",
+      "requestVerified": true,
+      "cancelledSessions": 1,
+      "disconnectCallbacks": 1,
+      "name": "connection-session-close",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 0
+    }
+  ],
+  "startedAt": "2026-10-28T09:27:42.206856+00:00",
+  "limitations": "Read-only handshake; exact development CDHash pins. No desktop actions, native grants, TCC or Developer ID acceptance.",
+  "libraryObjects": {
+    "AuthenticatedBrokerConnection.swift.o": "91152db2dc0b74d344afec5cad1e594db7d6449b21464dd9d814ac937dbf2b90",
+    "BrokerConnectionContext.swift.o": "082656bcffca402e9de58b6bafcd99d84f8f1ee3ace24ba002861ac642844392",
+    "BrokerHandshakeListener.swift.o": "d88337a86af99cef19e94113bc43d4a8ecd96183851d15407003c62a6c6c65f5",
+    "BrokerRequestChannel.swift.o": "e153547aefcfce1f4abae38ad55cbc3ec8273a4bd83251623df83be1612a464f",
+    "PeerIdentity.swift.o": "7bb77c61f16883f9f876cc6296bcda0c193dcf2fa867d3af16c00a4f40b1faef"
+  },
+  "binarySHA256": {
+    "SDKPeer": "0c0f7b123d4534f507850b3373bf0f06157b6fc1345e404c7740ccd3699fd3c2",
+    "SDKClient": "7b5f252251ca8793d3f9279854fcca538b7d5f07ee0c687f114daff6257f9b63",
+    "SDKListener": "711a16b87890d786028a16dbc7dc539d3b041a785e52a0646f6b350ef31ffc11",
+    "SDKSessionListener": "89cfe478eca11be9ee896551551d40fa2aea1caec13e8707a908320b4ca2340a"
+  },
+  "finishedAt": "2026-10-28T09:27:52.099836+00:00"
+}
