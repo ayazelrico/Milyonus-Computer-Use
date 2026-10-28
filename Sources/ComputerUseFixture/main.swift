@@ -6,6 +6,8 @@ final class FixtureDelegate: NSObject, NSApplicationDelegate {
     let input = NSTextField(string: "")
     let status = NSTextField(labelWithString: "Not saved")
     var saves = 0
+    private var closeSignal: DispatchSourceSignal?
+    private var hideSignal: DispatchSourceSignal?
     func applicationDidFinishLaunching(_ notification: Notification) {
         let gestures = CommandLine.arguments.contains("--gesture-fixture")
         if gestures { _ = FixtureEventTrace.shared }
@@ -29,6 +31,25 @@ final class FixtureDelegate: NSObject, NSApplicationDelegate {
         NSLayoutConstraint.activate([stack.centerXAnchor.constraint(equalTo: window.contentView!.centerXAnchor),
                                      stack.centerYAnchor.constraint(equalTo: window.contentView!.centerYAnchor)])
         window.center(); window.makeKeyAndOrderFront(nil); NSApp.activate(ignoringOtherApps: true)
+        // Explicit test-only operator hook: close this fixture's own window without physical input.
+        if CommandLine.arguments.contains("--close-on-test-signal") {
+            signal(SIGUSR1, SIG_IGN)
+            let source = DispatchSource.makeSignalSource(signal: SIGUSR1, queue: .main)
+            source.setEventHandler { [weak self] in
+                MainActor.assumeIsolated { self?.window.performClose(nil) }
+            }
+            closeSignal = source
+            source.activate()
+        }
+        if CommandLine.arguments.contains("--hide-on-test-signal") {
+            signal(SIGUSR2, SIG_IGN)
+            let source = DispatchSource.makeSignalSource(signal: SIGUSR2, queue: .main)
+            source.setEventHandler {
+                MainActor.assumeIsolated { NSApp.hide(nil) }
+            }
+            hideSignal = source
+            source.activate()
+        }
     }
     @objc func saveValue() {
         saves += 1

@@ -1,0 +1,7 @@
+[0/1] Planning build
+Building for debugging...
+[0/9] Write swift-version--1AB21518FC5DEDBE.txt
+Build complete! (0.21s)
+/Users/example/Desktop/Milyonus-Computer-Use/build/.package-_04_02iw/MilyonusComputerUse.app: replacing existing signature
+/Users/example/Desktop/Milyonus-Computer-Use/build/.package-_04_02iw/ComputerUseFixture.app: replacing existing signature
+Development bundles are ready in /Users/example/Desktop/Milyonus-Computer-Use/build (ad-hoc signed, not notarized).
