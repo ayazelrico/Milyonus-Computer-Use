@@ -8,6 +8,7 @@ public final class BrokerHandshakeListener: NSObject, NSXPCListenerDelegate, @un
     private let maximumConnections: Int
     private let onDisconnect: @Sendable (UUID) -> Void
     private let requestHandler: BrokerRequestHandler?
+    private let controlHandler: BrokerRequestHandler?
     private let lock = NSLock()
     private var started = false
     private var closed = false
@@ -20,7 +21,7 @@ public final class BrokerHandshakeListener: NSObject, NSXPCListenerDelegate, @un
 
     public init(serviceName: String, peer: BrokerPeerIdentity, maximumConnections: Int = 4,
                 onDisconnect: @escaping @Sendable (UUID) -> Void = { _ in },
-                requestHandler: BrokerRequestHandler? = nil) throws {
+                requestHandler: BrokerRequestHandler? = nil, controlHandler: BrokerRequestHandler? = nil) throws {
         guard BrokerPeerIdentity.validIdentifier(serviceName), (1...8).contains(maximumConnections) else {
             throw BrokerConnectionError.invalidService
         }
@@ -29,6 +30,7 @@ public final class BrokerHandshakeListener: NSObject, NSXPCListenerDelegate, @un
         self.maximumConnections = maximumConnections
         self.onDisconnect = onDisconnect
         self.requestHandler = requestHandler
+        self.controlHandler = controlHandler
         super.init()
         listener.delegate = self
     }
@@ -51,7 +53,7 @@ public final class BrokerHandshakeListener: NSObject, NSXPCListenerDelegate, @un
         let context = BrokerConnectionContext()
         let id = context.id
         channel.setCodeSigningRequirement(peer.requirement)
-        let endpoint = BrokerEndpoint(context: context, handler: requestHandler)
+        let endpoint = BrokerEndpoint(context: context, handler: requestHandler, controlHandler: controlHandler)
         channel.exportedInterface = NSXPCInterface(with: BrokerRequestChannel.self)
         channel.exportedObject = endpoint
         channel.invalidationHandler = { @Sendable [weak self] in self?.remove(id) }

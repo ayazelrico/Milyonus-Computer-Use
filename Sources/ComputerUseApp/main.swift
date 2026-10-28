@@ -43,12 +43,15 @@ final class Companion: NSObject, NSApplicationDelegate {
             }, requestHandler: { [weak self] context, data in
                 guard let self else { return Data("{\"error\":\"CANCELLED\"}".utf8) }
                 return await self.receiveBroker(context: context, data: data)
+            }, controlHandler: { [weak self] context, data in
+                guard let self else { return Data("{\"error\":\"CANCELLED\"}".utf8) }
+                return await self.receiveBroker(context: context, data: data, control: true)
             })
         try listener.start()
         broker = listener
     }
 
-    private func receiveBroker(context: BrokerConnectionContext, data: Data) async -> Data {
+    private func receiveBroker(context: BrokerConnectionContext, data: Data, control: Bool = false) async -> Data {
         let response: Any
         do {
             guard startupFailure == nil, context.isConnected, !Task.isCancelled,
@@ -56,6 +59,9 @@ final class Companion: NSObject, NSApplicationDelegate {
                   Set(message.keys) == ["name", "arguments"],
                   let name = message["name"] as? String,
                   let args = message["arguments"] as? [String: Any] else { throw HarnessError.invalidRequest }
+            if control, !["session_heartbeat", "session_cancel", "session_pause"].contains(name) {
+                throw HarnessError.unsupportedCapability
+            }
             // Native effects remain on the accepted stdio route until XPC dispatch/journal
             // interruption acceptance is complete. This route currently owns session lifecycle only.
             guard ["session_open", "session_status", "session_cancel", "session_pause", "session_heartbeat", "system_capabilities"].contains(name) else {

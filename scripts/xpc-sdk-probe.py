@@ -60,13 +60,14 @@ try:
                      ('peer-exit', 'disconnect', False, False, 'authenticated', 1),
                      ('library-listener-close', 'library', False, False, 'authenticated', 0),
                      ('library-listener-rejects-client', 'library', True, False, 'authenticationFailed', 0),
-                     ('connection-session-close', 'session', False, False, 'authenticated', 0)]
+                     ('connection-session-close', 'session', False, False, 'authenticated', 0),
+                     ('independent-heartbeat-stop', 'control', False, False, 'authenticated', 0)]
         for name, mode, wrong_client, wrong_server, expected, calls in scenarios:
             label = 'com.milyonus.computeruse.sdkprobe.' + uuid.uuid4().hex
             domain = 'gui/' + str(os.getuid())
             plist = folder / (label + '.plist')
             log = folder / (label + '.stdout')
-            server_name = 'SDKSessionListener' if mode == 'session' else ('SDKListener' if mode == 'library' else 'SDKPeer')
+            server_name = 'SDKSessionListener' if mode == 'session' else ('SDKListener' if mode in ['library', 'control'] else 'SDKPeer')
             plist.write_bytes(plistlib.dumps({'Label': label, 'ProgramArguments': [str(binaries[server_name]), label,
                 '0' * 40 if wrong_client else pins['SDKClient'], mode], 'MachServices': {label: True},
                 'StandardOutPath': str(log), 'StandardErrorPath': str(folder / (label + '.stderr'))}))
@@ -90,6 +91,7 @@ try:
             record['cases'].append(result)
             if (result['outcome'] != expected or result['authenticated'] != (expected == 'authenticated')
                     or not result['closed'] or (calls is not None and result['helloInvocations'] != calls)
+                    or (mode == 'control' and not result['independentControl'])
                     or (mode == 'session' and result.get('cancelledSessions') != 1)
                     or (name == 'peer-exit' and not result['disconnected'])
                     or (mode in ['library', 'session'] and result.get('disconnectCallbacks') != 1)
