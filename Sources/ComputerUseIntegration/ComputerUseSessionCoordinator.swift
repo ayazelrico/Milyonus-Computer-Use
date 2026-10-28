@@ -24,7 +24,7 @@ public struct ComputerUseViewState: Codable, Sendable {
 public final class ComputerUseSessionCoordinator {
     public private(set) var view = ComputerUseViewState()
     private let enabled: Bool
-    private let factory: @Sendable () throws -> any ManagedHarnessClient
+    private let factory: @MainActor @Sendable () throws -> any ManagedHarnessClient
     private let selectionSuspension: @MainActor (Bool) -> Void
     private var owner: UUID?
     private var client: (any ManagedHarnessClient)?
@@ -33,7 +33,7 @@ public final class ComputerUseSessionCoordinator {
     private var closing = false
 
     public init(enabled: Bool = false,
-                clientFactory: @escaping @Sendable () throws -> any ManagedHarnessClient,
+                clientFactory: @escaping @MainActor @Sendable () throws -> any ManagedHarnessClient,
                 selectionSuspension: @escaping @MainActor (Bool) -> Void) {
         self.enabled = enabled; factory = clientFactory; self.selectionSuspension = selectionSuspension
     }

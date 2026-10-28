@@ -1,0 +1,9 @@
+[0/1] Planning build
+Building for production...
+[0/6] Write sources
+[1/6] Write swift-version--1AB21518FC5DEDBE.txt
+[3/4] Compiling ComputerUseIntegration ComputerUseSessionCoordinator.swift
+[4/6] Compiling ComputerUseSelfTest ActionResultTests.swift
+[4/6] Write Objects.LinkFileList
+[5/6] Linking computer-use-selftest
+Build complete! (14.53s)
