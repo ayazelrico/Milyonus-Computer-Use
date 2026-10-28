@@ -1,0 +1,9 @@
+Another instance of SwiftPM (PID: 16167) is already running using '/Users/example/Desktop/Milyonus-Computer-Use/.build', waiting until that process has finished execution...[0/1] Planning build
+Building for production...
+[0/7] Write sources
+[2/7] Write swift-version--1AB21518FC5DEDBE.txt
+[4/6] Compiling ComputerUseIPC AuthenticatedBrokerConnection.swift
+[5/6] Compiling ComputerUseApp main.swift
+[5/7] Write Objects.LinkFileList
+[6/7] Linking MilyonusComputerUse
+Build complete! (4.61s)

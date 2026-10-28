@@ -46,4 +46,6 @@ Evidence: `docs/evidence/xpc-connection-ownership-2026-10-27-1.json`. The same r
 
 ## Real SDK module probe
 
-`SDKPeer.swift` and `SDKClient.swift` link the actual `ComputerUseIPC` module as separate signed executables. Run `python3 scripts/xpc-sdk-probe.py --evidence <new-path>` for ten bounded named-service cases. See [authenticated IPC](../../docs/authenticated-ipc.md). The original feasibility probe remains separate evidence.
+`SDKPeer.swift` and `SDKClient.swift` link the actual `ComputerUseIPC` module as separate signed executables. Run `python3 scripts/xpc-sdk-probe.py --evidence <new-path>` for eleven bounded named-service cases. See [authenticated IPC](../../docs/authenticated-ipc.md). The original feasibility probe remains separate evidence.
+
+`SDKSessionListener.swift` links the actual core SessionController and ownership layer. It opens only an awaitingApproval session and verifies disconnect cancellation; no native approval is simulated in this process test.

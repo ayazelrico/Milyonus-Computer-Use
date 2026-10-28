@@ -2,7 +2,7 @@ import Foundation
 import Security
 
 public enum BrokerConnectionError: Error, Equatable, Sendable {
-    case invalidIdentity, invalidService, alreadyConnected, authenticationFailed, protocolMismatch, timeout, cancelled
+    case invalidIdentity, invalidService, alreadyConnected, authenticationFailed, protocolMismatch, timeout, cancelled, unauthorized, resourceLimit, requestFailed
 }
 
 /// Trusted host configuration only. Never construct from a remote message or an observation.

@@ -256,5 +256,9 @@ runCase("BrokerConnectionTests.testIdentityRejectsInjectedOrAmbiguousPolicy") { 
 await runAsyncCase("BrokerConnectionTests.testRealXPCHandshakeAndClose") { try await BrokerConnectionTests().testRealXPCHandshakeAndClose() }
 await runAsyncCase("BrokerConnectionTests.testInvalidReplySignatureAndTimeoutFailClosed") { try await BrokerConnectionTests().testInvalidReplySignatureAndTimeoutFailClosed() }
 await runAsyncCase("BrokerConnectionTests.testCancellationDoesNotAuthenticate") { try await BrokerConnectionTests().testCancellationDoesNotAuthenticate() }
+runCase("ConnectionSessionOwnerTests.testDisconnectedOwnerCancelsBeforeDelayedCallback") { try ConnectionSessionOwnerTests().testDisconnectedOwnerCancelsBeforeDelayedCallback() }
+runCase("ConnectionSessionOwnerTests.testReplacementCannotInheritGrantOrBeCancelledByOldPeer") { try ConnectionSessionOwnerTests().testReplacementCannotInheritGrantOrBeCancelledByOldPeer() }
+runCase("ConnectionSessionOwnerTests.testDisconnectDoesNotCancelNativeReplacement") { try ConnectionSessionOwnerTests().testDisconnectDoesNotCancelNativeReplacement() }
+await runAsyncCase("BrokerConnectionTests.testBoundedRequestRoundTripAndTimeout") { try await BrokerConnectionTests().testBoundedRequestRoundTripAndTimeout() }
 print("RESULT: \(testCount) cases, \(assertionCount) assertions, \(failureCount) failures")
 exit(failureCount == 0 ? 0 : 1)

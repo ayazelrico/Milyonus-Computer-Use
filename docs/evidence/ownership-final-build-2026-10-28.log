@@ -1,0 +1,13 @@
+[0/1] Planning build
+Building for debugging...
+[0/11] Write sources
+[2/11] Write swift-version--1AB21518FC5DEDBE.txt
+[4/10] Compiling ComputerUseIPC BrokerHandshakeListener.swift
+[5/10] Compiling ComputerUseIPC AuthenticatedBrokerConnection.swift
+[6/10] Emitting module ComputerUseIPC
+[7/10] Emitting module ComputerUseApp
+[8/10] Compiling ComputerUseApp main.swift
+[8/11] Write Objects.LinkFileList
+[9/11] Linking MilyonusComputerUse
+[10/11] Applying MilyonusComputerUse
+Build complete! (2.55s)
