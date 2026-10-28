@@ -33,3 +33,7 @@ A refusal after intent but before dispatch is persisted as notApplied. Revocatio
 ## Independent control follow-up
 
 The single-request limitation above has now been addressed by a separate bounded heartbeat/pause/cancel lane on the same authenticated connection. See [XPC control lane](xpc-control-lane.md) for evidence and remaining native acceptance limits.
+
+## Typed SDK and native approval acceptance
+
+`XPCSessionClient` provides typed lifecycle operations through the existing managed SDK interfaces. The caller explicitly drives heartbeat; automatic liveness renewal is not yet implemented. Desktop methods remain unavailable in this increment. The independently launched packaged companion passed a manually approved session, real heartbeat and disconnect/reconnect requiring fresh approval on 2026-10-28; see `xpc-approved-lifecycle-2026-10-28-1.json`. This closes the approved lifecycle slice only.
