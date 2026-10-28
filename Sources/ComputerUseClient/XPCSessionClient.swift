@@ -3,24 +3,27 @@ import ComputerUseContracts
 import ComputerUseIPC
 
 /// Opt-in lifecycle adapter for an independently registered companion.
-/// Native desktop methods remain disabled until their XPC acceptance gate passes.
+/// Fixture AX actions require an explicit trusted host opt-in; native input routes are unavailable.
 @MainActor
 public final class XPCSessionClient: ManagedHarnessClient, CapabilityHarnessClient, HeartbeatHarnessClient {
     private let channel: AuthenticatedBrokerConnection
     private let serviceName: String
     private let peer: BrokerPeerIdentity
+    private let allowFixtureActions: Bool
     private var lifecycle = UUID()
     private var ownedSessionID: String?
     private var opening = false
 
-    public init(serviceName: String, peer: BrokerPeerIdentity) {
+    public init(serviceName: String, peer: BrokerPeerIdentity, allowFixtureActions: Bool = false) {
         self.serviceName = serviceName
         self.peer = peer
         self.channel = AuthenticatedBrokerConnection()
+        self.allowFixtureActions = allowFixtureActions
     }
     package init(connectedChannel: AuthenticatedBrokerConnection, peer: BrokerPeerIdentity) {
         self.channel = connectedChannel
         self.serviceName = "com.milyonus.test"
+        self.allowFixtureActions = false
         self.peer = peer
     }
     public func connect() async throws { try await channel.connect(serviceName: serviceName, peer: peer) }
@@ -84,7 +87,7 @@ public final class XPCSessionClient: ManagedHarnessClient, CapabilityHarnessClie
 
     public func capabilities() async throws -> HarnessCapabilities {
         let result: HarnessCapabilities = try await call("system_capabilities")
-        guard (try? result.validate()) != nil, result.supportedActions.isEmpty,
+        guard (try? result.validate()) != nil, Set(result.supportedActions) == (allowFixtureActions ? [.press, .setValue] : []),
               !result.nativeTextInput, !result.nativeElementClick,
               !result.experimentalNativeFixtureScroll, !result.experimentalNativeFixtureDrag else { try reject() }
         return result
@@ -119,6 +122,21 @@ public final class XPCSessionClient: ManagedHarnessClient, CapabilityHarnessClie
         ownedSessionID = nil
     }
 
-    public func observe(sessionID: String) async throws -> Observation { throw HarnessError.unsupportedCapability }
-    public func act(_ request: ActionRequest) async throws -> ActionResult { throw HarnessError.unsupportedCapability }
+    public func observe(sessionID: String) async throws -> Observation {
+        guard allowFixtureActions else { throw HarnessError.unsupportedCapability }
+        guard ownedSessionID == sessionID else { throw HarnessError.unauthorized }
+        let observation: Observation = try await call("desktop_observe", arguments: JSONEncoder().encode(["sessionId": sessionID]))
+        guard (try? observation.validate()) != nil, observation.sessionId == sessionID,
+              observation.bundleId == HarnessProtocol.fixtureBundleID else { try reject() }
+        return observation
+    }
+    public func act(_ request: ActionRequest) async throws -> ActionResult {
+        guard allowFixtureActions else { throw HarnessError.unsupportedCapability }
+        guard ownedSessionID == request.sessionId else { throw HarnessError.unauthorized }
+        try request.validate()
+        guard request.kind == .press || request.kind == .setValue else { throw HarnessError.unsupportedCapability }
+        let result: ActionResult = try await call("desktop_action", arguments: JSONEncoder().encode(request))
+        guard (try? result.validate()) != nil, result.requestId == request.requestId else { try reject() }
+        return result
+    }
 }

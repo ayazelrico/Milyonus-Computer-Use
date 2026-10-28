@@ -26,13 +26,14 @@ final class Companion: NSObject, NSApplicationDelegate {
     private var nativeNotice: String?
     private var broker: BrokerHandshakeListener?
     private let isBroker = CommandLine.arguments.contains("--broker-development")
+    private let brokerFixtureActions = CommandLine.arguments.contains("--fixture-actions")
     private lazy var connectionOwner = ConnectionSessionOwner(sessions: sessions) { [weak self] in
         self?.desktop.invalidate()
     }
 
     private func startBroker() throws {
         let args = Array(CommandLine.arguments.dropFirst())
-        guard args.count == 3, args[0] == "--broker-development", !isMCP else { throw HarnessError.invalidRequest }
+        guard (args.count == 3 || (args.count == 4 && args[3] == "--fixture-actions")), args[0] == "--broker-development", !isMCP else { throw HarnessError.invalidRequest }
         // Explicit trusted local launch configuration. Never read identity policy from RPC.
         let listener = try BrokerHandshakeListener(serviceName: args[1], peer: .developmentCDHash(args[2]),
             onDisconnect: { [weak self] id in
@@ -62,9 +63,10 @@ final class Companion: NSObject, NSApplicationDelegate {
             if control, !["session_heartbeat", "session_cancel", "session_pause"].contains(name) {
                 throw HarnessError.unsupportedCapability
             }
-            // Native effects remain on the accepted stdio route until XPC dispatch/journal
-            // interruption acceptance is complete. This route currently owns session lifecycle only.
-            guard ["session_open", "session_status", "session_cancel", "session_pause", "session_heartbeat", "system_capabilities"].contains(name) else {
+            let lifecycleMethods = ["session_open", "session_status", "session_cancel", "session_pause", "session_heartbeat", "system_capabilities"]
+            // Explicit trusted launch opt-in; never selected through an RPC or model proposal.
+            let fixtureMethods = brokerFixtureActions ? ["desktop_observe", "desktop_action"] : []
+            guard (lifecycleMethods + fixtureMethods).contains(name) else {
                 throw HarnessError.unsupportedCapability
             }
             let result: Any
@@ -74,7 +76,7 @@ final class Companion: NSObject, NSApplicationDelegate {
             } else if name == "system_capabilities" {
                 guard args.isEmpty else { throw HarnessError.invalidRequest }
                 var capabilities = HarnessCapabilities(permissions: Permissions.status())
-                capabilities.supportedActions = []
+                capabilities.supportedActions = brokerFixtureActions ? [.press, .setValue] : []
                 capabilities.nativeTextInput = false
                 capabilities.nativeElementClick = false
                 capabilities.experimentalNativeFixtureDrag = false

@@ -1,5 +1,5 @@
 {
-  "recordedAt": "2026-10-28T10:01:22.584521+00:00",
+  "recordedAt": "2026-10-28T10:08:12.255080+00:00",
   "algorithm": "SHA-256",
   "files": {
     "Experiments/XPCPeerProbe/CompanionSessionClient.swift": "ada6866d32f7fcc8ac3bde5c2500790cc082483d3e903875994886425db94778",
@@ -8,7 +8,7 @@
     "Experiments/XPCPeerProbe/SDKListener.swift": "ad15274e31fc9176d7101e5b352d8d5bee2fb051f583c0840f7ca34d49e4f76a",
     "Experiments/XPCPeerProbe/SDKPeer.swift": "cfaac91d6c8664b87b2189fb8fa17e9948c4234b21a6b214283cd589971e912a",
     "Experiments/XPCPeerProbe/SDKSessionListener.swift": "d8a42a98789003ba23f756fe5b6f60152b16158d90d67a550b49c130dafafdaa",
-    "Experiments/XPCPeerProbe/TypedSessionClient.swift": "269f8ecaacd607339a8915196a498b4dea59808a9f98bbd440063b8a5fe0f4a9",
+    "Experiments/XPCPeerProbe/TypedSessionClient.swift": "956a4c0a6f700b1c72a1178d0a014f994cd8f9827ce7b3f0e9114b36b6f7cd1e",
     "Experiments/XPCPeerProbe/main.swift": "fb91c32903d2572b70c636a29073c9d6edfbbb30f1988fbae661f93240d721cd",
     "Integrations/AgentUltra/README.md": "10301bc870c0e60f2c6f2c6e0d922124af2dcddbfa6818ebec5795db0cd1bbce",
     "Package.swift": "1f37c92137964f094ae9807daaad07b6f4c5efd28770c63c2c35d639ae059584",
@@ -27,7 +27,7 @@
     "Sources/ComputerUseAgent/FixturePlanDecoder.swift": "01059559b8e6ab1fb1ef4ae6a11a592c2a49a3760263c170c98b9ef8a658007b",
     "Sources/ComputerUseAgent/FixturePlannerAdmission.swift": "de06769e6984f28dde5f7c9db45d0d5ab1d492cebb005dfe5703f1fab1a79f68",
     "Sources/ComputerUseAgent/OpenAIResponsesPlanner.swift": "24a79ad0b89b38cb98556aae7f646c91aecb51f5791a7e69de7ab24777644dc4",
-    "Sources/ComputerUseApp/main.swift": "df58768beee542dd8134b1f65f313c1beb4a4c733feb70b2a4d2b6f5e850d2e2",
+    "Sources/ComputerUseApp/main.swift": "11e91c11cadaa0356f5cf18d8638af973a0db81bc281d177b3bfddcadf688321",
     "Sources/ComputerUseCLI/GestureAcceptanceCommand.swift": "8da13cfeb8ca9f3a551d54b762e9ca92af3fd72dca76683c8fce83a604597f4f",
     "Sources/ComputerUseCLI/main.swift": "0e2aa9514fa525ca961e81656ec4a3f2aca7528171309fa980d7a20506201572",
     "Sources/ComputerUseClient/HarnessClient.swift": "9630c0b6bf6d5465c3401691a6fcd0c43201ac4757c0916a0416a02247d184bd",
@@ -35,7 +35,7 @@
     "Sources/ComputerUseClient/RPCReply.swift": "510d78f6be753e35a9e56d97ca9068120611075682dc524451ea3f600552e7f1",
     "Sources/ComputerUseClient/StdioHarnessClient.swift": "c40975eb530cc9ada05189060c5e23a25b968e78fb511b0023b64a7363e490a6",
     "Sources/ComputerUseClient/ToolReply.swift": "223061bc4d52c2e9dbd9a420128178fd5eeeccbc2c7f334cf473a1ebdc72a284",
-    "Sources/ComputerUseClient/XPCSessionClient.swift": "c1d399db3085205477a440adbcf806a5de95f24e1c21dad9fc20dabe68f1af3b",
+    "Sources/ComputerUseClient/XPCSessionClient.swift": "8a3331ceec78f21ba7ee5d0c19680c480b3a973ee3b1777e286da0de47737c70",
     "Sources/ComputerUseContracts/Capabilities.swift": "858d1017d8757b38c5f971abb9e8190621990b8c9c862189b81c8a6b36675f46",
     "Sources/ComputerUseContracts/CaptureGeometry.swift": "b443504a0d7bd74799c2dc3c2f21f3f50a78162d2466ba3ae85cc1da663f6c7b",
     "Sources/ComputerUseContracts/Models.swift": "c5da8787c41d9da9732a397e849cc16224079ea0f29445641d74a6fbc7fb36e5",
@@ -116,11 +116,11 @@
     "scripts/validate-schemas.py": "351d0d01f020c58ea97478f315eb9d9f18dc80c279bc531f11982694aa9a3c00",
     "scripts/verify-background.sh": "c4c76af2d9170efc44b9dc52f71126cde43e7bf887fc24fa2c73c7fa856e0201",
     "scripts/verify.sh": "ca94c6e6fc4a1ffcab6386562d566a511c4b846d4c3d9abdd71fb82d8fb27ab5",
-    "scripts/xpc-companion-lifecycle.py": "868e6b52ff0677b355c2ebd9b49ec618d11046a0daea5b1ab27519cafc924bde",
+    "scripts/xpc-companion-lifecycle.py": "fc967cdcb88478dbe8eec5fa5cc61a944b0bedae1dfa0677f77ba8ad457c62c2",
     "scripts/xpc-peer-probe.py": "3cfbed6ae0ae3e9201fc7b3857529c1db189311bb7faa8dffa1188f11369f2ff",
     "scripts/xpc-sdk-probe.py": "ebdefd257760088ad876a83684428a123d4e601f97d0097463f8b98aedb6fe0a"
   },
   "scope": "Source snapshot only; individual test logs and native binary hash determine acceptance.",
-  "debugCompanion": "667baa12ad428b053c9b17a38f63ea6e04bef056cf78076fb2b31a3137cf51b3",
-  "releaseCompanion": "3f2859fe9fdd092fb146c5db5910e784e565e16427094532d857d42a269cb2f1"
+  "debugCompanion": "f1f984503975bee1b54631a00a11e8a4b064fbb186a952d0861d2b08283a6a3d",
+  "releaseCompanion": "2ff9e7b0af5f00561f7c48c996c96a95b4f1104af3a025048afd7278029d89ee"
 }

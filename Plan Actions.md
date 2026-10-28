@@ -8,7 +8,7 @@ Follow [docs/ACCEPTANCE-NEXT.md](docs/ACCEPTANCE-NEXT.md): establish a local Git
 
 ## Current implementation record (English, 2026-10-28)
 
-P1/P4 now includes authenticated bounded XPC requests, revocable connection contexts and connection-owned core sessions. Eleven independent-process signing and lifecycle scenarios passed using development CDHash pins, including cancellation of an unapproved core session on client disconnect. The companion has an opt-in lifecycle-only route. This is not yet the native execution transport: visible companion registration, connection-owned grants, request routing and TCC lifecycle acceptance remain open. See `docs/authenticated-ipc.md`.
+P1/P4 now includes authenticated bounded XPC requests, revocable connection contexts and connection-owned core sessions. Eleven independent-process signing and lifecycle scenarios passed using development CDHash pins, including cancellation of an unapproved core session on client disconnect. The independently launched companion now passes approved lifecycle and one opt-in fixture AX action through the typed SDK. Native keyboard/pointer/gesture routes, stable identity and full permission/interruption acceptance remain open. See `docs/authenticated-ipc.md`.
 
 P2 capture geometry now uses bounded uniform scaling, overflow-safe coordinate conversion and native post-capture identity/geometry checks, plus a monotonic result-admission deadline and shared unique-window revalidation. Synthetic verification and live acceptance are tracked separately in `docs/capture-geometry.md`.
 
