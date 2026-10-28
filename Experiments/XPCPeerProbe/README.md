@@ -43,3 +43,7 @@ The local macOS SDK headers were also inspected for availability (connection req
 The final named-service probe exports a separate object per accepted connection. After the matching client's handshake and acknowledgement, that client exits. A second correctly signed client connects to the same still-running server and invokes the post-handshake method without ping. The server replies handshakeRequired and records no additional admitted invocation. This demonstrates that the prototype's handshake state is connection-local rather than shared across clients. It is not a native session grant or a production reconnect policy.
 
 Evidence: `docs/evidence/xpc-connection-ownership-2026-10-27-1.json`. The same run also reruns both signature-negative cases. The server stores only boolean diagnostic handshake state; it never receives a native grant, fixture handle or user content.
+
+## Real SDK module probe
+
+`SDKPeer.swift` and `SDKClient.swift` link the actual `ComputerUseIPC` module as separate signed executables. Run `python3 scripts/xpc-sdk-probe.py --evidence <new-path>` for eight bounded named-service cases. See [authenticated IPC](../../docs/authenticated-ipc.md). The original feasibility probe remains separate evidence.

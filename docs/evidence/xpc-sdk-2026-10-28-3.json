@@ -1,0 +1,89 @@
+{
+  "suite": "sdk-named-xpc",
+  "status": "passed-limited-sdk-probe",
+  "cases": [
+    {
+      "authenticated": true,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "authenticated",
+      "name": "matching",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "authenticationFailed",
+      "name": "wrong-client",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 0
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "authenticationFailed",
+      "name": "wrong-server",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "protocolMismatch",
+      "name": "wrong-nonce",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "protocolMismatch",
+      "name": "wrong-version",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "timeout",
+      "name": "silent-peer",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": false,
+      "closed": true,
+      "disconnected": false,
+      "outcome": "cancelled",
+      "name": "client-cancellation",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    },
+    {
+      "authenticated": true,
+      "closed": true,
+      "disconnected": true,
+      "outcome": "authenticated",
+      "name": "peer-exit",
+      "temporaryJobRemoved": true,
+      "helloInvocations": 1
+    }
+  ],
+  "startedAt": "2026-10-28T09:11:05.272309+00:00",
+  "limitations": "Read-only handshake; exact development CDHash pins. No desktop actions, native grants, TCC or Developer ID acceptance.",
+  "libraryObjects": {
+    "AuthenticatedBrokerConnection.swift.o": "d80c0bceb0f6583ec6120a750c9cf2cc075334efb3b617fd24875977e05ae2cb",
+    "PeerIdentity.swift.o": "b3a872d0b01824543b381ce19b9c6e4437380e9a2cef22dbffbe668ed74bc1d6"
+  },
+  "binarySHA256": {
+    "SDKPeer": "1dc4fd9aedbf0d10028084d0322400b2589b34e914ae1756760eef7a4487bd28",
+    "SDKClient": "ae59b89cef89de976e7f8da3ff7bb59a322446ed419f79897e546ccfae5053ba"
+  },
+  "finishedAt": "2026-10-28T09:11:12.466900+00:00"
+}

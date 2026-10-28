@@ -1,10 +1,10 @@
 # Acceptance-first execution queue
 
-Updated: 2026-10-27. This queue supersedes the chronological notes previously appended here. Historical results remain in STATUS.md and evidence files.
+Updated: 2026-10-28. This queue supersedes the chronological notes previously appended here. Historical results remain in STATUS.md and evidence files.
 
 | Priority | Work | Current state | Next concrete acceptance |
 |---|---|---|---|
-| 1 | Independent broker permission identity and peer admission | Same-binary launch-context discrepancy reproduced. Read-only cross-process XPC signing and connection-local handshake prototypes passed. | Independently launched visible companion with host-controlled signing policy, authenticated channel, connection-owned grants and disconnect cancellation. Then prove its own permission grant/revoke lifecycle. |
+| 1 | Independent broker permission identity and peer admission | Same-binary launch-context discrepancy reproduced. The real ComputerUseIPC client passed eight independent-process handshake/lifecycle cases; native transport is not migrated. | Independently launched visible companion with host-controlled signing policy, authenticated channel, connection-owned grants and disconnect cancellation. Then prove its own permission grant/revoke lifecycle. |
 | 2 | Native interruption matrix | Pre-dispatch Stop, physical input and screen lock slices passed. Fresh-target closure remains unaccepted. | Isolate fresh-target closure and focus loss; then stop during delivered native events, sleep and partial-effect cleanup. |
 | 3 | Normal Agent Ultra integration | 3598 headless assertions passed; isolated native action/Stop-after-completion/close passed. | Normal-host selection/clipboard work in flight and mid-action cancellation, preserving the existing host sandbox and user preferences. |
 | 4 | Broader real-provider pilot | One-action native Anthropic and OpenAI slices passed; OpenAI repeated-write failure diagnosed and completion instructions fixed. | The planned task/repetition and interruption matrix; no claim that a single successful fixture task completes this gate. |
