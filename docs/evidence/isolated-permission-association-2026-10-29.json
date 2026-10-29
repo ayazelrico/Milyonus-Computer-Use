@@ -1,0 +1,19 @@
+{
+  "suite": "isolated-permission-preparation",
+  "status": "native-os-authentication-pending",
+  "sources": {
+    "Experiments/XPCPeerProbe/IsolatedReadClient.swift": "dfca7f1cc2b7bcd1118901d292d9e68806dc7ae625d2328e6e9352a1ad19ef46",
+    "scripts/isolated-fixture-read.py": "aed5b53f25cba4b08d0a9c6cfdcc39eaeaedcc802b77c5dd80b721cedcfa5ffa"
+  },
+  "debug": {
+    "cases": 258,
+    "assertions": 2693,
+    "failures": 0
+  },
+  "evidence": [
+    "isolated-permission-build-2026-10-29.log",
+    "isolated-permission-selftest-2026-10-29.log",
+    "isolated-permission-preparation-2026-10-29.json"
+  ],
+  "limitations": "Preparation only. Native permission transition and restoration must be measured. No permission-only cause is inferred from a concurrent session pause."
+}

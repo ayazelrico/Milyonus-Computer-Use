@@ -1,0 +1,57 @@
+{
+  "suite": "packaged-isolated-fixture-read",
+  "status": "passed-isolated-ax-stop",
+  "startedAt": "2026-10-29T10:39:22.590023+00:00",
+  "limitations": "GUI acceptance; native approval is never automated. Development signatures; no mutation, capture or distribution acceptance.",
+  "companionSHA256": "02681612e348f80c87b4c292a0ddb607007c9fbdd8caf3af0d23150a8a1deee4",
+  "fixtureSHA256": "4599cbb7541be861dd1cc46d9c4d908253034cf062f89d7924a7f103f92b5cda",
+  "clientSourceSHA256": "a02cbc9d127c451e1069c79fb1859528946cbdc91b3711817429d9b4c2644acb",
+  "fixturePID": 65259,
+  "thresholds": {
+    "stopAcknowledgementMs": 250,
+    "workerExitSeconds": 2,
+    "fixtureStallSeconds": 5
+  },
+  "brokerPID": 65262,
+  "result": {
+    "actionsRejected": true,
+    "axReadEnteredBeforeStop": true,
+    "axReadEnteredUptime": 34483.89033908334,
+    "axReturnedAtAcknowledgement": false,
+    "blockedWorkerExitedBeforeBrokerUnload": true,
+    "blockedWorkerPID": 65308,
+    "brokerAccessibilityGranted": true,
+    "desktopActions": 0,
+    "nativeApprovalCreatedByRPC": false,
+    "pendingReadRefused": true,
+    "secureFieldExcluded": true,
+    "serverMutationRouteRejected": true,
+    "sessionCancelled": true,
+    "status": "passed-isolated-ax-stop",
+    "stopAcknowledgedMs": 0.493375,
+    "stopAcknowledgedUptime": 34483.892325583336,
+    "stopRequestedUptime": 34483.891774375,
+    "stopWhileAXBlocked": true,
+    "unapprovedReadRefusal": "UNAUTHORIZED",
+    "verifiedObservations": 3
+  },
+  "fixtureAXEvents": [
+    {
+      "event": "ready",
+      "pid": 65259,
+      "uptime": 34480.7993425
+    },
+    {
+      "event": "armed",
+      "pid": 65259,
+      "uptime": 34483.83910995834
+    },
+    {
+      "event": "ax-read-enter",
+      "pid": 65259,
+      "uptime": 34483.89033908334
+    }
+  ],
+  "temporaryJobRemoved": true,
+  "finishedAt": "2026-10-29T10:39:29.208790+00:00"
+}

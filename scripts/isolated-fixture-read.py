@@ -29,8 +29,11 @@ def main():
     parser.add_argument('--prepare-only', action='store_true', help='Verify package and compile the client without launching native apps')
     parser.add_argument('--approval', action='store_true', help='Wait for actual native approval and verify three observations')
     parser.add_argument("--ax-stall-stop", action="store_true", help="Verify Stop during an actual fixture AX stall; requires native approval")
+    parser.add_argument("--permission-revoke", action="store_true", help="Measure real permission denial and restoration without changing system settings automatically")
     args = parser.parse_args()
-    args.approval = args.approval or args.ax_stall_stop
+    if args.ax_stall_stop and args.permission_revoke:
+        parser.error("Choose one interruption mode")
+    args.approval = args.approval or args.ax_stall_stop or args.permission_revoke
     root = Path(__file__).resolve().parent.parent
     output = Path(args.evidence)
     progress = output.with_suffix('.progress.json')
@@ -100,12 +103,12 @@ def main():
                     if broker_pid is None:
                         raise RuntimeError('Broker did not start')
                     record['brokerPID'] = broker_pid
-                    mode = 'stall-stop' if args.ax_stall_stop else 'approval' if args.approval else 'unapproved'
+                    mode = 'permission-revoke' if args.permission_revoke else 'stall-stop' if args.ax_stall_stop else 'approval' if args.approval else 'unapproved'
                     extra = [str(trace)] if args.ax_stall_stop else []
                     result = subprocess.run([str(client), label, pin(companion), str(fixture.pid if fixture else 0),
-                        mode, str(progress.resolve()), str(broker_pid), *extra], capture_output=True, text=True, timeout=140 if args.approval else 30)
+                        mode, str(progress.resolve()), str(broker_pid), *extra], capture_output=True, text=True, timeout=390 if args.permission_revoke else 140 if args.approval else 30)
                     record['result'] = json.loads(result.stdout)
-                    expected = 'passed-isolated-ax-stop' if args.ax_stall_stop else 'passed-isolated-read' if args.approval else 'passed-unapproved-isolated-read'
+                    expected = 'passed-isolated-permission-interruption' if args.permission_revoke else 'passed-isolated-ax-stop' if args.ax_stall_stop else 'passed-isolated-read' if args.approval else 'passed-unapproved-isolated-read'
                     if result.returncode != 0 or record['result'].get('status') != expected:
                         raise RuntimeError('Isolated read acceptance did not pass')
                 finally:
