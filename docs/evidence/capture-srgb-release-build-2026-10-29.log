@@ -1,0 +1,10 @@
+Another instance of SwiftPM (PID: 72707) is already running using '/Users/ayazelrico/Desktop/Milyonus-Computer-Use/.build', waiting until that process has finished execution...[0/1] Planning build
+Building for production...
+[0/6] Write sources
+[1/6] Write swift-version--1AB21518FC5DEDBE.txt
+[3/6] Compiling ComputerUseMacOS AccessibilityDesktop.swift
+[3/9] Write Objects.LinkFileList
+[6/9] Linking MilyonusComputerUse
+[7/9] Linking milyonus-cu
+[8/9] Linking computer-use-selftest
+Build complete! (5.45s)

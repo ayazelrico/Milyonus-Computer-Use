@@ -1,0 +1,29 @@
+{
+  "suite": "packaged-isolated-fixture-read",
+  "status": "failed",
+  "startedAt": "2026-10-29T10:41:16.549721+00:00",
+  "limitations": "GUI acceptance; native approval is never automated. Development signatures; no mutation, capture or distribution acceptance.",
+  "companionSHA256": "02681612e348f80c87b4c292a0ddb607007c9fbdd8caf3af0d23150a8a1deee4",
+  "fixtureSHA256": "4599cbb7541be861dd1cc46d9c4d908253034cf062f89d7924a7f103f92b5cda",
+  "clientSourceSHA256": "dfca7f1cc2b7bcd1118901d292d9e68806dc7ae625d2328e6e9352a1ad19ef46",
+  "fixturePID": 66357,
+  "brokerPID": 66361,
+  "result": {
+    "actionsRejected": true,
+    "brokerAccessibilityGranted": true,
+    "desktopActions": 0,
+    "error": "TIMEOUT",
+    "nativeApprovalCreatedByRPC": false,
+    "permissionBeforeInterruption": true,
+    "secureFieldExcluded": true,
+    "serverMutationRouteRejected": true,
+    "stage": "awaiting-permission-revocation",
+    "status": "failed",
+    "unapprovedReadRefusal": "UNAUTHORIZED",
+    "verifiedObservations": 3
+  },
+  "temporaryJobRemoved": true,
+  "errorType": "RuntimeError",
+  "error": "Isolated read acceptance did not pass",
+  "finishedAt": "2026-10-29T10:43:25.537298+00:00"
+}

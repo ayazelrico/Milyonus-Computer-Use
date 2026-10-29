@@ -1,0 +1,15 @@
+{
+  "suite": "local-fixture-capture",
+  "case": "absent",
+  "status": "passed-absent-fixture",
+  "limitations": "Development child attribution; not installed companion, hostile timing, other display or production acceptance.",
+  "clientSourceSHA256": "bbbcac8e6e565e61b7d5b86d75e84d9f14c8256f96caabed49498d93b5053db5",
+  "result": {
+    "imageSentToProvider": false,
+    "imageWrittenToDisk": false,
+    "permissionRequested": false,
+    "refusal": "TARGET_NOT_FOUND",
+    "screenRecordingGranted": true,
+    "status": "passed-absent-fixture"
+  }
+}

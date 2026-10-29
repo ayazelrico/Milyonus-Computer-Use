@@ -1,0 +1,76 @@
+{
+  "suite": "local-fixture-capture",
+  "case": "ambiguous",
+  "status": "passed-ambiguous-fixture",
+  "limitations": "Development child attribution; not installed companion, hostile timing, other display or production acceptance.",
+  "clientSourceSHA256": "bbbcac8e6e565e61b7d5b86d75e84d9f14c8256f96caabed49498d93b5053db5",
+  "fixtureSHA256": "c723ce2eef5365a49f13ff7e75b9496abd05d7ccbf88326fb4404d287c71f1cb",
+  "ownedFixturePID": 73536,
+  "result": {
+    "fixtureWindowInventory": [
+      {
+        "height": "212.0",
+        "id": "6034",
+        "layer": "0",
+        "onScreen": "true",
+        "title": "Computer Use Fixture",
+        "width": "300.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6037",
+        "layer": "0",
+        "onScreen": "false",
+        "title": "",
+        "width": "1440.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6036",
+        "layer": "0",
+        "onScreen": "false",
+        "title": "",
+        "width": "1440.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6038",
+        "layer": "0",
+        "onScreen": "false",
+        "title": "",
+        "width": "1440.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6035",
+        "layer": "0",
+        "onScreen": "false",
+        "title": "",
+        "width": "1440.0"
+      },
+      {
+        "height": "500.0",
+        "id": "6033",
+        "layer": "0",
+        "onScreen": "false",
+        "title": "",
+        "width": "500.0"
+      },
+      {
+        "height": "412.0",
+        "id": "6032",
+        "layer": "0",
+        "onScreen": "true",
+        "title": "Computer Use Fixture",
+        "width": "620.0"
+      }
+    ],
+    "imageSentToProvider": false,
+    "imageWrittenToDisk": false,
+    "permissionRequested": false,
+    "refusal": "TARGET_AMBIGUOUS",
+    "screenRecordingGranted": true,
+    "status": "passed-ambiguous-fixture"
+  },
+  "ownedFixtureExited": true
+}

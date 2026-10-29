@@ -1,0 +1,70 @@
+{
+  "suite": "local-fixture-capture",
+  "case": "marker",
+  "status": "failed",
+  "limitations": "Development child attribution; not installed companion, hostile timing, other display or production acceptance.",
+  "clientSourceSHA256": "99130d9100ee56a47b828b935481dcbbe709afbb9e1d7ef0a5d3b8247fa467db",
+  "fixtureSHA256": "7cf5132a0fd8ac2691993972dabdfbccafd5cc0be0b9a6b7e5a2b02503f2f152",
+  "ownedFixturePID": 72178,
+  "result": {
+    "error": "STALE_OBSERVATION",
+    "fixtureWindowInventory": [
+      {
+        "height": "0.0",
+        "id": "6000",
+        "layer": "0",
+        "onScreen": "false",
+        "title": "",
+        "width": "0.0"
+      },
+      {
+        "height": "500.0",
+        "id": "5996",
+        "layer": "0",
+        "onScreen": "false",
+        "title": "",
+        "width": "500.0"
+      },
+      {
+        "height": "412.0",
+        "id": "5995",
+        "layer": "0",
+        "onScreen": "true",
+        "title": "Computer Use Fixture",
+        "width": "620.0"
+      },
+      {
+        "height": "0.0",
+        "id": "5999",
+        "layer": "0",
+        "onScreen": "false",
+        "title": "",
+        "width": "0.0"
+      },
+      {
+        "height": "0.0",
+        "id": "5998",
+        "layer": "0",
+        "onScreen": "false",
+        "title": "",
+        "width": "0.0"
+      },
+      {
+        "height": "0.0",
+        "id": "5997",
+        "layer": "0",
+        "onScreen": "false",
+        "title": "",
+        "width": "0.0"
+      }
+    ],
+    "imageSentToProvider": false,
+    "imageWrittenToDisk": false,
+    "permissionRequested": false,
+    "screenRecordingGranted": true,
+    "status": "failed"
+  },
+  "errorType": "RuntimeError",
+  "error": "Native capture case did not pass",
+  "ownedFixtureExited": true
+}

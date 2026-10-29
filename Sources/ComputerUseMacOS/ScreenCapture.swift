@@ -56,6 +56,7 @@ public enum ScreenCapture {
         configuration.showsCursor = false
         configuration.ignoreShadowsSingleWindow = true
         configuration.capturesAudio = false
+        configuration.colorSpaceName = CGColorSpace.sRGB
         try deadline.check()
         let captureStartedAt = Date()
         let image = try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: configuration)

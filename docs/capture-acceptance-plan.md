@@ -33,3 +33,15 @@ C3–C7 require deterministic fixture/driver hooks or operator transitions befor
 5. Remove owned temporary artifacts/processes. Never close unrelated windows or reset other applications' permissions.
 
 No GUI session is launched by this document. The next background implementation is a deterministic capture-driver boundary for admission checks; native permission, OS framework timing and physical display coverage still need actual acceptance.
+
+## Native local probe results — 2026-10-29
+
+A standalone local probe now exercises the actual ScreenCapture implementation, with opt-in fixture marker and duplicate-window modes. Preparation compiles the probe without launching windows. No capture permission prompt is generated, no network request is made, and PNG data remains in memory. A native inventory wait requires visible positive-size fixture windows before positive/ambiguous cases; production target and post-capture revalidation are unchanged.
+
+- C2 passed: no fixture yields TARGET_NOT_FOUND without a frame.
+- C3 passed: two eligible windows yield TARGET_AMBIGUOUS without choosing the first.
+- C1/C8 partial positive evidence: decoded PNG dimensions 1240×824 for 620×412-point bounds, adjacent RGB marker verified locally, no disk frame/provider upload, owned fixture removed. This does not establish publisher/start identity, independent absolute marker coordinates, installed companion attribution or all retention paths.
+
+Early positive runs observed startup TARGET_NOT_FOUND, zero-size INVALID_REQUEST, one STALE_OBSERVATION and strict-color VERIFICATION_FAILED. Those records remain retained. The marker visibly rendered; captured color samples differed from pure source RGB. Capture now explicitly requests sRGB. This did not eliminate all channel differences, so the marker identity rule explicitly tests dominant channel >0.8 with >0.4 separation at three adjacent 3×3 patches separated by the expected scaled width. This is a changed test criterion for marker identity, not a color-fidelity pass; `colorFidelityAccepted` is false. No production identity, permission or geometry safeguard was relaxed. The display-profile/color-fidelity question remains open.
+
+Evidence: `capture-absent-native-2026-10-29.json`, `capture-marker-native-2026-10-29-7.json`, `capture-ambiguous-native-2026-10-29.json`. Actual in-flight close/move/permission/cancellation C4–C7 and additional-display C9 remain open. No claim that the full H4 gate is complete.
