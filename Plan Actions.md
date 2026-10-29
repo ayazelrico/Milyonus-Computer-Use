@@ -8,7 +8,7 @@ Agent Ultra is delegated to another agent. Do not work in that checkout or exten
 
 ## Worker implementation checkpoint (English, 2026-10-29)
 
-H3 now has an internal cancellable read-worker lifecycle and owned-child cancellation evidence. Debug/Release suites each pass 247 cases / 2603 assertions. This is not a production helper, native AX-worker or permission-isolation pass; [implementation boundary](docs/read-worker-lifecycle.md) lists the next transport and platform work.
+H3 now has an internal cancellable read-worker lifecycle, reusable process owner and actual cooperative/uncooperative child termination evidence. Current Debug/Release suites each pass 249 cases / 2611 assertions. This is not a production helper, native AX-worker or permission-isolation pass; [implementation boundary](docs/read-worker-lifecycle.md) lists the next transport and platform work.
 
 ## Current implementation record (English, 2026-10-28)
 

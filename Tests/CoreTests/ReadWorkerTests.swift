@@ -2,6 +2,18 @@ import Foundation
 import ComputerUseContracts
 import ComputerUseCore
 
+enum OwnedReadWorkerFixture {
+    static func runIfRequested() throws {
+        guard CommandLine.arguments.dropFirst().first == "--owned-read-worker-stall" else { return }
+        guard CommandLine.arguments.count == 3 else { exit(64) }
+        signal(SIGTERM, SIG_IGN)
+        try Data("ready".utf8).write(to: URL(fileURLWithPath: CommandLine.arguments[2]), options: .withoutOverwriting)
+        // Fail-safe only. The parent's bounded escalation must terminate us first.
+        Thread.sleep(forTimeInterval: 30)
+        exit(75)
+    }
+}
+
 @MainActor
 private final class ManualReadWorker: ReadWorkerTransport {
     var ticket: ReadWorkerTicket?
@@ -31,21 +43,23 @@ private final class ManualReadWorker: ReadWorkerTransport {
 /// Process-containment fixture only. It deliberately has no AX or grant access.
 @MainActor
 private final class StalledReadWorker: ReadWorkerTransport {
-    let child = Process()
+    let child: OwnedReadWorkerProcess
+    var launch: Task<Void, Never>?
     var stops = 0
+    init() throws {
+        child = try OwnedReadWorkerProcess(executable: URL(fileURLWithPath: "/bin/sleep"), arguments: ["30"])
+    }
     func start(_ ticket: ReadWorkerTicket,
                completion: @escaping @MainActor @Sendable (Result<ReadWorkerReply, HarnessError>) -> Void) throws {
-        child.executableURL = URL(fileURLWithPath: "/bin/sleep")
-        child.arguments = ["30"]
-        child.environment = ["PATH": "/usr/bin:/bin"]
-        child.standardInput = FileHandle.nullDevice
-        child.standardOutput = FileHandle.nullDevice
-        child.standardError = FileHandle.nullDevice
-        try child.run()
+        launch = Task {
+            do { try await child.launch() }
+            catch { completion(.failure((error as? HarnessError) ?? .cancelled)) }
+        }
     }
     func stop() {
         stops += 1
-        if child.isRunning { child.terminate() }
+        launch?.cancel(); launch = nil
+        child.stop()
     }
 }
 
@@ -185,19 +199,61 @@ final class ReadWorkerTests: TestCase {
     func testStalledOwnedProcessDoesNotBlockCancellation() async throws {
         // Frozen before execution: local cancellation acknowledgement <250 ms;
         // directly owned child exit <2 s. This is not native companion Stop.
-        let worker = StalledReadWorker(), controller = ReadWorkerController { worker }
+        let worker = try StalledReadWorker(), controller = ReadWorkerController { worker }
         addTeardownBlock { worker.stop() }
         let target = try target(), session = session()
         let pending = Task { try await controller.read(connectionID: UUID(), session: session, target: target, admission: {}) }
-        try await waitUntil { worker.child.isRunning }
+        try await waitUntil { if case .running = worker.child.state { return true }; return false }
         let start = ContinuousClock.now
         controller.cancel()
         do { _ = try await pending.value; fail("Stalled child completed a read") }
         catch { expectEqual(error as? HarnessError, .cancelled) }
         expectEqual(start.duration(to: .now) < .milliseconds(250), true)
-        try await waitUntil { !worker.child.isRunning }
+        try await waitUntil { if case .exited = worker.child.state { return true }; return false }
         expectEqual(worker.stops, 1)
-        expectEqual(worker.child.terminationReason, .uncaughtSignal)
-        expectEqual(worker.child.terminationStatus, SIGTERM)
+        expectEqual(worker.child.state, .exited(status: SIGTERM, signalled: true))
+    }
+
+    func testOwnedProcessEscalatesOnlyItsUncooperativeChild() async throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true,
+                                                attributes: [.posixPermissions: 0o700])
+        addTeardownBlock { try? FileManager.default.removeItem(at: directory) }
+        let marker = directory.appendingPathComponent("ready")
+        let child = try OwnedReadWorkerProcess(executable: URL(fileURLWithPath: CommandLine.arguments[0]),
+                                              arguments: ["--owned-read-worker-stall", marker.path],
+                                              terminationGrace: .milliseconds(75))
+        addTeardownBlock { child.stop() }
+        try await child.launch()
+        try await waitUntil { FileManager.default.fileExists(atPath: marker.path) }
+        guard case .running(let pid) = child.state else { throw HarnessError.protocolMismatch }
+        expectEqual(pid > 0, true)
+        let start = ContinuousClock.now
+        child.stop(); child.stop()
+        // Fixed before execution: stop itself <250 ms, final reaped exit <2 s.
+        expectEqual(start.duration(to: .now) < .milliseconds(250), true)
+        try await waitUntil { if case .exited = child.state { return true }; return false }
+        expectEqual(child.state, .exited(status: SIGKILL, signalled: true))
+        do { try await child.launch(); fail("Stopped process owner restarted") }
+        catch { expectEqual(error as? HarnessError, .cancelled) }
+    }
+
+    func testOwnedProcessStopBeforeLaunchAndCancellationAreSticky() async throws {
+        let stopped = try OwnedReadWorkerProcess(executable: URL(fileURLWithPath: "/bin/sleep"), arguments: ["30"])
+        stopped.stop()
+        do { try await stopped.launch(); fail("Stopped owner launched a child") }
+        catch { expectEqual(error as? HarnessError, .cancelled) }
+        expectEqual(stopped.state, .idle)
+        let child = try OwnedReadWorkerProcess(executable: URL(fileURLWithPath: "/bin/sleep"), arguments: ["30"])
+        addTeardownBlock { child.stop() }
+        let launch = Task { try await child.launch() }
+        launch.cancel()
+        do { try await launch.value; fail("Cancelled launch succeeded") }
+        catch { expectEqual(error is CancellationError || (error as? HarnessError) == .cancelled, true) }
+        try await waitUntil {
+            switch child.state { case .idle, .failed, .exited: return true; default: return false }
+        }
+        expectThrows(try OwnedReadWorkerProcess(executable: URL(fileURLWithPath: "/not-a-worker")))
+        expectThrows(try OwnedReadWorkerProcess(executable: URL(fileURLWithPath: "/bin/sleep"), terminationGrace: .zero))
     }
 }
