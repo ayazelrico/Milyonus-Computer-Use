@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-29",
+  "base_commit": "14f4480f672a6d2b1870a26ab1fb7ed08b0611be",
+  "source_sha256": {
+    "Sources/ComputerUseCore/OwnedReadWorkerProcess.swift": "bafa7a6b8c32f6a812ce5af76cd79162b16703f4614c17976ee63cab3b6921ec",
+    "Sources/ComputerUseCore/ReadWorkerController.swift": "784aeee624ded5d17a2d856adb99fcba6788de0411a07bdb70227d6a1b0fd7ec",
+    "Tests/CoreTests/ReadWorkerTests.swift": "a2ed4498c6c14de8cc02d9bcd3c1e68dfd2c39f41c17b3e685ed5d25919825ae",
+    "Tests/main.swift": "8f79e78a61f301505806b903d3c0365218d73896db70d0def2cc3f99804a287c"
+  },
+  "debug": {
+    "cases": 249,
+    "assertions": 2611,
+    "failures": 0,
+    "build_log": "owned-worker-process-build-2026-10-29.log",
+    "test_log": "owned-worker-process-selftest-2026-10-29.log"
+  },
+  "release": {
+    "cases": 249,
+    "assertions": 2611,
+    "failures": 0,
+    "test_log": "owned-worker-process-release-selftest-2026-10-29.log"
+  },
+  "process_cases": {
+    "normal_termination": "Owned /bin/sleep child exited on SIGTERM; controller cancel acknowledgement <250 ms; exit <2 s",
+    "uncooperative_child": "Standalone fixture confirmed SIGTERM ignore with private readiness marker; 75 ms grace; observed SIGKILL signal exit <2 s",
+    "sticky_stop": "Stop-before-launch and task cancellation refused; stopped owner could not restart"
+  },
+  "limits": [
+    "No native AX worker or authenticated helper channel",
+    "No companion native Stop or TCC attribution acceptance",
+    "No forcibly bounded OS Process.run stall",
+    "Broker transport must retain retiring-worker slot until actual exit",
+    "No GUI activity, provider call, packaging or Example Host access"
+  ]
+}

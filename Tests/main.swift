@@ -3,6 +3,7 @@ import ComputerUseContracts
 import ComputerUseCore
 
 do {
+    try OwnedReadWorkerFixture.runIfRequested()
     try JournalCrashFixture.runChildIfRequested()
     try StdioFailureFixture.runIfRequested()
 }
@@ -272,5 +273,7 @@ await runAsyncCase("ReadWorkerTests.testAdmissionRevocationAndReentrantCancellat
 await runAsyncCase("ReadWorkerTests.testTaskCancellationAndDeadlineDrainWorker") { let test = ReadWorkerTests(); defer { test.tearDown() }; try await test.testTaskCancellationAndDeadlineDrainWorker() }
 await runAsyncCase("ReadWorkerTests.testInvalidScopeNeverStartsWorker") { let test = ReadWorkerTests(); defer { test.tearDown() }; try await test.testInvalidScopeNeverStartsWorker() }
 await runAsyncCase("ReadWorkerTests.testStalledOwnedProcessDoesNotBlockCancellation") { let test = ReadWorkerTests(); defer { test.tearDown() }; try await test.testStalledOwnedProcessDoesNotBlockCancellation() }
+await runAsyncCase("ReadWorkerTests.testOwnedProcessEscalatesOnlyItsUncooperativeChild") { let test = ReadWorkerTests(); defer { test.tearDown() }; try await test.testOwnedProcessEscalatesOnlyItsUncooperativeChild() }
+await runAsyncCase("ReadWorkerTests.testOwnedProcessStopBeforeLaunchAndCancellationAreSticky") { let test = ReadWorkerTests(); defer { test.tearDown() }; try await test.testOwnedProcessStopBeforeLaunchAndCancellationAreSticky() }
 print("RESULT: \(testCount) cases, \(assertionCount) assertions, \(failureCount) failures")
 exit(failureCount == 0 ? 0 : 1)
