@@ -1,0 +1,10 @@
+[0/1] Planning build
+Building for debugging...
+[0/10] Write sources
+[1/10] Write swift-version--1AB21518FC5DEDBE.txt
+[3/6] Emitting module ComputerUseSelfTest
+[4/6] Compiling ComputerUseSelfTest XPCSessionClientTests.swift
+[4/7] Write Objects.LinkFileList
+[5/7] Linking computer-use-selftest
+[6/7] Applying computer-use-selftest
+Build complete! (2.16s)

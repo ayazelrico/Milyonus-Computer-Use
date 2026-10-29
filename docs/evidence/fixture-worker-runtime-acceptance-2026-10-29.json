@@ -1,0 +1,57 @@
+{
+  "date": "2026-10-29",
+  "base_commit": "e016d854a55a095dbb86aef2340b54d88db3821c",
+  "source_sha256": {
+    "Package.swift": "23d6aa26d28de39149d6d126ac4aba7298a1abc88e21e82a3570579f7e25ee65",
+    "Sources/ComputerUseApp/main.swift": "9ff021eb142132230762aec975495c720ababa65935df6e15bb8f5cdde8b9664",
+    "Sources/ComputerUseClient/XPCSessionClient.swift": "fd0aae2657b15b2c4336e03b74b099a2107f1a11f64d063db357bbcd0279ca21",
+    "Sources/ComputerUseIPC/BrokerHandshakeListener.swift": "f096e7c7890d1da11e335544660ada7eed5c95199fa89d421ad39bf862e07977",
+    "Sources/ComputerUseWorker/FixtureWorkerRuntime.swift": "d30e32f37146dc935bd53dd67dbc7d2955ba38f3952e2e2df213717eb6ad9a76",
+    "Sources/ComputerUseWorker/FixtureWorkerHost.swift": "c838ffd744c0a74611e657815b43adad9732a92469dd2d1ed772fba75e9152c2",
+    "Tests/CoreTests/FixtureWorkerRuntimeTests.swift": "a96a93b7885aea4446f0734eb8f3597fe646130dbe6e61fba108d1cba1fc9157",
+    "Tests/CoreTests/XPCSessionClientTests.swift": "90b8f2fead4bab1d7471cb12a8a3c758776edcbcdbd0b6515b5a5d82b72c47a3",
+    "Tests/main.swift": "97d061331f548c97cc5031f256fe471d13af985ab398abffd51e9058ac67cd92",
+    "Experiments/XPCPeerProbe/IsolatedReadClient.swift": "7f0ee8a44f199909ab06f03794fa17498c35195a2ccde4c98d390ca060663c89",
+    "scripts/fixture-worker-runtime-probe.py": "8438c9cd464832a2091bfbee9fd8b3547ac97384875cc042c87b1eced53caab8",
+    "scripts/isolated-fixture-read.py": "872d4467f3bee1d50e38e692b15146e3db329ea02e623cc784b3b583d7d06197"
+  },
+  "debug": {
+    "cases": 258,
+    "assertions": 2693,
+    "failures": 0,
+    "build_log": "worker-readonly-sdk-final-build-2026-10-29.log",
+    "test_log": "worker-readonly-sdk-final-selftest-2026-10-29.log"
+  },
+  "release": {
+    "cases": 258,
+    "assertions": 2693,
+    "failures": 0,
+    "test_log": "worker-readonly-sdk-release-selftest-2026-10-29.log"
+  },
+  "negative_runtime": "fixture-worker-runtime-2026-10-29-1.json",
+  "regressions": {
+    "named_sdk_cases": 12,
+    "named_sdk": "xpc-sdk-runtime-regression-2026-10-29.json",
+    "selected_peer_cases": 5,
+    "selected_peer": "owned-worker-peer-runtime-regression-2026-10-29.json",
+    "packaging_guard_cases": 29,
+    "packaging_guard_log": "worker-runtime-package-guards-2026-10-29.log"
+  },
+  "native": {
+    "evidence": "isolated-read-native-2026-10-29-3.json",
+    "verified_observations": 3,
+    "desktop_actions": 0,
+    "secure_field_excluded": true,
+    "manual_native_approval": true,
+    "companion_sha256": "02681612e348f80c87b4c292a0ddb607007c9fbdd8caf3af0d23150a8a1deee4",
+    "fixture_sha256": "c82daee8f27ae5a7faeb1e143a74a4b79eec3c3d374bed35ea5b748f9dc6d374"
+  },
+  "package_verification": "worker-readonly-sdk-package-verification-2026-10-29.json",
+  "limitations": [
+    "Development exact self-pins and same-executable child role; no stable publisher/update policy",
+    "Read-only fixture observation only; native mutation/preflight path not isolated",
+    "No blocked-AX Stop, permission interruption or hardware/platform gate closed by this result",
+    "Native attempt -1 failed capability negotiation; -2 expired awaiting approval; -3 passed",
+    "Agent Ultra and provider operations excluded"
+  ]
+}

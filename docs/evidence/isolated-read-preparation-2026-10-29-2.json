@@ -1,0 +1,10 @@
+{
+  "suite": "packaged-isolated-fixture-read",
+  "status": "prepared-without-native-launch",
+  "startedAt": "2026-10-29T09:21:46.730192+00:00",
+  "limitations": "GUI acceptance; native approval is never automated. Development signatures; no mutation, capture or distribution acceptance.",
+  "companionSHA256": "02681612e348f80c87b4c292a0ddb607007c9fbdd8caf3af0d23150a8a1deee4",
+  "fixtureSHA256": "c82daee8f27ae5a7faeb1e143a74a4b79eec3c3d374bed35ea5b748f9dc6d374",
+  "clientSourceSHA256": "bbd6e559bbb13568f377ac08da4860f8603462fc8a7ff54a5ace1a850eec6368",
+  "finishedAt": "2026-10-29T09:21:47.469766+00:00"
+}
