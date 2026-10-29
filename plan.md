@@ -2,6 +2,10 @@
 
 > Implementation has started. Current English implementation status, evidence, and unmet gates are maintained in [docs/STATUS.md](docs/STATUS.md). The original planning checklist below is not a claim of completed implementation.
 
+## Current ownership and remaining delivery (2026-10-28)
+
+Milyonus Agent Ultra is owned by another agent at the user's explicit request. This workstream must not read, edit, build, test or launch that checkout. Continue only the harness work defined in [remaining delivery plan](docs/HARNESS-REMAINING-PLAN.md). Historical integration requirements below remain context, not authorization to work in the other checkout.
+
 Tarih: 24 Ekim 2026 · Sürüm: 0.1 · Durum: uygulama öncesi mimari ve teslimat planı
 
 Bu belge macOS üzerinde çalışan, farklı LLM/agent sistemlerinin bilgisayarı gözlemlemesini ve kontrollü biçimde kullanmasını sağlayacak harness'ı tanımlar. Bu teslimat planlama aşamasıdır; çalışan harness, test edilmiş entegrasyon veya dağıtıma hazır ürün iddiası değildir. Uygulama iş listesi: [Plan Actions.md](<Plan Actions.md>).

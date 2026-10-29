@@ -1,0 +1,14 @@
+[0/1] Planning build
+Building for debugging...
+[0/12] Write sources
+[2/12] Write swift-version--1AB21518FC5DEDBE.txt
+[4/8] Compiling ComputerUseIntegration ComputerUsePreviewTransport.swift
+[5/8] Emitting module ComputerUseIntegration
+[6/12] Emitting module ComputerUseSelfTest
+[7/12] Compiling ComputerUseSelfTest IntegrationTests.swift
+[8/12] Compiling ComputerUseSelfTest main.swift
+[9/12] Compiling ComputerUseSelfTest PreviewTransportTests.swift
+[9/12] Write Objects.LinkFileList
+[10/12] Linking computer-use-selftest
+[11/12] Applying computer-use-selftest
+Build complete! (2.68s)

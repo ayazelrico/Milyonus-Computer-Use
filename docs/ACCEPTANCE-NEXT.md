@@ -2,13 +2,20 @@
 
 Updated: 2026-10-28. This queue supersedes the chronological notes previously appended here. Historical results remain in STATUS.md and evidence files.
 
-| Priority | Work | Current state | Next concrete acceptance |
+## Ownership boundary
+
+The user assigned Agent Ultra to a different agent. Do not read, modify, build, test, package or launch its checkout or extend its host adapter. General authorization to work on the harness continues. The detailed plan is [remaining delivery](HARNESS-REMAINING-PLAN.md).
+
+| Priority | Harness work | Current state | Next concrete acceptance |
 |---|---|---|---|
-| 1 | Independent broker permission identity and peer admission | Same-binary launch-context discrepancy reproduced. The actual IPC/core modules passed eleven independent-process cases, including unapproved session cancellation on disconnect. The independently launched companion passed approved cleanup/reconnect, one opt-in AX fixture edit, and effective Accessibility toggle revocation with a concurrent userInput pause. Four opt-in native routes and actual mid-drag Stop/disconnect cleanup passed. Full interruption and stable identity acceptance remain open. | Independently launched visible companion with host-controlled signing policy, authenticated channel, connection-owned grants and disconnect cancellation. Then prove its own permission grant/revoke lifecycle. |
-| 2 | Native interruption matrix | Pre-dispatch Stop, physical input and lock passed; XPC mid-drag Stop/disconnect and receiver mouse-up cleanup passed. Fresh window closure and focus-loss slices now passed with sub-second captures and unchanged ready session generations. | Extend delivered-event interruption to sleep/lock, long-held key/text cleanup, occlusion and hardware coverage. Preserve separate evidence for each. |
-| 3 | Normal Agent Ultra integration | 3713 current host headless assertions passed; isolated native action/Stop-after-completion/close passed. | Normal-host selection/clipboard work in flight and mid-action cancellation, preserving the existing host sandbox and user preferences. |
-| 4 | Broader real-provider pilot | One-action native Anthropic and OpenAI slices passed; OpenAI repeated-write failure diagnosed and completion instructions fixed. | The planned task/repetition and interruption matrix; no claim that a single successful fixture task completes this gate. |
-| 5 | Distribution | Ad-hoc packaging/signature/receipt checks passed. Zero valid signing identities installed. | Developer ID Application signing and an existing notarization profile, then clean installation, update and uninstall acceptance. |
+| 1 | Intermittent stdio timeout | Historical unexpected timeouts remain unresolved despite later passes | Bounded focused investigation tied to actual stage/counter evidence; causal fix or explicit unresolved result |
+| 2 | Remaining native interruption matrix | Four native routes, mid-drag Stop/disconnect cleanup, fresh closure and focus loss passed | Quiet planning-delay completion; applicable sleep/lock, permission, text and occlusion slices |
+| 3 | Production broker/worker boundary | Authenticated development XPC, connection-owned grants and independent control lane implemented and native-tested | Stable publisher policy, registration/restart lifecycle and blocking-call containment with separate acceptance |
+| 4 | Capture/display acceptance | Capture geometry and identity implementation exists; broader native/hardware matrix open | Fixture-only local capture cases with independent geometry and permission/target-change checks |
+| 5 | Real-provider matrix | One Anthropic and one OpenAI native fixture slice passed | Freeze supported task families and repetition denominator; bounded real calls with independent completion |
+| 6 | Distribution/platform coverage | Ad-hoc package checks passed; production signing/hardware inputs missing | Developer ID/notarization and actual clean-machine/OS/architecture/display acceptance |
+
+Agent Ultra integration is excluded from this executable queue and remains the other agent's responsibility. Previously accepted integration evidence is historical context only.
 
 ## Completed basic slices
 
@@ -20,7 +27,7 @@ Updated: 2026-10-28. This queue supersedes the chronological notes previously ap
 
 ## Architectural finding that changes test ordering
 
-The current SDK launches a direct child over inherited pipes. A read-only same-binary comparison reported Accessibility/capture true in that context but false under Launch Services. The companion's own Settings toggle is therefore not a demonstrated SDK revocation control. See [permission attribution](permission-attribution.md). Repeating toggles does not resolve this boundary, and unrelated application permissions must not be disabled to force a pass.
+The retained stdio SDK launches a direct child over inherited pipes. The opt-in XPC SDK independently launches/connects to a peer-authenticated companion. A read-only same-binary comparison reported Accessibility/capture true in that context but false under Launch Services. For the stdio topology the companion's own Settings toggle is not a demonstrated revocation control. XPC separately demonstrated a change in the companion's effective Accessibility trust, with concurrent userInput pause recorded rather than hidden. See [permission attribution](permission-attribution.md). Repeating toggles does not resolve this boundary, and unrelated application permissions must not be disabled to force a pass.
 
 The read-only [XPC experiment](../Experiments/XPCPeerProbe/README.md) establishes useful peer-check primitives, not a production broker. Wrong server identity can still receive the first request before its reply is rejected; that first request must contain no operational or sensitive payload. Fresh connections must perform their own authenticated exchange. Exact ad-hoc CDHash pins are development evidence, not a Developer ID policy.
 

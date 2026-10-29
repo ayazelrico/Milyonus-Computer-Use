@@ -2,9 +2,9 @@
 
 > Implementation has started. Current English implementation status, evidence, and unmet gates are maintained in [docs/STATUS.md](docs/STATUS.md). The original planning checklist below is not a claim of completed implementation.
 
-## Acceptance-first priority (2026-10-27)
+## Current ownership and execution priority (2026-10-28)
 
-Follow [docs/ACCEPTANCE-NEXT.md](docs/ACCEPTANCE-NEXT.md): establish a local Git checkpoint, then native gestures, real OpenAI execution, Ultra live acceptance and signed distribution. Missing foreground availability, provider configuration and signing credentials are explicit prerequisites. Do not replace these gates with more generic synthetic hardening.
+Agent Ultra is delegated to another agent. Do not work in that checkout or extend its host adapter. The active harness-only sequence is defined in [remaining delivery plan](docs/HARNESS-REMAINING-PLAN.md): bounded stdio defect investigation; remaining native interruption acceptance; production broker/worker boundary; capture; supported provider matrix; signed distribution/hardware gates. Follow [acceptance queue](docs/ACCEPTANCE-NEXT.md) and keep actual evidence separate from planning.
 
 ## Current implementation record (English, 2026-10-28)
 

@@ -1,0 +1,8 @@
+{
+  "file": "Sources/MilyonusAgentUltra/Services/ComputerUse/ComputerUsePreviewController.swift",
+  "beforeSHA256": "c9c1ada836a7009dcd38868fa13a929af29517fc0db05f4487a96f289c178415",
+  "afterSHA256": "027ef050f7d6df6e6b98e03273c6bb94e8b7926fe6eda21cb940586d60b84c6a",
+  "scope": "Only existing preview client factory selection; no sandbox/chat/feature-flag edits. Existing checkout changes preserved; no Ultra commit.",
+  "disposition": "Own uncommitted hunk reverted after exact postimage hash match; original preimage hash restored.",
+  "observedSHA256BeforeDisposition": "027ef050f7d6df6e6b98e03273c6bb94e8b7926fe6eda21cb940586d60b84c6a"
+}
