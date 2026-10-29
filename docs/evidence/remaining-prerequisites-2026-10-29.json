@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-29",
+  "scope": "Local public identity metadata and current invoking-process configuration presence only",
+  "identityQueryExitCode": 0,
+  "validIdentityCount": 0,
+  "developerIDApplicationCount": 0,
+  "invokingProcessConfigurationPresent": {
+    "OPENAI_API_KEY": false,
+    "MILYONUS_OPENAI_MODEL": false,
+    "ANTHROPIC_API_KEY": false,
+    "MILYONUS_ANTHROPIC_MODEL": false
+  },
+  "limitations": "No private keys, credential values, Keychain secret contents or account configuration read. Environment presence does not describe every external host."
+}

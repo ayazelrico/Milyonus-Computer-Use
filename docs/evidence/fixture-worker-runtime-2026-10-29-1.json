@@ -1,0 +1,43 @@
+{
+  "suite": "fixture-worker-runtime",
+  "status": "passed-negative-worker-runtime",
+  "startedAt": "2026-10-29T09:07:42.566246+00:00",
+  "sourceSHA256": {
+    "Sources/ComputerUseWorker/FixtureWorkerRuntime.swift": "d30e32f37146dc935bd53dd67dbc7d2955ba38f3952e2e2df213717eb6ad9a76",
+    "Sources/ComputerUseWorker/FixtureWorkerHost.swift": "c838ffd744c0a74611e657815b43adad9732a92469dd2d1ed772fba75e9152c2",
+    "Sources/ComputerUseMacOS/FixtureReadWorker.swift": "db6a85440640a0c058e3d982c1c1c9b8ef5398363ff5bd8d77d4f802bb4f416e",
+    "Tests/CoreTests/FixtureWorkerRuntimeTests.swift": "a96a93b7885aea4446f0734eb8f3597fe646130dbe6e61fba108d1cba1fc9157",
+    "Tests/main.swift": "a1e216841607bcb0b61e7067d903fc8fbc53083502e8968de6b90341bf46b3e9"
+  },
+  "limitations": "Actual signed child role and codec/collector refusals only. The probe target is hardcoded to its own non-fixture process. No AX tree read, native grant, TCC change, GUI or successful fixture observation.",
+  "binarySHA256": "cb8f47898d1574599f4967b09ea271a1547f00fed9233a53e8bf10c994974b87",
+  "result": {
+    "axTreeRead": false,
+    "cases": [
+      {
+        "error": "POLICY_DENIED",
+        "exitState": "exited(status: 15, signalled: true)",
+        "helperExited": true,
+        "name": "non-fixture"
+      },
+      {
+        "error": "STALE_OBSERVATION",
+        "exitState": "exited(status: 15, signalled: true)",
+        "helperExited": true,
+        "name": "changed-start"
+      },
+      {
+        "error": "UNSUPPORTED_CAPABILITY",
+        "exitState": "exited(status: 15, signalled: true)",
+        "helperExited": true,
+        "name": "explicit-window"
+      }
+    ],
+    "nativeApprovalCreated": false,
+    "nativeSessionOpened": false,
+    "scope": "Only this non-fixture probe process; synthetic correlation metadata",
+    "status": "passed-negative-worker-runtime"
+  },
+  "temporaryJobRemoved": true,
+  "finishedAt": "2026-10-29T09:07:46.028863+00:00"
+}

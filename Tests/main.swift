@@ -1,6 +1,16 @@
 import Foundation
 import ComputerUseContracts
 import ComputerUseCore
+import ComputerUseWorker
+
+if CommandLine.arguments.dropFirst().first == FixtureWorkerRuntime.role {
+    do { try await FixtureWorkerRuntime.run(arguments: Array(CommandLine.arguments.dropFirst())); exit(0) }
+    catch { exit(1) }
+}
+if CommandLine.arguments.dropFirst().first == "--fixture-worker-host-probe" {
+    do { try await FixtureWorkerRuntimeTests.runProbe(); exit(0) }
+    catch { print("{\"probeError\":\"runtime-failure\"}"); exit(1) }
+}
 
 do {
     try OwnedReadWorkerFixture.runIfRequested()
@@ -282,5 +292,7 @@ runCase("ReadWorkerWireTests.testFixedRequestAndBoundReplyRoundTrip") { try Read
 runCase("ReadWorkerWireTests.testRequestCannotCarryMutationOrExpandedScope") { try ReadWorkerWireTests().testRequestCannotCarryMutationOrExpandedScope() }
 runCase("ReadWorkerWireTests.testReplyCannotMixFailureWithObservationOrExtendDeadline") { try ReadWorkerWireTests().testReplyCannotMixFailureWithObservationOrExtendDeadline() }
 runCase("ReadWorkerWireTests.testKernelIdentityAndCollectorRefusalsWithoutAXAccess") { try ReadWorkerWireTests().testKernelIdentityAndCollectorRefusalsWithoutAXAccess() }
+await runAsyncCase("FixtureWorkerRuntimeTests.testRoleRejectsUntrustedStartupBeforeConnecting") { try await FixtureWorkerRuntimeTests().testRoleRejectsUntrustedStartupBeforeConnecting() }
+await runAsyncCase("XPCSessionClientTests.testReadOnlyObservationOptInDoesNotEnableActions") { try await XPCSessionClientTests().testReadOnlyObservationOptInDoesNotEnableActions() }
 print("RESULT: \(testCount) cases, \(assertionCount) assertions, \(failureCount) failures")
 exit(failureCount == 0 ? 0 : 1)

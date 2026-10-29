@@ -1,5 +1,15 @@
 import Foundation
 
+/// Trusted selected-process snapshot. Its liveness closure must capture that
+/// incarnation's owner, not a mutable latest-PID lookup.
+package struct BrokerOwnedPeer: Sendable {
+    package let pid: Int32
+    package let isLive: @Sendable () -> Bool
+    package init(pid: Int32, isLive: @escaping @Sendable () -> Bool) {
+        self.pid = pid; self.isLive = isLive
+    }
+}
+
 /// Bounded authenticated transport server. A transport connection is never a native session or approval.
 /// Mutable listener state is protected by lock; callbacks run outside that lock on XPC queues.
 public final class BrokerHandshakeListener: NSObject, NSXPCListenerDelegate, @unchecked Sendable {
@@ -10,6 +20,7 @@ public final class BrokerHandshakeListener: NSObject, NSXPCListenerDelegate, @un
     private let requestHandler: BrokerRequestHandler?
     private let controlHandler: BrokerRequestHandler?
     private let ownedProcessIdentifier: (@Sendable () -> Int32?)?
+    private let ownedPeer: (@Sendable () -> BrokerOwnedPeer?)?
     private let lock = NSLock()
     private var started = false
     private var closed = false
@@ -28,7 +39,8 @@ public final class BrokerHandshakeListener: NSObject, NSXPCListenerDelegate, @un
         }
         self.init(listener: NSXPCListener(machServiceName: serviceName), peer: peer,
                   maximumConnections: maximumConnections, ownedProcessIdentifier: nil,
-                  onDisconnect: onDisconnect, requestHandler: requestHandler, controlHandler: controlHandler)
+                  onDisconnect: onDisconnect, ownedPeer: nil,
+                  requestHandler: requestHandler, controlHandler: controlHandler)
     }
 
     /// Trusted launcher only. The provider must read the still-owned child's
@@ -40,6 +52,7 @@ public final class BrokerHandshakeListener: NSObject, NSXPCListenerDelegate, @un
         guard BrokerPeerIdentity.validIdentifier(serviceName) else { throw BrokerConnectionError.invalidService }
         self.init(listener: NSXPCListener(machServiceName: serviceName), peer: peer, maximumConnections: 1,
                   ownedProcessIdentifier: ownedProcessIdentifier, onDisconnect: onDisconnect,
+                  ownedPeer: nil,
                   requestHandler: requestHandler, controlHandler: nil)
     }
 
@@ -48,12 +61,14 @@ public final class BrokerHandshakeListener: NSObject, NSXPCListenerDelegate, @un
                              requestHandler: BrokerRequestHandler? = nil) {
         self.init(listener: .anonymous(), peer: peer, maximumConnections: 1,
                   ownedProcessIdentifier: ownedProcessIdentifier, onDisconnect: { _ in },
+                  ownedPeer: nil,
                   requestHandler: requestHandler, controlHandler: nil)
     }
 
     private init(listener: NSXPCListener, peer: BrokerPeerIdentity, maximumConnections: Int,
                  ownedProcessIdentifier: (@Sendable () -> Int32?)?,
                  onDisconnect: @escaping @Sendable (UUID) -> Void,
+                 ownedPeer: (@Sendable () -> BrokerOwnedPeer?)? = nil,
                  requestHandler: BrokerRequestHandler?, controlHandler: BrokerRequestHandler?) {
         self.listener = listener
         self.peer = peer
@@ -62,6 +77,7 @@ public final class BrokerHandshakeListener: NSObject, NSXPCListenerDelegate, @un
         self.requestHandler = requestHandler
         self.controlHandler = controlHandler
         self.ownedProcessIdentifier = ownedProcessIdentifier
+        self.ownedPeer = ownedPeer
         super.init()
         listener.delegate = self
     }
@@ -80,16 +96,30 @@ public final class BrokerHandshakeListener: NSObject, NSXPCListenerDelegate, @un
 
     package var endpoint: NSXPCListenerEndpoint { listener.endpoint }
 
+    package convenience init(serviceName: String, peer: BrokerPeerIdentity,
+                             ownedPeer: @escaping @Sendable () -> BrokerOwnedPeer?,
+                             onDisconnect: @escaping @Sendable (UUID) -> Void = { _ in },
+                             requestHandler: BrokerRequestHandler? = nil) throws {
+        guard BrokerPeerIdentity.validIdentifier(serviceName) else { throw BrokerConnectionError.invalidService }
+        self.init(listener: NSXPCListener(machServiceName: serviceName), peer: peer, maximumConnections: 1,
+                  ownedProcessIdentifier: nil, onDisconnect: onDisconnect, ownedPeer: ownedPeer,
+                  requestHandler: requestHandler, controlHandler: nil)
+    }
+
     public func listener(_ listener: NSXPCListener, shouldAcceptNewConnection channel: NSXPCConnection) -> Bool {
         lock.lock(); defer { lock.unlock() }
         guard started, !closed, connections.count < maximumConnections else { return false }
         let acceptedPID = channel.processIdentifier
+        let binding = ownedPeer?()
+        if ownedPeer != nil {
+            guard let binding, acceptedPID > 0, binding.pid == acceptedPID, binding.isLive() else { return false }
+        }
         if let ownedProcessIdentifier {
             guard acceptedPID > 0, ownedProcessIdentifier() == acceptedPID else { return false }
         }
         let provider = ownedProcessIdentifier
         let context = BrokerConnectionContext(isPeerLive: {
-            provider.map { $0() == acceptedPID } ?? true
+            (provider.map { $0() == acceptedPID } ?? true) && (binding?.isLive() ?? true)
         })
         let id = context.id
         channel.setCodeSigningRequirement(peer.requirement)
@@ -113,6 +143,8 @@ public final class BrokerHandshakeListener: NSObject, NSXPCListenerDelegate, @un
         owned.channel.invalidate()
         onDisconnect(id)
     }
+
+    package func closeConnection(_ id: UUID) { remove(id) }
 
     public func close() {
         lock.lock()

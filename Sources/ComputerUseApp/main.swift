@@ -3,6 +3,7 @@ import ComputerUseContracts
 import ComputerUseCore
 import ComputerUseMacOS
 import ComputerUseIPC
+import ComputerUseWorker
 
 @MainActor
 final class Companion: NSObject, NSApplicationDelegate {
@@ -25,17 +26,38 @@ final class Companion: NSObject, NSApplicationDelegate {
     private var startupFailure: String?
     private var nativeNotice: String?
     private var broker: BrokerHandshakeListener?
+    private var workerHost: FixtureWorkerHost?
+    private var readWorker: ReadWorkerController?
+    private let isolatedReads = CommandLine.arguments.contains("--isolated-fixture-reads")
     private let isBroker = CommandLine.arguments.contains("--broker-development")
     private let brokerFixtureActions = CommandLine.arguments.contains("--fixture-actions")
     private let brokerNativeInput = CommandLine.arguments.contains("--native-fixture-input")
     private lazy var connectionOwner = ConnectionSessionOwner(sessions: sessions) { [weak self] in
-        self?.desktop.invalidate()
+        self?.invalidateReadTargets()
+    }
+
+    private func invalidateReadTargets() {
+        desktop.invalidate()
+        readWorker?.cancel()
+        workerHost?.cancel()
     }
 
     private func startBroker() throws {
         let args = Array(CommandLine.arguments.dropFirst())
-        guard args.count >= 3, args[0] == "--broker-development", !isMCP,
-              Array(args.dropFirst(3)) == (brokerNativeInput ? ["--fixture-actions", "--native-fixture-input"] : (brokerFixtureActions ? ["--fixture-actions"] : [])) else { throw HarnessError.invalidRequest }
+        guard args.count >= 3, args[0] == "--broker-development", !isMCP else { throw HarnessError.invalidRequest }
+        let suffix = Array(args.dropFirst(3))
+        if isolatedReads {
+            guard suffix.count == 2, suffix[0] == "--isolated-fixture-reads",
+                  !brokerNativeInput, !brokerFixtureActions, suffix[1] != args[1] else { throw HarnessError.invalidRequest }
+            let host = try FixtureWorkerHost(service: suffix[1])
+            workerHost = host
+            readWorker = ReadWorkerController { [weak host] in
+                guard let host else { throw HarnessError.cancelled }
+                return try host.makeTransport()
+            }
+        } else {
+            guard suffix == (brokerNativeInput ? ["--fixture-actions", "--native-fixture-input"] : (brokerFixtureActions ? ["--fixture-actions"] : [])) else { throw HarnessError.invalidRequest }
+        }
         // Explicit trusted local launch configuration. Never read identity policy from RPC.
         let listener = try BrokerHandshakeListener(serviceName: args[1], peer: .developmentCDHash(args[2]),
             onDisconnect: { [weak self] id in
@@ -67,7 +89,7 @@ final class Companion: NSObject, NSApplicationDelegate {
             }
             let lifecycleMethods = ["session_open", "session_status", "session_cancel", "session_pause", "session_heartbeat", "system_capabilities"]
             // Explicit trusted launch opt-in; never selected through an RPC or model proposal.
-            let fixtureMethods = (brokerFixtureActions ? ["desktop_observe", "desktop_action"] : [])
+            let fixtureMethods = (isolatedReads ? ["desktop_observe"] : (brokerFixtureActions ? ["desktop_observe", "desktop_action"] : []))
                 + (brokerNativeInput ? ["desktop_type_text", "desktop_click", "desktop_scroll", "desktop_drag"] : [])
             guard (lifecycleMethods + fixtureMethods).contains(name) else {
                 throw HarnessError.unsupportedCapability
@@ -88,10 +110,30 @@ final class Companion: NSObject, NSApplicationDelegate {
             } else {
                 guard let session = sessions.current() else { throw HarnessError.unauthorized }
                 try connectionOwner.requireOwnership(connectionID: context.id, sessionID: session.id)
-                result = try await call(name, args: args, admission: { [self] in
-                    guard !Task.isCancelled else { throw HarnessError.cancelled }
-                    try connectionOwner.requireOwnership(connectionID: context.id, sessionID: session.id)
-                })
+                if isolatedReads, name == "desktop_observe" {
+                    guard Set(args.keys) == ["sessionId"], args["sessionId"] as? String == session.id,
+                          let readWorker else { throw HarnessError.invalidRequest }
+                    guard Permissions.status()["accessibility"] == true else { throw HarnessError.permissionRequired }
+                    let ready = try sessions.requireReady(session.id)
+                    let target = try FixtureWorkerHost.fixtureTarget()
+                    var observation = try await readWorker.read(connectionID: context.id, session: ready, target: target) { [self] in
+                        guard !Task.isCancelled else { throw HarnessError.cancelled }
+                        try connectionOwner.requireOwnership(connectionID: context.id, sessionID: ready.id)
+                        _ = try sessions.requireReady(ready.id, generation: ready.generation)
+                        guard Permissions.status()["accessibility"] == true else { throw HarnessError.permissionRevoked }
+                        guard try FixtureWorkerHost.fixtureTarget() == target else { throw HarnessError.staleObservation }
+                    }
+                    // Read-only snapshot handles are broker-minted and never enter
+                    // the native mutation target table in this experimental mode.
+                    observation.id = UUID().uuidString
+                    for index in observation.elements.indices { observation.elements[index].id = UUID().uuidString }
+                    result = try object(observation)
+                } else {
+                    result = try await call(name, args: args, admission: { [self] in
+                        guard !Task.isCancelled else { throw HarnessError.cancelled }
+                        try connectionOwner.requireOwnership(connectionID: context.id, sessionID: session.id)
+                    })
+                }
             }
             response = ["result": result]
         } catch {
@@ -137,7 +179,7 @@ final class Companion: NSObject, NSApplicationDelegate {
             Task { @MainActor [weak self] in
                 guard let self else { return }
                 let generation = self.sessions.session?.generation
-                if self.sessions.current()?.generation != generation { self.desktop.invalidate(); self.refresh() }
+                if self.sessions.current()?.generation != generation { self.invalidateReadTargets(); self.refresh() }
             }
         }
         refresh()
@@ -194,21 +236,21 @@ final class Companion: NSObject, NSApplicationDelegate {
         nativeNotice = nil
         refresh()
     }
-    @objc private func pause() { sessions.pause(); desktop.invalidate(); refresh() }
+    @objc private func pause() { sessions.pause(); invalidateReadTargets(); refresh() }
     @objc private func resume() {
         do { if let id = sessions.session?.id { try sessions.requestResume(id) } }
         catch { showNativeFailure("Resume failed", error: error); return }
         nativeNotice = nil
         refresh()
     }
-    @objc private func stop() { sessions.cancel(); desktop.invalidate(); refresh() }
-    @objc private func environmentChanged() { sessions.pause(reason: .environmentChanged); desktop.invalidate(); refresh() }
+    @objc private func stop() { sessions.cancel(); invalidateReadTargets(); refresh() }
+    @objc private func environmentChanged() { sessions.pause(reason: .environmentChanged); invalidateReadTargets(); refresh() }
     private func pauseForUser(eventTimestamp: TimeInterval) {
         // The click that approved a session may be delivered after app activation.
         // Ignore only events created before approval, never a time-based grace window.
         if sessions.session?.state == .ready, eventTimestamp > approvalTimestamp {
             diagnostic("pause input delta=\(eventTimestamp - approvalTimestamp)")
-            sessions.pause(reason: .userInput); desktop.invalidate(); refresh()
+            sessions.pause(reason: .userInput); invalidateReadTargets(); refresh()
         }
     }
     private func diagnostic(_ message: String) {
@@ -228,6 +270,7 @@ final class Companion: NSObject, NSApplicationDelegate {
             statusLabel.stringValue = "Session: \(session.state.rawValue)\nTarget: \(session.bundleId)\nGeneration: \(session.generation) · Native approval required before control"
             if let reason = session.pauseReason { statusLabel.stringValue += "\nPause reason: " + reason.rawValue }
         } else { statusLabel.stringValue = "No session. Accessibility: \(Permissions.status()["accessibility"] == true ? "granted" : "not granted")" }
+        if isolatedReads { statusLabel.stringValue += "\nFixture observations only; action requests disabled." }
         if let nativeNotice { statusLabel.stringValue += "\n" + nativeNotice }
     }
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { true }
@@ -483,6 +526,17 @@ final class Companion: NSObject, NSApplicationDelegate {
         default: throw HarnessError.unsupportedCapability
         }
     }
+}
+
+// This child role exits before companion session/UI/lock/journal construction.
+if CommandLine.arguments.dropFirst().first == FixtureWorkerRuntime.role {
+    let workerApplication = NSApplication.shared
+    workerApplication.setActivationPolicy(.prohibited)
+    Task { @MainActor in
+        do { try await FixtureWorkerRuntime.run(arguments: Array(CommandLine.arguments.dropFirst())); exit(0) }
+        catch { exit(1) }
+    }
+    dispatchMain()
 }
 
 // Read-only diagnostic for comparing direct-child and Launch Services attribution.

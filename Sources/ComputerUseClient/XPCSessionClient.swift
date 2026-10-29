@@ -10,6 +10,7 @@ public final class XPCSessionClient: ManagedHarnessClient, CapabilityHarnessClie
     private let serviceName: String
     private let peer: BrokerPeerIdentity
     private let allowFixtureActions: Bool
+    private let allowFixtureObservation: Bool
     private let allowNativeFixtureInput: Bool
     private var lifecycle = UUID()
     private var ownedSessionID: String?
@@ -17,17 +18,21 @@ public final class XPCSessionClient: ManagedHarnessClient, CapabilityHarnessClie
     private var latestSession: Session?
     private var heartbeatTask: Task<Void, Never>?
 
-    public init(serviceName: String, peer: BrokerPeerIdentity, allowFixtureActions: Bool = false, allowNativeFixtureInput: Bool = false) {
+    public init(serviceName: String, peer: BrokerPeerIdentity, allowFixtureActions: Bool = false, allowNativeFixtureInput: Bool = false,
+                allowFixtureObservation: Bool = false) {
         self.serviceName = serviceName
         self.peer = peer
         self.channel = AuthenticatedBrokerConnection()
         self.allowFixtureActions = allowFixtureActions
+        self.allowFixtureObservation = allowFixtureObservation || allowFixtureActions
         self.allowNativeFixtureInput = allowFixtureActions && allowNativeFixtureInput
     }
-    package init(connectedChannel: AuthenticatedBrokerConnection, peer: BrokerPeerIdentity, allowNativeFixtureInput: Bool = false) {
+    package init(connectedChannel: AuthenticatedBrokerConnection, peer: BrokerPeerIdentity, allowNativeFixtureInput: Bool = false,
+                 allowFixtureObservation: Bool = false) {
         self.channel = connectedChannel
         self.serviceName = "com.milyonus.test"
         self.allowFixtureActions = allowNativeFixtureInput
+        self.allowFixtureObservation = allowFixtureObservation || allowNativeFixtureInput
         self.allowNativeFixtureInput = allowNativeFixtureInput
         self.peer = peer
     }
@@ -162,7 +167,7 @@ public final class XPCSessionClient: ManagedHarnessClient, CapabilityHarnessClie
     isolated deinit { heartbeatTask?.cancel() }
 
     public func observe(sessionID: String) async throws -> Observation {
-        guard allowFixtureActions else { throw HarnessError.unsupportedCapability }
+        guard allowFixtureObservation else { throw HarnessError.unsupportedCapability }
         guard ownedSessionID == sessionID else { throw HarnessError.unauthorized }
         let observation: Observation = try await call("desktop_observe", arguments: JSONEncoder().encode(["sessionId": sessionID]))
         guard (try? observation.validate()) != nil, observation.sessionId == sessionID,

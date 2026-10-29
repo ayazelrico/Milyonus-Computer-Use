@@ -20,13 +20,14 @@ let package = Package(
         .target(name: "ComputerUseIPC"),
         .target(name: "ComputerUseCore", dependencies: ["ComputerUseContracts"]),
         .target(name: "ComputerUseMacOS", dependencies: ["ComputerUseContracts", "ComputerUseCore"]),
+        .target(name: "ComputerUseWorker", dependencies: ["ComputerUseContracts", "ComputerUseCore", "ComputerUseMacOS", "ComputerUseIPC"]),
         .target(name: "ComputerUseAcceptance", dependencies: ["ComputerUseContracts", "ComputerUseCore", "ComputerUseClient"]),
         .target(name: "ComputerUseClient", dependencies: ["ComputerUseContracts", "ComputerUseIPC"]),
         .target(name: "ComputerUseIntegration", dependencies: ["ComputerUseContracts", "ComputerUseClient", "ComputerUseAgent"]),
         .target(name: "ComputerUseAgent", dependencies: ["ComputerUseContracts", "ComputerUseClient"]),
         .executableTarget(name: "ComputerUseCLI", dependencies: ["ComputerUseAcceptance", "ComputerUseMacOS", "ComputerUseClient", "ComputerUseAgent"]),
-        .executableTarget(name: "ComputerUseApp", dependencies: ["ComputerUseMacOS", "ComputerUseCore", "ComputerUseIPC"]),
+        .executableTarget(name: "ComputerUseApp", dependencies: ["ComputerUseMacOS", "ComputerUseCore", "ComputerUseIPC", "ComputerUseWorker"]),
         .executableTarget(name: "ComputerUseFixture"),
-        .executableTarget(name: "ComputerUseSelfTest", dependencies: ["ComputerUseAcceptance", "ComputerUseContracts", "ComputerUseCore", "ComputerUseMacOS", "ComputerUseAgent", "ComputerUseClient", "ComputerUseIntegration", "ComputerUseIPC"], path: "Tests")
+        .executableTarget(name: "ComputerUseSelfTest", dependencies: ["ComputerUseAcceptance", "ComputerUseContracts", "ComputerUseCore", "ComputerUseMacOS", "ComputerUseWorker", "ComputerUseAgent", "ComputerUseClient", "ComputerUseIntegration", "ComputerUseIPC"], path: "Tests")
     ]
 )

@@ -10,6 +10,8 @@ private final class TypedSessionPeer: NSObject, NSXPCListenerDelegate, BrokerReq
     private let lock = NSLock()
     private var channels: [NSXPCConnection] = []
     private var heartbeatCalls = 0
+    private var actionCalls = 0
+    func actionCount() -> Int { lock.lock(); defer { lock.unlock() }; return actionCalls }
     func heartbeatCount() -> Int { lock.lock(); defer { lock.unlock() }; return heartbeatCalls }
     init(mode: String, identity: BrokerPeerIdentity) { self.mode = mode; self.identity = identity }
     func listener(_ listener: NSXPCListener, shouldAcceptNewConnection connection: NSXPCConnection) -> Bool {
@@ -24,6 +26,26 @@ private final class TypedSessionPeer: NSObject, NSXPCListenerDelegate, BrokerReq
     func control(_ data: Data, reply: @escaping @Sendable (Data?, String?) -> Void) { respond(data, reply: reply) }
     private func respond(_ data: Data, reply: @escaping @Sendable (Data?, String?) -> Void) {
         let name = ((try? JSONSerialization.jsonObject(with: data)) as? [String: Any])?["name"] as? String
+        if mode == "readOnly", name == "system_capabilities" || name == "desktop_observe" {
+            let encoder = JSONEncoder(); encoder.dateEncodingStrategy = .iso8601
+            let data: Data
+            if name == "system_capabilities" {
+                var capabilities = HarnessCapabilities(permissions: ["accessibility": false, "screenRecording": false])
+                capabilities.supportedActions = []; capabilities.nativeTextInput = false
+                capabilities.nativeElementClick = false; capabilities.experimentalNativeFixtureDrag = false
+                capabilities.experimentalNativeFixtureScroll = false
+                data = try! encoder.encode(capabilities)
+            } else {
+                data = try! encoder.encode(Observation(id: "fixture-observation", sessionId: "fixture-session",
+                    bundleId: HarnessProtocol.fixtureBundleID, pid: 42, capturedAt: Date(), elements: [], truncated: false))
+            }
+            let object = try! JSONSerialization.jsonObject(with: data)
+            reply(try! JSONSerialization.data(withJSONObject: ["result": object]), nil); return
+        }
+        if mode == "readOnly", name == "desktop_action" {
+            lock.lock(); actionCalls += 1; lock.unlock()
+            reply(Data("{\"error\":\"UNSUPPORTED_CAPABILITY\"}".utf8), nil); return
+        }
         if mode == "wrongAction", name?.hasPrefix("desktop_") == true {
             let result = ActionResult(requestId: "wrong-request", effect: .applied, verification: .passed)
             let encoded = try! JSONEncoder().encode(result)
@@ -35,7 +57,7 @@ private final class TypedSessionPeer: NSObject, NSXPCListenerDelegate, BrokerReq
         }
         if mode == "domain" { reply(Data("{\"error\":\"LEASE_BUSY\"}".utf8), nil); return }
         if name == "session_heartbeat" { lock.lock(); heartbeatCalls += 1; lock.unlock() }
-        let state = name == "session_cancel" ? "cancelled" : (mode == "heartbeat" && name != "session_open" ? "ready" : "awaitingApproval")
+        let state = name == "session_cancel" ? "cancelled" : ((mode == "heartbeat" || mode == "readOnly") && name != "session_open" ? "ready" : "awaitingApproval")
         let id = mode == "wrongID" && name == "session_status" ? "other-session" : "fixture-session"
         let session = Session(id: id, bundleId: HarnessProtocol.fixtureBundleID,
             generation: 1, state: state == "cancelled" ? .cancelled : (state == "ready" ? .ready : .awaitingApproval),
@@ -49,6 +71,40 @@ private final class TypedSessionPeer: NSObject, NSXPCListenerDelegate, BrokerReq
 }
 
 @MainActor final class XPCSessionClientTests: TestCase {
+    func testReadOnlyObservationOptInDoesNotEnableActions() async throws {
+        let pin = try identity()
+        for allowed in [false, true] {
+            let peer = TypedSessionPeer(mode: "readOnly", identity: pin)
+            let listener = NSXPCListener.anonymous(); listener.delegate = peer; listener.resume()
+            let channel = AuthenticatedBrokerConnection()
+            try await channel.connect(endpoint: listener.endpoint, peer: pin)
+            let client = XPCSessionClient(connectedChannel: channel, peer: pin, allowFixtureObservation: allowed)
+            defer { channel.close(); peer.close(); listener.invalidate() }
+            let capabilities = try await client.capabilities()
+            expectEqual(capabilities.supportedActions, [])
+            let session = try await client.openFixtureSession()
+            // Synthetic peer metadata only; no native SessionController/grant.
+            let status = try await client.status()
+            expectEqual(status?.state, .ready)
+            do {
+                let observation = try await client.observe(sessionID: session.id)
+                expectEqual(allowed, true)
+                expectEqual(observation.id, "fixture-observation")
+            } catch {
+                expectEqual(allowed, false)
+                expectEqual(error as? HarnessError, .unsupportedCapability)
+            }
+            let request = ActionRequest(requestId: "request", sessionId: session.id, idempotencyKey: "key",
+                observationId: "fixture-observation", generation: 1, elementId: "element", kind: .press)
+            do { _ = try await client.act(request); fail("Observation opt-in enabled mutation") }
+            catch { expectEqual(error as? HarnessError, .unsupportedCapability) }
+            expectEqual(peer.actionCount(), 0)
+            expectEqual(channel.isAuthenticated, true)
+            try await client.cancel(sessionID: session.id)
+            await client.shutdown()
+        }
+    }
+
     private func identity() throws -> BrokerPeerIdentity {
         var code: SecCode?, staticCode: SecStaticCode?, info: CFDictionary?
         guard SecCodeCopySelf([], &code) == errSecSuccess, let code,
