@@ -9,6 +9,7 @@ public final class BrokerHandshakeListener: NSObject, NSXPCListenerDelegate, @un
     private let onDisconnect: @Sendable (UUID) -> Void
     private let requestHandler: BrokerRequestHandler?
     private let controlHandler: BrokerRequestHandler?
+    private let ownedProcessIdentifier: (@Sendable () -> Int32?)?
     private let lock = NSLock()
     private var started = false
     private var closed = false
@@ -19,18 +20,48 @@ public final class BrokerHandshakeListener: NSObject, NSXPCListenerDelegate, @un
     }
     private var connections: [UUID: OwnedConnection] = [:]
 
-    public init(serviceName: String, peer: BrokerPeerIdentity, maximumConnections: Int = 4,
+    public convenience init(serviceName: String, peer: BrokerPeerIdentity, maximumConnections: Int = 4,
                 onDisconnect: @escaping @Sendable (UUID) -> Void = { _ in },
                 requestHandler: BrokerRequestHandler? = nil, controlHandler: BrokerRequestHandler? = nil) throws {
         guard BrokerPeerIdentity.validIdentifier(serviceName), (1...8).contains(maximumConnections) else {
             throw BrokerConnectionError.invalidService
         }
-        listener = NSXPCListener(machServiceName: serviceName)
+        self.init(listener: NSXPCListener(machServiceName: serviceName), peer: peer,
+                  maximumConnections: maximumConnections, ownedProcessIdentifier: nil,
+                  onDisconnect: onDisconnect, requestHandler: requestHandler, controlHandler: controlHandler)
+    }
+
+    /// Trusted launcher only. The provider must read the still-owned child's
+    /// current running state, not return a PID received in a worker message.
+    package convenience init(serviceName: String, peer: BrokerPeerIdentity,
+                             ownedProcessIdentifier: @escaping @Sendable () -> Int32?,
+                             onDisconnect: @escaping @Sendable (UUID) -> Void = { _ in },
+                             requestHandler: BrokerRequestHandler? = nil) throws {
+        guard BrokerPeerIdentity.validIdentifier(serviceName) else { throw BrokerConnectionError.invalidService }
+        self.init(listener: NSXPCListener(machServiceName: serviceName), peer: peer, maximumConnections: 1,
+                  ownedProcessIdentifier: ownedProcessIdentifier, onDisconnect: onDisconnect,
+                  requestHandler: requestHandler, controlHandler: nil)
+    }
+
+    package convenience init(peer: BrokerPeerIdentity,
+                             ownedProcessIdentifier: @escaping @Sendable () -> Int32?,
+                             requestHandler: BrokerRequestHandler? = nil) {
+        self.init(listener: .anonymous(), peer: peer, maximumConnections: 1,
+                  ownedProcessIdentifier: ownedProcessIdentifier, onDisconnect: { _ in },
+                  requestHandler: requestHandler, controlHandler: nil)
+    }
+
+    private init(listener: NSXPCListener, peer: BrokerPeerIdentity, maximumConnections: Int,
+                 ownedProcessIdentifier: (@Sendable () -> Int32?)?,
+                 onDisconnect: @escaping @Sendable (UUID) -> Void,
+                 requestHandler: BrokerRequestHandler?, controlHandler: BrokerRequestHandler?) {
+        self.listener = listener
         self.peer = peer
         self.maximumConnections = maximumConnections
         self.onDisconnect = onDisconnect
         self.requestHandler = requestHandler
         self.controlHandler = controlHandler
+        self.ownedProcessIdentifier = ownedProcessIdentifier
         super.init()
         listener.delegate = self
     }
@@ -47,10 +78,19 @@ public final class BrokerHandshakeListener: NSObject, NSXPCListenerDelegate, @un
         return connections.count
     }
 
+    package var endpoint: NSXPCListenerEndpoint { listener.endpoint }
+
     public func listener(_ listener: NSXPCListener, shouldAcceptNewConnection channel: NSXPCConnection) -> Bool {
         lock.lock(); defer { lock.unlock() }
         guard started, !closed, connections.count < maximumConnections else { return false }
-        let context = BrokerConnectionContext()
+        let acceptedPID = channel.processIdentifier
+        if let ownedProcessIdentifier {
+            guard acceptedPID > 0, ownedProcessIdentifier() == acceptedPID else { return false }
+        }
+        let provider = ownedProcessIdentifier
+        let context = BrokerConnectionContext(isPeerLive: {
+            provider.map { $0() == acceptedPID } ?? true
+        })
         let id = context.id
         channel.setCodeSigningRequirement(peer.requirement)
         let endpoint = BrokerEndpoint(context: context, handler: requestHandler, controlHandler: controlHandler)

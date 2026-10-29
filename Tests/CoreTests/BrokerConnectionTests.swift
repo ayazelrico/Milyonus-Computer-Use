@@ -2,6 +2,17 @@ import Foundation
 import Security
 import ComputerUseIPC
 
+private final class OwnedPeerGate: @unchecked Sendable {
+    private let lock = NSLock()
+    private var pid: Int32?
+    private var invocations = 0
+    init(_ pid: Int32?) { self.pid = pid }
+    func currentPID() -> Int32? { lock.lock(); defer { lock.unlock() }; return pid }
+    func replace(_ pid: Int32?) { lock.lock(); self.pid = pid; lock.unlock() }
+    func invoked() { lock.lock(); invocations += 1; lock.unlock() }
+    var count: Int { lock.lock(); defer { lock.unlock() }; return invocations }
+}
+
 private final class HandshakePeer: NSObject, NSXPCListenerDelegate, BrokerRequestChannel, @unchecked Sendable {
     let mode: String
     let identity: BrokerPeerIdentity
@@ -33,6 +44,47 @@ private final class HandshakePeer: NSObject, NSXPCListenerDelegate, BrokerReques
 
 @MainActor
 final class BrokerConnectionTests: TestCase {
+    func testOwnedWorkerProcessBindingAndRetirement() async throws {
+        let pin = try identity(), pid = ProcessInfo.processInfo.processIdentifier
+        for mode in ["matching", "wrong-client-pid", "wrong-server-pid", "retired"] {
+            let gate = OwnedPeerGate(mode == "wrong-client-pid" ? Int32.max : pid)
+            let listener = BrokerHandshakeListener(peer: pin, ownedProcessIdentifier: { gate.currentPID() },
+                requestHandler: { _, data in gate.invoked(); return data })
+            try listener.start()
+            let connection = AuthenticatedBrokerConnection()
+            defer { connection.close(); listener.close() }
+            var authenticated = false
+            do {
+                try await connection.connect(endpoint: listener.endpoint, peer: pin,
+                    expectedProcessIdentifier: mode == "wrong-server-pid" ? Int32.max : pid, timeoutSeconds: 1)
+                authenticated = connection.isAuthenticated
+                if mode == "wrong-client-pid" || mode == "wrong-server-pid" { fail("Wrong owned peer admitted") }
+                if mode == "retired" {
+                    gate.replace(nil)
+                    do { _ = try await connection.request(Data("fixture-metadata".utf8), timeoutSeconds: 1); fail("Retired peer handled data") }
+                    catch { expectEqual(error as? BrokerConnectionError, .requestFailed) }
+                } else if mode == "matching" {
+                    let received = try await connection.request(Data("fixture-metadata".utf8), timeoutSeconds: 1)
+                    expectEqual(received, Data("fixture-metadata".utf8))
+                }
+            } catch { expectEqual(error as? BrokerConnectionError, .authenticationFailed) }
+            expectEqual(authenticated, mode == "matching" || mode == "retired")
+            expectEqual(gate.count, mode == "matching" ? 1 : 0)
+        }
+    }
+
+    func testOwnedContextRevocationCannotRecoverWithSamePID() throws {
+        let gate = OwnedPeerGate(42)
+        let context = BrokerConnectionContext(isPeerLive: { gate.currentPID() == 42 })
+        expectEqual(context.isConnected, true)
+        gate.replace(nil)
+        expectEqual(context.isConnected, false)
+        gate.replace(42)
+        expectEqual(context.isConnected, false)
+        expectThrows(try BrokerHandshakeListener(serviceName: "invalid", peer: identity(),
+            ownedProcessIdentifier: { 42 }))
+    }
+
     private func identity() throws -> BrokerPeerIdentity {
         var code: SecCode?
         guard SecCodeCopySelf([], &code) == errSecSuccess, let code else { throw BrokerConnectionError.invalidIdentity }

@@ -16,6 +16,7 @@ public final class AuthenticatedBrokerConnection {
     private var timer: Task<Void, Never>?
     private var requests: [Bool: CheckedContinuation<Data, Error>] = [:]
     private var requestTimers: [Bool: Task<Void, Never>] = [:]
+    private var expectedProcessIdentifier: Int32?
 
     public init() {}
 
@@ -23,15 +24,29 @@ public final class AuthenticatedBrokerConnection {
         guard BrokerPeerIdentity.validIdentifier(serviceName), (1...30).contains(timeoutSeconds) else {
             throw BrokerConnectionError.invalidService
         }
-        try await connect(channel: NSXPCConnection(machServiceName: serviceName), peer: peer, timeoutSeconds: timeoutSeconds)
+        try await connect(channel: NSXPCConnection(machServiceName: serviceName), peer: peer,
+                          expectedProcessIdentifier: nil, timeoutSeconds: timeoutSeconds)
     }
 
-    package func connect(endpoint: NSXPCListenerEndpoint, peer: BrokerPeerIdentity, timeoutSeconds: Int = 5) async throws {
-        guard (1...30).contains(timeoutSeconds) else { throw BrokerConnectionError.invalidService }
-        try await connect(channel: NSXPCConnection(listenerEndpoint: endpoint), peer: peer, timeoutSeconds: timeoutSeconds)
+    package func connect(serviceName: String, peer: BrokerPeerIdentity,
+                         expectedProcessIdentifier: Int32, timeoutSeconds: Int = 5) async throws {
+        guard BrokerPeerIdentity.validIdentifier(serviceName), expectedProcessIdentifier > 0,
+              (1...30).contains(timeoutSeconds) else { throw BrokerConnectionError.invalidService }
+        try await connect(channel: NSXPCConnection(machServiceName: serviceName), peer: peer,
+                          expectedProcessIdentifier: expectedProcessIdentifier, timeoutSeconds: timeoutSeconds)
     }
 
-    private func connect(channel: NSXPCConnection, peer: BrokerPeerIdentity, timeoutSeconds: Int) async throws {
+    package func connect(endpoint: NSXPCListenerEndpoint, peer: BrokerPeerIdentity,
+                         expectedProcessIdentifier: Int32? = nil, timeoutSeconds: Int = 5) async throws {
+        guard (1...30).contains(timeoutSeconds), expectedProcessIdentifier.map({ $0 > 0 }) ?? true else {
+            throw BrokerConnectionError.invalidService
+        }
+        try await connect(channel: NSXPCConnection(listenerEndpoint: endpoint), peer: peer,
+                          expectedProcessIdentifier: expectedProcessIdentifier, timeoutSeconds: timeoutSeconds)
+    }
+
+    private func connect(channel: NSXPCConnection, peer: BrokerPeerIdentity,
+                         expectedProcessIdentifier: Int32?, timeoutSeconds: Int) async throws {
         guard connection == nil, pending == nil else { throw BrokerConnectionError.alreadyConnected }
         try Task.checkCancellation()
         let epoch = UUID()
@@ -46,6 +61,7 @@ public final class AuthenticatedBrokerConnection {
             Task { @MainActor in self?.fail(.authenticationFailed, epoch: epoch) }
         }
         connection = channel
+        self.expectedProcessIdentifier = expectedProcessIdentifier
         try await withTaskCancellationHandler {
             try await withCheckedThrowingContinuation { continuation in
                 pending = continuation
@@ -61,6 +77,11 @@ public final class AuthenticatedBrokerConnection {
                     Task { @MainActor in
                         guard let self, self.generation == epoch, self.pending != nil else { return }
                         guard echoed == nonce, version == 1 else { self.fail(.protocolMismatch, epoch: epoch); return }
+                        if let expectedProcessIdentifier {
+                            guard self.connection?.processIdentifier == expectedProcessIdentifier else {
+                                self.fail(.authenticationFailed, epoch: epoch); return
+                            }
+                        }
                         self.isAuthenticated = true
                         self.timer?.cancel(); self.timer = nil
                         let pending = self.pending; self.pending = nil
@@ -86,6 +107,9 @@ public final class AuthenticatedBrokerConnection {
 
     private func send(_ data: Data, control: Bool, timeoutSeconds: Int) async throws -> Data {
         guard isAuthenticated, let connection else { throw BrokerConnectionError.unauthorized }
+        if let expectedProcessIdentifier, connection.processIdentifier != expectedProcessIdentifier {
+            close(); throw BrokerConnectionError.authenticationFailed
+        }
         guard requests[control] == nil, !data.isEmpty, data.count <= (control ? 4096 : BrokerEndpoint.maximumBytes),
               (1...30).contains(timeoutSeconds) else { throw BrokerConnectionError.resourceLimit }
         if Task.isCancelled { close(); throw BrokerConnectionError.cancelled }
@@ -132,6 +156,7 @@ public final class AuthenticatedBrokerConnection {
         timer?.cancel(); timer = nil
         let continuation = pending; pending = nil
         let old = connection; connection = nil
+        expectedProcessIdentifier = nil
         old?.invalidate()
         continuation?.resume(throwing: error)
         let waiting = requests; requests.removeAll()

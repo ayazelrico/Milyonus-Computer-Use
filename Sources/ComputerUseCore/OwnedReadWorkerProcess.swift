@@ -22,10 +22,13 @@ package final class OwnedReadWorkerProcess: Sendable {
     deinit { storage.stop() }
 
     package var state: ReadWorkerProcessState { storage.snapshot() }
+    /// Authentication admission uses this latch, not a PID retained after Stop.
+    package var runningProcessIdentifier: Int32? { storage.runningPID() }
+    package var isRetired: Bool { storage.isRetired() }
 
     package func launch() async throws {
         let storage = storage
-        try Task.checkCancellation()
+        if Task.isCancelled { storage.stop(); throw HarnessError.cancelled }
         try await withTaskCancellationHandler {
             try await withCheckedThrowingContinuation { continuation in
                 storage.launch { continuation.resume(with: $0.mapError { $0 as Error }) }
@@ -59,6 +62,21 @@ package final class OwnedReadWorkerProcess: Sendable {
 
         func snapshot() -> ReadWorkerProcessState {
             lock.lock(); defer { lock.unlock() }; return state
+        }
+
+        func runningPID() -> Int32? {
+            lock.lock(); defer { lock.unlock() }
+            guard !stopped, case .running(let pid) = state else { return nil }
+            return pid
+        }
+
+        func isRetired() -> Bool {
+            lock.lock(); defer { lock.unlock() }
+            switch state {
+            case .failed, .exited: return true
+            case .idle: return stopped
+            case .launching, .running: return false
+            }
         }
 
         private func publish(_ state: ReadWorkerProcessState) {

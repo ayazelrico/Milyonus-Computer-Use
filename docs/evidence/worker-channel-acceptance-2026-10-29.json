@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-29",
+  "base_commit": "223077bd7c7d2b4ab4b6561e672e5a8c1bfbb0e5",
+  "source_sha256": {
+    "Sources/ComputerUseCore/OwnedReadWorkerProcess.swift": "0ffe47b3595d0a19918618d7d5c0e2c251d16ddf0f797b91295fda7d76e6c9d1",
+    "Sources/ComputerUseCore/ReadWorkerProcessSlot.swift": "aacea7a6cccb4ca6ab2aa4c914b362cd5955869a209656aa9bf7d83c9e34dda0",
+    "Sources/ComputerUseIPC/AuthenticatedBrokerConnection.swift": "074b641bcb7e983f0f8d42f0a0fdce553552a68855e8007143c6cf32538c0924",
+    "Sources/ComputerUseIPC/BrokerConnectionContext.swift": "6063299acd200bea2d4cc8218f88856c735344a110d7c34447ce9bc269517eba",
+    "Sources/ComputerUseIPC/BrokerHandshakeListener.swift": "4be0f11b08b4c087e6b0077b6c697246861726a5f84ae20dcabd126715606f1a",
+    "Tests/CoreTests/ReadWorkerTests.swift": "b806a5af2dcea987fb0012a5c4cad122f8be8514493b12835c3523251d6cb978",
+    "Tests/CoreTests/BrokerConnectionTests.swift": "043556acccc44047999113129b2b7a8a012c1cbd15b9f89d0c70f035343f5c70",
+    "Tests/main.swift": "1409dd4d313f4d6f6fabdd23ab2c545552f64e29c117cf08a63e49fe015bcde1",
+    "Experiments/XPCPeerProbe/OwnedWorkerPeer.swift": "760b35117e496bddf20369f30b1dff3cdc2c19f7b633856c1b6e357aed89c293",
+    "scripts/owned-worker-peer-probe.py": "9ec1b8a567282b4108222f32339a83c6b1fe764c26d3a82435aa51f2b230ff7c"
+  },
+  "standalone": {
+    "cases": 252,
+    "assertions": 2644,
+    "failures": 0,
+    "logs": {
+      "debug": "worker-transport-selftest-2026-10-29.log",
+      "release": "worker-transport-release-selftest-2026-10-29.log"
+    },
+    "build_log": "worker-transport-build-2026-10-29.log"
+  },
+  "owned_peer": {
+    "cases": 5,
+    "status": "passed-limited-owned-peer",
+    "evidence": "owned-worker-peer-2026-10-29-3.json"
+  },
+  "existing_sdk": {
+    "cases": 12,
+    "status": "passed-limited-sdk-probe",
+    "evidence": "xpc-sdk-owned-worker-regression-2026-10-29.json"
+  },
+  "earlier_runs": "worker-peer-* logs and owned-peer -1/-2 records are preliminary snapshots; final source gate uses worker-transport logs and owned-peer -3.",
+  "limitations": [
+    "Exact development pins only; no stable publisher distribution acceptance",
+    "Known synthetic metadata; no AX observation or native broker Stop acceptance",
+    "No native grants, TCC changes, GUI, provider use or Example Host checkout access",
+    "Fixed read wire format, packaged helper locator/bootstrap and collector remain unimplemented",
+    "Process capacity slot implemented internally; companion not switched to worker path"
+  ]
+}

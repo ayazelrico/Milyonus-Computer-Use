@@ -6,8 +6,13 @@ public final class BrokerConnectionContext: @unchecked Sendable {
     public let id = UUID()
     private let lock = NSLock()
     private var connected = true
-    package init() {}
+    private let isPeerLive: @Sendable () -> Bool
+    package init(isPeerLive: @escaping @Sendable () -> Bool = { true }) { self.isPeerLive = isPeerLive }
     public var isConnected: Bool {
+        lock.lock(); let live = connected; lock.unlock()
+        // Never invoke a trusted owner's callback while holding the context lock.
+        guard live else { return false }
+        guard isPeerLive() else { revoke(); return false }
         lock.lock(); defer { lock.unlock() }
         return connected
     }

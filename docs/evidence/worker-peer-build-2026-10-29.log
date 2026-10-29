@@ -1,0 +1,24 @@
+[0/1] Planning build
+Building for debugging...
+[0/10] Write sources
+[1/10] Write swift-version--1AB21518FC5DEDBE.txt
+[3/10] Emitting module ComputerUseIPC
+[4/10] Compiling ComputerUseIPC AuthenticatedBrokerConnection.swift
+[5/16] Compiling ComputerUseClient XPCSessionClient.swift
+[6/16] Emitting module ComputerUseClient
+[6/17] Write Objects.LinkFileList
+[7/21] Linking milyonus-cu
+[8/21] Applying milyonus-cu
+[10/21] Compiling ComputerUseApp main.swift
+[11/21] Emitting module ComputerUseApp
+[11/21] Write Objects.LinkFileList
+[12/21] Linking MilyonusComputerUse
+[13/21] Applying MilyonusComputerUse
+[15/21] Compiling ComputerUseSelfTest BrokerConnectionTests.swift
+[16/21] Compiling ComputerUseSelfTest main.swift
+[17/21] Emitting module ComputerUseSelfTest
+[18/21] Compiling ComputerUseSelfTest XPCSessionClientTests.swift
+[18/21] Write Objects.LinkFileList
+[19/21] Linking computer-use-selftest
+[20/21] Applying computer-use-selftest
+Build complete! (3.60s)
