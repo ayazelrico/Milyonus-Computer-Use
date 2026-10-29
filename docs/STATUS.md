@@ -714,3 +714,16 @@ The user explicitly stopped this workstream's Agent Ultra work and requested a h
 The immediately preceding uncommitted preview-factory hunk was reverted only after its current file hash exactly matched this agent's recorded postimage. The restored content exactly matched the recorded preimage. No Git reset/clean or broad checkout restoration was used. The associated uncommitted harness transport-config helper, its tests and package dependency change were also withdrawn; accepted native/XPC commits remain intact. The withdrawn 243-case run is preserved as historical experiment evidence, not the current code baseline. See `ultra-xpc-adapter-change-2026-10-28.json` for the exact disposition.
 
 The current plan is [remaining harness delivery](HARNESS-REMAINING-PLAN.md). It prioritizes the unresolved stdio defect, remaining supported native interruption slices, production broker/worker containment, fixture capture, the supported provider matrix and distribution/hardware prerequisites. Agent Ultra is explicitly excluded. This update is planning/ownership cleanup, not a new implementation or passing phase claim.
+
+## Bounded stdio investigation — 2026-10-29
+
+Post-Ultra-withdrawal Debug build and standalone suite completed: 241 cases / 2555 assertions / zero failures. The current accepted source baseline excludes the withdrawn transport helper.
+
+H1's existing inherited-output reproduction completed once in Debug and once in Release, 20 cases / 60 assertions / zero failures each. Source and evidence association is in `stdio-bounded-investigation-2026-10-29.json`. The historical timeout remains unresolved; these passes establish no causal fix. No deadline, guard or production source changed. Investigation moves to independent H3/H4 preparation rather than another green stress loop.
+
+
+## Worker and capture preparation — 2026-10-29
+
+[ADR 002](adr/002-broker-worker-boundary.md) records the current MainActor blocking-call risk, proposes a read-only owned-worker first increment, and preserves broker authority, session fencing and durable effect accounting. It explicitly leaves synchronous preflight/mutation isolation and independent worker TCC attribution open. This is design evidence only.
+
+[Local capture acceptance](capture-acceptance-plan.md) freezes nine fixture-local case categories, identifies current metadata-authentication limitations, and separates deadline admission from process interruption. No GUI, permission changes or provider upload occurred in this preparation. Neither H3 nor H4 is accepted by these documents.

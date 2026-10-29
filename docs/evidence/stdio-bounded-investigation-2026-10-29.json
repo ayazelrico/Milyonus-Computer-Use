@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-29",
+  "source_commit": "24712a76cac495ecf5a6ffe7ea20aeea17a8c7e1",
+  "scope": "Synthetic inherited-output fixture only; no companion or desktop input",
+  "source_sha256": {
+    "Sources/ComputerUseClient/StdioHarnessClient.swift": "c40975eb530cc9ada05189060c5e23a25b968e78fb511b0023b64a7363e490a6",
+    "Tests/CoreTests/StdioFailureTests.swift": "c74eb250c3bb8dbb5b23a3fbdce090993c9f6fd12ccde78003a134d89b68bbcf",
+    "Tests/main.swift": "edbfc6a8242178add27c8b683e98963c5d2b92ce522efbb3dacb0cfbd680d695"
+  },
+  "debug": {
+    "cases": 20,
+    "assertions": 60,
+    "failures": 0,
+    "log": "stdio-focused-debug-2026-10-29.log"
+  },
+  "release": {
+    "cases": 20,
+    "assertions": 60,
+    "failures": 0,
+    "log": "stdio-focused-release-2026-10-29.log"
+  },
+  "disposition": "Not reproduced in bounded run. Historical timeout remains unresolved. No production timing, retry, or process-signal changes."
+}
