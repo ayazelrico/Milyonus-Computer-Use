@@ -1,0 +1,19 @@
+{
+  "suite": "capture-resize-source-association",
+  "status": "passed-prepublication-resize-slice",
+  "sources": {
+    "Sources/ComputerUseFixture/main.swift": "a6fa710a81b200ba23fda738538275e7dcd6f8c7a7f97664e571d10b1d1e8cf1",
+    "Experiments/CaptureProbe/CaptureClient.swift": "b6a1f456115451067f29dc594901969e6d8dc72acaf85f4e6a7ab47671319ddf",
+    "scripts/capture-fixture-probe.py": "19623c783340d5e806860f2d78744d33c1da0c36bd44ef92214f1f90d6d7b624",
+    "scripts/summarize-capture-evidence.py": "30d26f91c1ee0e4301fe2f3c9f006c679ff27e1eeb1579c1d3afe700bd8b1cb0"
+  },
+  "evidence": [
+    "capture-resize-build-2026-10-29.log",
+    "capture-resize-selftest-2026-10-29.log",
+    "capture-resize-release-build-2026-10-29.log",
+    "capture-resize-release-selftest-2026-10-29.log",
+    "capture-resize-native-2026-10-29.json",
+    "capture-resize-evidence-audit-2026-10-29.json"
+  ],
+  "limitations": "Actual resize after framework image return, before publication. Not OS-call preemption, production attribution or full H4."
+}

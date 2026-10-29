@@ -182,3 +182,9 @@ H4 now has real no-window and ambiguous-window refusals and a local marker/decod
 Actual movement and closure after framework image return now refuse publication with STALE_OBSERVATION. Actual-image cancellation and a ten-second delayed callback also refuse publication. The event boundary is explicitly after image completion; OS-call interruption is not claimed. Capture now pins kernel process-start identity, and marker/move/close native cases pass with that change. Publisher authentication remains open.
 
 Next executable H4 work is independent marker-to-desktop mapping and resize coverage; capture-specific permission revocation and containment of a stalled framework call remain distinct gates. Additional hardware and stable signing still require real prerequisites. The gate table in capture-acceptance-plan.md supersedes the earlier statement that all C4/C5/C7 work is unexecuted, without declaring those categories fully complete.
+
+### Process identity and resize follow-through — 2026-10-29
+
+Capture now rechecks kernel process-start identity before acquisition and publication; native marker/move/close cases passed with this binding. The additional resize case passed with measured 620×412→700×472 dimensions and STALE_OBSERVATION. Cancellation/deadline records remain associated with their earlier source snapshot. This is still pre-publication admission, not OS-call preemption or publisher authentication.
+
+ADR 002 has been reconciled with actual AX worker progress. The next capture-worker increment cannot reuse the AX wire for PNG bytes: its 262144-byte bound is below the capture limit of 8 MiB. First define an authenticated bounded frame transport and measure the independent role's capture permission; retain broker scope and publication ownership. This dependency is separate from independent marker-to-desktop mapping and the current single-display limits.

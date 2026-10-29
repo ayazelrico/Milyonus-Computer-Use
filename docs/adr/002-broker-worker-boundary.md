@@ -1,6 +1,6 @@
 # ADR 002: Broker authority and blocking platform workers
 
-Date: 2026-10-29. Status: proposed; no production topology or worker isolation accepted.
+Date: 2026-10-29. Status: development AX read-worker slice implemented and natively exercised; production topology and complete action/capture isolation remain proposed.
 
 ## Problem demonstrated by the current code
 
@@ -53,4 +53,6 @@ Before selecting an embedded service versus another signed owned-helper arrangem
 5. Add local capture only after permission attribution and resource bounds pass. Migrate blocking preflight/mutation paths separately, retaining per-action journal semantics and per-event admission.
 6. Validate real publisher requirements and installed lifecycle on signed artifacts before marking H3 complete.
 
-This document authorizes no production rollout. The first internal lifecycle increment is now tracked in [read-worker lifecycle](../read-worker-lifecycle.md); separate-process AX observation and production topology remain unimplemented/unaccepted. Agent Ultra remains outside this workstream.
+This document authorizes no production rollout. The internal lifecycle is tracked in [read-worker lifecycle](../read-worker-lifecycle.md), and the implemented development role in [fixture-worker runtime](../fixture-worker-runtime.md). Actual separate-process AX reads, blocked-AX Stop and new-read permission denial/restoration have positive native evidence. The first blocked-AX verification failure remains unexplained despite three subsequent measured passes. Production topology, in-flight permission interruption and mutation/preflight isolation remain unaccepted. Agent Ultra remains outside this workstream.
+
+Local capture now pins process-start identity and has actual marker, ambiguous/missing-window and pre-publication movement/closure/resize/cancellation/deadline evidence. These run through a diagnostic child, not the private broker worker. They do not satisfy step 5's independently launched worker TCC and containment gates. A capture worker must additionally bound image transfer (the existing 262144-byte AX wire is smaller than the 8 MiB PNG limit), authenticate frame metadata and retain broker-owned publication admission. Do not place PNGs into the AX reply envelope or assume local CLI permission proves helper attribution.
