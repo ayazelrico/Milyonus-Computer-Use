@@ -59,13 +59,17 @@ final class FixtureDelegate: NSObject, NSApplicationDelegate {
             closeSignal = source
             source.activate()
         }
-        if CommandLine.arguments.contains("--move-on-test-signal") {
+        if CommandLine.arguments.contains("--move-on-test-signal") || CommandLine.arguments.contains("--resize-on-test-signal") {
             signal(SIGUSR2, SIG_IGN)
             let source = DispatchSource.makeSignalSource(signal: SIGUSR2, queue: .main)
             source.setEventHandler { [weak self] in
                 MainActor.assumeIsolated {
                     guard let window = self?.window else { return }
-                    window.setFrameOrigin(NSPoint(x: window.frame.minX + 80, y: window.frame.minY + 40))
+                    if CommandLine.arguments.contains("--resize-on-test-signal") {
+                        window.setContentSize(NSSize(width: 700, height: 440))
+                    } else {
+                        window.setFrameOrigin(NSPoint(x: window.frame.minX + 80, y: window.frame.minY + 40))
+                    }
                 }
             }
             moveSignal = source; source.activate()

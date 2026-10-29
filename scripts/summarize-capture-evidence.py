@@ -9,6 +9,7 @@ EXPECTED = {
     'absent': ('passed-absent-fixture', 'TARGET_NOT_FOUND'),
     'ambiguous': ('passed-ambiguous-fixture', 'TARGET_AMBIGUOUS'),
     'marker': ('passed-fixture-marker', None),
+    'resize': ('passed-resize-before-publication', 'STALE_OBSERVATION'),
     'move': ('passed-move-before-publication', 'STALE_OBSERVATION'),
     'close': ('passed-close-before-publication', 'STALE_OBSERVATION'),
     'cancel': ('passed-cancel-before-publication', 'CancellationError'),
@@ -30,7 +31,7 @@ def validate(path):
     if refusal and result.get('refusal') != refusal:
         raise ValueError('Unexpected refusal')
     boundary = 'selection-or-local-marker'
-    if case in ['move', 'close', 'cancel', 'deadline']:
+    if case in ['move', 'resize', 'close', 'cancel', 'deadline']:
         boundary = 'after-framework-image-before-final-revalidation'
         times = [result.get(key) for key in ['imageReturnedBeforeTransitionUptime',
                  'transitionObservedUptime', 'refusalObservedUptime']]
@@ -43,11 +44,13 @@ def validate(path):
             raise ValueError('Missing publication-refusal evidence')
         if case == 'deadline' and times[1] - times[0] < 10:
             raise ValueError('Delay did not exceed the unchanged ten-second deadline')
-        if case == 'move':
+        if case in ['move', 'resize']:
             before, after = result['expectedBounds'], result['observedBounds']
             if after['id'] != str(result['targetWindowID']) or after['pid'] != str(result['targetPID']):
                 raise ValueError('Movement identity mismatch')
-            if abs(float(after['x']) - before['x']) < 40 and abs(float(after['y']) - before['y']) < 20:
+            if case == 'resize' and (abs(float(after['width']) - before['width']) < 40 or abs(float(after['height']) - before['height']) < 30):
+                raise ValueError('No measured resize')
+            if case == 'move' and abs(float(after['x']) - before['x']) < 40 and abs(float(after['y']) - before['y']) < 20:
                 raise ValueError('No measured movement')
     if case == 'marker' and result.get('colorFidelityAccepted') is not False:
         raise ValueError('Marker identity is not color-fidelity acceptance')

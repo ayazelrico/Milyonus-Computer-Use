@@ -14,7 +14,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--evidence', required=True)
     parser.add_argument('--prepare-only', action='store_true')
-    parser.add_argument('--case', choices=['absent', 'marker', 'ambiguous', 'move', 'close', 'cancel', 'deadline'], default='absent')
+    parser.add_argument('--case', choices=['absent', 'marker', 'ambiguous', 'move', 'resize', 'close', 'cancel', 'deadline'], default='absent')
     args = parser.parse_args()
     root = Path(__file__).resolve().parent.parent
     output = Path(args.evidence)
@@ -45,13 +45,13 @@ def main():
                 if args.case != 'absent':
                     binary = root / 'build/ComputerUseFixture.app/Contents/MacOS/ComputerUseFixture'
                     record['fixtureSHA256'] = hashlib.sha256(binary.read_bytes()).hexdigest()
-                    fixture_flag = {'ambiguous': '--capture-duplicate', 'move': '--move-on-test-signal', 'close': '--close-on-test-signal'}.get(args.case, '--capture-marker')
+                    fixture_flag = {'ambiguous': '--capture-duplicate', 'move': '--move-on-test-signal', 'resize': '--resize-on-test-signal', 'close': '--close-on-test-signal'}.get(args.case, '--capture-marker')
                     fixture = subprocess.Popen([str(binary), fixture_flag], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                     record['ownedFixturePID'] = fixture.pid
                     time.sleep(1)
                     if fixture.poll() is not None:
                         raise RuntimeError('Owned fixture exited')
-                client_args = [str(client), args.case] + ([str(fixture.pid)] if args.case in ['move', 'close', 'cancel', 'deadline'] else [])
+                client_args = [str(client), args.case] + ([str(fixture.pid)] if args.case in ['move', 'resize', 'close', 'cancel', 'deadline'] else [])
                 result = subprocess.run(client_args, capture_output=True, text=True, timeout=30)
                 record['result'] = json.loads(result.stdout)
                 if result.returncode != 0:

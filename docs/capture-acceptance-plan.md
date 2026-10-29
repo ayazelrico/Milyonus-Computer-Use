@@ -64,10 +64,12 @@ The same rendezvous supports a caller-task cancellation and a ten-second delayed
 | C2 | No-window refusal | Accepted only for recorded development process attribution |
 | C3 | Two-window refusal | Accepted only for recorded development process attribution |
 | C4 | Actual close after image return, before publication, refused | OS image-generation interruption itself is not established |
-| C5 | Actual move after image return, before publication, refused | Resize and movement during OS image generation remain untested |
+| C5 | Actual move and resize after image return, before publication, refused | Movement/resize during OS image generation remain untested |
 | C6 | Not run for capture | AX permission tests do not substitute for Screen Recording revocation |
 | C7 | Actual image then caller cancellation/deadline, no publication | Framework preemption and stalled capture-worker containment remain open |
 | C8 | Probe keeps PNG in memory, no provider/disk output | Does not validate every consuming application or journal path |
 | C9 | One current host/display configuration | Additional physical displays and supported OS/hardware matrix remain open |
 
 `summarize-capture-evidence.py` validates selected evidence status, refusal, cleanup and monotonic event ordering. It reports each source/fixture hash separately and does not convert historical records into current-build passes. The seven-case audit in `capture-evidence-audit-2026-10-29.json` is evidence bookkeeping, not a new native test run.
+
+The explicit fixture resize hook also passed the same pre-publication boundary: the same PID/window changed from 620×412 to 700×472 points, then capture returned STALE_OBSERVATION without publishing a frame. `capture-resize-native-2026-10-29.json` records image/transition/refusal times; the dedicated evidence audit checks both width and height changes and unchanged target identity. The public fixture default and capture API are unchanged by this hook.

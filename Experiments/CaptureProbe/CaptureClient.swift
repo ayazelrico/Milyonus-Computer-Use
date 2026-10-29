@@ -7,7 +7,7 @@ import ComputerUseMacOS
 @main struct CaptureClient {
     @MainActor static func main() async {
         let args = Array(CommandLine.arguments.dropFirst())
-        let transition = ["move", "close", "cancel", "deadline"].contains(args.first ?? "")
+        let transition = ["move", "resize", "close", "cancel", "deadline"].contains(args.first ?? "")
         guard (args.count == 1 && ["absent", "marker", "ambiguous"].contains(args[0]))
             || (transition && args.count == 2 && Int32(args[1]) != nil) else { exit(64) }
         var record: [String: Any] = ["status": "failed", "imageWrittenToDisk": false,
@@ -61,6 +61,10 @@ import ComputerUseMacOS
                             let same = windows.first { $0["id"] == String(windowID) && $0["pid"] == String(pid) }
                             if args[0] == "close" {
                                 observed = same == nil
+                            } else if args[0] == "resize", let same,
+                                      let width = Double(same["width"] ?? ""), let height = Double(same["height"] ?? "") {
+                                observed = abs(width - bounds.width) >= 40 && abs(height - bounds.height) >= 30
+                                if observed { record["observedBounds"] = same }
                             } else if let same, let x = Double(same["x"] ?? ""), let y = Double(same["y"] ?? "") {
                                 observed = abs(x - bounds.x) >= 40 || abs(y - bounds.y) >= 20
                                 if observed { record["observedBounds"] = same }

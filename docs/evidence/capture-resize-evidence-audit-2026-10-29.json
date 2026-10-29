@@ -1,0 +1,15 @@
+{
+  "suite": "capture-evidence-audit",
+  "status": "passed-record-validation",
+  "cases": [
+    {
+      "case": "resize",
+      "evidence": "docs/evidence/capture-resize-native-2026-10-29.json",
+      "status": "passed-resize-before-publication",
+      "boundary": "after-framework-image-before-final-revalidation",
+      "clientSourceSHA256": "b6a1f456115451067f29dc594901969e6d8dc72acaf85f4e6a7ab47671319ddf",
+      "fixtureSHA256": "7e79c794a949602f23932fdd2b8a3ccb22d2fff76c9c037b9ae54010d23d4981"
+    }
+  ],
+  "limitations": "Validates recorded assertions and timing, not an independent replay. Records may represent different source snapshots. No full H4, framework-call preemption, color-fidelity, publisher authentication, installed-companion or hardware-matrix claim."
+}
