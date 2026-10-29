@@ -22,3 +22,11 @@ Synthetic pipe children now record the same bounded known-stage markers for all 
 The callback is emitted once per connection and does not change the ten-second request/frame deadlines, retries, process ownership or terminal shutdown. A deliberate unanswered-status test checks the captured handshake/request counters and confirms subsequent calls are rejected on the closed transport. This test waits for the existing real deadline; it does not shorten or bypass it.
 
 `STDIO_TIMEOUT` alone does not indicate test failure: nonreading/backpressure and unanswered-request fixtures intentionally time out. Read the surrounding case result and final suite summary. Instrumented passing runs do not establish the root cause of the earlier unexpected timeouts, and stage-file I/O may affect scheduling. Native/provider acceptance remains separate.
+
+## Bounded investigation — 2026-10-29
+
+The existing exact inherited-output reproduction ran once in Debug and once in optimized Release: each completed 20 cases / 60 assertions / zero failures. See `evidence/stdio-bounded-investigation-2026-10-29.json` for source hashes and log references. No companion, GUI action or provider call was launched.
+
+Source review confirmed that the pipe reader polls a nonblocking descriptor, checks cancellation between reads, and closes its handle in its own deferred cleanup. Shutdown cancels the reader independently of descendant EOF. The writer is actor-isolated, bounds queued frames, handles partial writes and closes rather than replaying a partially delivered frame. Request timers are removed with their continuations. These are code observations, not proof that every scheduling or process-startup path is correct. The historical failures do not contain a causal stage snapshot sufficient to select a fix.
+
+Disposition: **unresolved, not reproduced in this bounded run**. No timeout relaxation, production change, mutation replay or new retry was introduced. The session/observation-mismatch and closed-input historical failures remain separate unresolved observations. Stop repeating green inherited-output loops; retain the existing diagnostics for the next actual unexpected failure and proceed with independent harness work.
