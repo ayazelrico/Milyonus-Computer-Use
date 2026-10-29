@@ -8,7 +8,7 @@ Agent Ultra is delegated to another agent. Do not work in that checkout or exten
 
 ## Worker implementation checkpoint (English, 2026-10-29)
 
-H3 now has an internal cancellable read-worker lifecycle, reusable process owner, live process-bound XPC admission and a retirement slot. Current Debug/Release suites each pass 252 cases / 2644 assertions; five independent owned-peer cases and the 12-case named SDK regression also pass. This is not a production helper, native AX-worker or permission-isolation pass; [implementation boundary](docs/read-worker-lifecycle.md) lists the next transport and platform work.
+H3 now has an internal cancellable read-worker lifecycle, reusable process owner, live process-bound XPC admission and a retirement slot. Current Debug/Release suites each pass 256 cases / 2674 assertions after adding fixed read framing and a native collector component. Five independent owned-peer cases and the 12-case named SDK regression passed the preceding channel increment. The collector is not yet connected in a launched native helper; no successful AX-worker or permission-isolation pass is claimed; [implementation boundary](docs/read-worker-lifecycle.md) lists the next transport and platform work.
 
 ## Current implementation record (English, 2026-10-28)
 

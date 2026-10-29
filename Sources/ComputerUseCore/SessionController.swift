@@ -5,7 +5,7 @@ import ComputerUseContracts
 /// A broader app policy requires its own reviewed adapter and acceptance evidence.
 @MainActor
 public final class SessionController {
-    public static let fixtureBundleID = "com.milyonus.computeruse.fixture"
+    public nonisolated static let fixtureBundleID = "com.milyonus.computeruse.fixture"
     public private(set) var session: Session?
     private var deadline: TimeInterval = 0
     private var heartbeatDeadline: TimeInterval = 0
