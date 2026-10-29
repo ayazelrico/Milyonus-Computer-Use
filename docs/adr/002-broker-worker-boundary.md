@@ -53,4 +53,4 @@ Before selecting an embedded service versus another signed owned-helper arrangem
 5. Add local capture only after permission attribution and resource bounds pass. Migrate blocking preflight/mutation paths separately, retaining per-action journal semantics and per-event admission.
 6. Validate real publisher requirements and installed lifecycle on signed artifacts before marking H3 complete.
 
-This document authorizes no production rollout and claims no worker implementation. Example Host remains outside this workstream.
+This document authorizes no production rollout. The first internal lifecycle increment is now tracked in [read-worker lifecycle](../read-worker-lifecycle.md); separate-process AX observation and production topology remain unimplemented/unaccepted. Example Host remains outside this workstream.

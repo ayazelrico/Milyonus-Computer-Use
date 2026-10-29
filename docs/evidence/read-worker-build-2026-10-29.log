@@ -1,0 +1,20 @@
+[0/1] Planning build
+Building for debugging...
+[0/11] Write sources
+[2/11] Write swift-version--1AB21518FC5DEDBE.txt
+[4/11] Emitting module ComputerUseCore
+[5/11] Compiling ComputerUseCore ReadWorkerController.swift
+[6/16] Emitting module ComputerUseMacOS
+[6/16] Write Objects.LinkFileList
+[8/17] Emitting module ComputerUseSelfTest
+[9/17] Compiling ComputerUseSelfTest ReadWorkerTests.swift
+[9/18] Write Objects.LinkFileList
+[11/18] Emitting module ComputerUseApp
+[11/18] Write Objects.LinkFileList
+[12/18] Linking milyonus-cu
+[13/18] Linking computer-use-selftest
+[14/18] Applying milyonus-cu
+[15/18] Applying computer-use-selftest
+[16/18] Linking MilyonusComputerUse
+[17/18] Applying MilyonusComputerUse
+Build complete! (2.21s)
