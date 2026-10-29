@@ -227,9 +227,11 @@ final class ReadWorkerTests: TestCase {
         try await child.launch()
         try await waitUntil { FileManager.default.fileExists(atPath: marker.path) }
         guard case .running(let pid) = child.state else { throw HarnessError.protocolMismatch }
+        expectEqual(child.runningProcessIdentifier, pid)
         expectEqual(pid > 0, true)
         let start = ContinuousClock.now
         child.stop(); child.stop()
+        expectEqual(child.runningProcessIdentifier, nil)
         // Fixed before execution: stop itself <250 ms, final reaped exit <2 s.
         expectEqual(start.duration(to: .now) < .milliseconds(250), true)
         try await waitUntil { if case .exited = child.state { return true }; return false }
@@ -250,10 +252,51 @@ final class ReadWorkerTests: TestCase {
         launch.cancel()
         do { try await launch.value; fail("Cancelled launch succeeded") }
         catch { expectEqual(error is CancellationError || (error as? HarnessError) == .cancelled, true) }
+        do { try await child.launch(); fail("Cancelled owner launched a new child") }
+        catch { expectEqual(error as? HarnessError, .cancelled) }
         try await waitUntil {
             switch child.state { case .idle, .failed, .exited: return true; default: return false }
         }
         expectThrows(try OwnedReadWorkerProcess(executable: URL(fileURLWithPath: "/not-a-worker")))
         expectThrows(try OwnedReadWorkerProcess(executable: URL(fileURLWithPath: "/bin/sleep"), terminationGrace: .zero))
+    }
+
+    func testProcessSlotRetainsRetiringChildUntilExit() async throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true,
+                                                attributes: [.posixPermissions: 0o700])
+        addTeardownBlock { try? FileManager.default.removeItem(at: directory) }
+        let marker = directory.appendingPathComponent("ready")
+        var created = 0
+        let slot = ReadWorkerProcessSlot {
+            created += 1
+            if created == 1 {
+                return try OwnedReadWorkerProcess(executable: URL(fileURLWithPath: CommandLine.arguments[0]),
+                    arguments: ["--owned-read-worker-stall", marker.path], terminationGrace: .seconds(1))
+            }
+            return try OwnedReadWorkerProcess(executable: URL(fileURLWithPath: "/bin/sleep"), arguments: ["30"])
+        }
+        addTeardownBlock { slot.cancel() }
+        let child = try slot.acquire()
+        expectThrows(try slot.acquire()) { expectEqual($0 as? HarnessError, .leaseBusy) }
+        try await child.launch()
+        try await waitUntil { FileManager.default.fileExists(atPath: marker.path) }
+        slot.cancel()
+        expectEqual(child.runningProcessIdentifier, nil)
+        expectEqual(child.isRetired, false)
+        expectThrows(try slot.acquire()) { expectEqual($0 as? HarnessError, .leaseBusy) }
+        expectEqual(created, 1)
+        try await waitUntil { child.isRetired }
+        expectEqual(child.state, .exited(status: SIGKILL, signalled: true))
+        let replacement = try slot.acquire()
+        expectEqual(created, 2)
+        expectEqual(replacement.state, .idle)
+        slot.cancel()
+        expectEqual(replacement.isRetired, true)
+        let third = try slot.acquire()
+        expectEqual(created, 3)
+        do { try await replacement.launch(); fail("Retired reservation relaunched") }
+        catch { expectEqual(error as? HarnessError, .cancelled) }
+        expectEqual(third.state, .idle)
     }
 }

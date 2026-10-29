@@ -1,0 +1,93 @@
+{
+  "suite": "owned-worker-xpc-peer",
+  "status": "passed-limited-owned-peer",
+  "cases": [
+    {
+      "authenticatedBeforeRequest": true,
+      "metadataVerified": true,
+      "outcome": "authenticated",
+      "ownedChildExited": true,
+      "ownerAdmissionRetired": true,
+      "postHandshakeInvocations": 1,
+      "siblingRefused": false,
+      "name": "matching-owned-child",
+      "temporaryJobRemoved": true
+    },
+    {
+      "authenticatedBeforeRequest": true,
+      "metadataVerified": true,
+      "outcome": "authenticated",
+      "ownedChildExited": true,
+      "ownerAdmissionRetired": true,
+      "postHandshakeInvocations": 1,
+      "siblingRefused": true,
+      "name": "same-signature-sibling",
+      "temporaryJobRemoved": true
+    },
+    {
+      "authenticatedBeforeRequest": false,
+      "metadataVerified": false,
+      "outcome": "authenticationFailed",
+      "ownedChildExited": true,
+      "ownerAdmissionRetired": true,
+      "postHandshakeInvocations": 0,
+      "siblingRefused": false,
+      "name": "wrong-client-signature",
+      "temporaryJobRemoved": true
+    },
+    {
+      "authenticatedBeforeRequest": false,
+      "metadataVerified": false,
+      "outcome": "authenticationFailed",
+      "ownedChildExited": true,
+      "ownerAdmissionRetired": true,
+      "postHandshakeInvocations": 0,
+      "siblingRefused": false,
+      "name": "wrong-server-signature",
+      "temporaryJobRemoved": true
+    },
+    {
+      "authenticatedBeforeRequest": false,
+      "metadataVerified": false,
+      "outcome": "authenticationFailed",
+      "ownedChildExited": true,
+      "ownerAdmissionRetired": true,
+      "postHandshakeInvocations": 0,
+      "siblingRefused": false,
+      "name": "wrong-server-pid",
+      "temporaryJobRemoved": true
+    }
+  ],
+  "startedAt": "2026-10-29T08:28:30.158292+00:00",
+  "sourceSHA256": "e259160ea64c97b1f5136d35e2eef6a0d39d296148101241306bc8a8d2baa754",
+  "limitations": "Development CDHash pins and owned-process admission only. Known metadata; no AX, native grants, TCC, production signing or companion integration.",
+  "objects": {
+    "ComputerUseIPC.build/AuthenticatedBrokerConnection.swift.o": "b0f27c5f99d64525576b0d27cd8fa69eea6d3c1550545abdc844b7b24e8e8005",
+    "ComputerUseIPC.build/BrokerConnectionContext.swift.o": "8e9304fd3ba3a3ed203bc1665dbebeabc4ae2c6b262a263a5ae1043a89377f21",
+    "ComputerUseIPC.build/BrokerHandshakeListener.swift.o": "5417dd53d41e7d91d88e4494236267abae952127dcdfb7d7bbc73d631eec2d70",
+    "ComputerUseIPC.build/BrokerRequestChannel.swift.o": "1d5ff77145cf02d63018e818bde2f6a133c20fe551d74e3f9f339efd9be79c44",
+    "ComputerUseIPC.build/PeerIdentity.swift.o": "7bb77c61f16883f9f876cc6296bcda0c193dcf2fa867d3af16c00a4f40b1faef",
+    "ComputerUseCore.build/ActionLedger.swift.o": "b557e99410af0053be2ed22f62ae7e649915c91777aa395dbaf38a534cc53c9b",
+    "ComputerUseCore.build/CaptureDeadline.swift.o": "7773c24e066f3319f8f2acfaf2316ef88d2f724221dd930f27362c27116691bf",
+    "ComputerUseCore.build/ConnectionSessionOwner.swift.o": "40f1c39df0573f9a0db0f3db80a393a389d322552d9c21a8487285f6ecf41eac",
+    "ComputerUseCore.build/ExecutionEngine.swift.o": "e3f251f9946fdf5d59b65ed9a98aab9cb9c8eb73b7397f5f323a231525452484",
+    "ComputerUseCore.build/FixtureCaptureSelection.swift.o": "6146f7290e385ce64757a1fbdadeb84a7119301873567930e51b88b81900b7ba",
+    "ComputerUseCore.build/FixtureDragReceipt.swift.o": "da2598a558c088a9b1a7b7ec257ff2ed3ac0d9f06262698fbf454bf6cca84399",
+    "ComputerUseCore.build/InputSequence.swift.o": "24ad8bade612daa918c6e36e9520b8eb03790810d2a14c26f180a25072fe16eb",
+    "ComputerUseCore.build/ObservationTraversalBudget.swift.o": "352efe885e61cb392f38c1fd0f6eeb585ca4cf57c56138b07fa11b27eeeec56d",
+    "ComputerUseCore.build/OwnedReadWorkerProcess.swift.o": "6f6f2a4af80c6ec222f2748717e3452a9904565e2ad705583d25540dffc971de",
+    "ComputerUseCore.build/PointerGesture.swift.o": "8928012eec34b106e78463451785851527869730937e5fdf6da845aa028841b5",
+    "ComputerUseCore.build/PrivateFile.swift.o": "55db63d936d5e11a46245ca5321ccf01e2b0f32d4d43a4518e601f9d051fc78e",
+    "ComputerUseCore.build/ProcessLease.swift.o": "ca492c9558be7cc15bbef5c0ea2e218fbe7abc6e146e6f75eed8d84e79f963ab",
+    "ComputerUseCore.build/ReadWorkerController.swift.o": "ce31ee875f04f5eee0f08c65fd8a3e3f8f31ad0bb8993635a2cd674910c393be",
+    "ComputerUseCore.build/SessionController.swift.o": "78f4eb2e349a9bc5c67b4cdbfd7a45ccc5cff95ea5e405e105b97cd163ff4441",
+    "ComputerUseContracts.build/Capabilities.swift.o": "0cdb9d121b80f99029ef3b4ac0c83a7e2ef0d37fd422b63e01c012c70680c589",
+    "ComputerUseContracts.build/CaptureGeometry.swift.o": "e46444e46651c4bbfd0a0c75f4257452ef323c276e0f7b6fbe371d077abef90d",
+    "ComputerUseContracts.build/Models.swift.o": "45ddfa8ea3a874ffa28d035e97a1f077c07aaeccd8180fc8c4afb0164f72b8e9",
+    "ComputerUseContracts.build/ObservationValidation.swift.o": "9d592a7ba530642da3ff7b7ac0fe5eb81c39dbd61a8538577377515d3d97fe09",
+    "ComputerUseContracts.build/SessionValidation.swift.o": "879d0a820e67f923e4442dccd46a9e01f77171602ecfc273224c074eb2874df8",
+    "ComputerUseContracts.build/StrictJSON.swift.o": "d522eb8927d034224ffd323bd5d2344ad2868b73af34162d5b0408956d136709"
+  },
+  "binarySHA256": "8c8e138d395cf8cabf0d62331ed9b2b1576eb2c85f1c05e8d709e14a4fdf6029",
+  "finishedAt": "2026-10-29T08:28:35.961556+00:00"
+}

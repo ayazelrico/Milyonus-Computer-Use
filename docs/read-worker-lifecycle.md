@@ -38,10 +38,14 @@ The process-owner increment passed Debug build/selftests and optimized Release s
 
 Before using this controller for platform reads:
 
-1. Supply a bounded, authenticated private transport and a trusted packaged-helper locator around the implemented process owner. Keep the retiring-worker slot occupied until exit. A transport factory/start/stop must not block the broker actor. A trusted launcher must derive identity; the current target value initializer does not query or authenticate a process.
+1. Supply a bounded, authenticated private transport and a trusted packaged-helper locator around the implemented process owner. Use the implemented ReadWorkerProcessSlot to retain capacity until exit. A transport factory/start/stop must not block the broker actor. A trusted launcher must derive identity; the current target value initializer does not query or authenticate a process.
 2. Define a versioned bounded wire representation. Current Sendable value types are internal lifecycle objects, not a supported encoded protocol. Validate frame size, duplicates/depth, result timing, traversal bounds and peer identity before constructing a reply.
 3. Implement read-only fixture AX collection in the separate process, independently check its actual TCC trust, and mint broker-owned observation/element handles on admission. Retain exact process/window re-resolution at mutation time.
 4. Connect Stop/disconnect/revocation and ready-session checks to this controller without moving core authority to the worker. Measure native broker responsiveness against a deliberately stalled AX fixture.
 5. Migrate remaining blocking preflight/mutation paths separately; read isolation alone cannot establish full action-path containment.
 
 See [ADR 002](adr/002-broker-worker-boundary.md). No production isolation or permission gate is closed by this foundation.
+
+## Owned-channel and capacity increment
+
+The internal [owned worker channel](owned-worker-channel.md) now combines signature requirements with live selected-process binding on the listener and server-process checks on the client. Ownership failure irreversibly revokes the context. Stop removes authentication eligibility immediately. ReadWorkerProcessSlot blocks replacement while the old process is still retiring; actual SIGTERM-ignoring child cleanup and replacement admission passed. Current Debug/Release suites each pass 252 cases / 2644 assertions. Native AX collection, wire framing, TCC and companion integration remain open.

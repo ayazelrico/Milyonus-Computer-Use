@@ -275,5 +275,8 @@ await runAsyncCase("ReadWorkerTests.testInvalidScopeNeverStartsWorker") { let te
 await runAsyncCase("ReadWorkerTests.testStalledOwnedProcessDoesNotBlockCancellation") { let test = ReadWorkerTests(); defer { test.tearDown() }; try await test.testStalledOwnedProcessDoesNotBlockCancellation() }
 await runAsyncCase("ReadWorkerTests.testOwnedProcessEscalatesOnlyItsUncooperativeChild") { let test = ReadWorkerTests(); defer { test.tearDown() }; try await test.testOwnedProcessEscalatesOnlyItsUncooperativeChild() }
 await runAsyncCase("ReadWorkerTests.testOwnedProcessStopBeforeLaunchAndCancellationAreSticky") { let test = ReadWorkerTests(); defer { test.tearDown() }; try await test.testOwnedProcessStopBeforeLaunchAndCancellationAreSticky() }
+await runAsyncCase("BrokerConnectionTests.testOwnedWorkerProcessBindingAndRetirement") { try await BrokerConnectionTests().testOwnedWorkerProcessBindingAndRetirement() }
+runCase("BrokerConnectionTests.testOwnedContextRevocationCannotRecoverWithSamePID") { try BrokerConnectionTests().testOwnedContextRevocationCannotRecoverWithSamePID() }
+await runAsyncCase("ReadWorkerTests.testProcessSlotRetainsRetiringChildUntilExit") { let test = ReadWorkerTests(); defer { test.tearDown() }; try await test.testProcessSlotRetainsRetiringChildUntilExit() }
 print("RESULT: \(testCount) cases, \(assertionCount) assertions, \(failureCount) failures")
 exit(failureCount == 0 ? 0 : 1)

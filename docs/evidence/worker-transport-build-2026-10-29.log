@@ -1,0 +1,42 @@
+[0/1] Planning build
+Building for debugging...
+[0/14] Write sources
+[2/14] Write swift-version--1AB21518FC5DEDBE.txt
+[4/15] Emitting module ComputerUseCore
+[5/15] Compiling ComputerUseCore OwnedReadWorkerProcess.swift
+[6/15] Compiling ComputerUseCore ReadWorkerProcessSlot.swift
+[7/21] Compiling ComputerUseAcceptance GestureAcceptance.swift
+[8/21] Emitting module ComputerUseAcceptance
+[9/36] Compiling ComputerUseSelfTest HeartbeatTests.swift
+[10/36] Compiling ComputerUseSelfTest InputTests.swift
+[11/36] Compiling ComputerUseSelfTest ExecutionTests.swift
+[12/36] Compiling ComputerUseSelfTest FixtureCaptureSelectionTests.swift
+[13/36] Compiling ComputerUseSelfTest CaptureDeadlineTests.swift
+[14/36] Compiling ComputerUseSelfTest ConnectionSessionOwnerTests.swift
+[15/38] Emitting module ComputerUseMacOS
+[16/38] Compiling ComputerUseMacOS ScreenCapture.swift
+[17/38] Compiling ComputerUseMacOS NativeInputEmitter.swift
+[18/38] Compiling ComputerUseMacOS AccessibilityDesktop.swift
+[18/38] Write Objects.LinkFileList
+[20/40] Compiling ComputerUseSelfTest JournalAdmissionTests.swift
+[21/40] Compiling ComputerUseSelfTest JournalCrashTests.swift
+[22/40] Compiling ComputerUseSelfTest ObservationTraversalBudgetTests.swift
+[23/40] Compiling ComputerUseSelfTest PointerGestureTests.swift
+[24/40] Emitting module ComputerUseSelfTest
+[25/40] Compiling ComputerUseSelfTest ReadWorkerTests.swift
+[26/40] Compiling ComputerUseSelfTest ScrollExecutionTests.swift
+[27/40] Compiling ComputerUseSelfTest CoreTests.swift
+[28/40] Compiling ComputerUseSelfTest DragExecutionTests.swift
+[28/40] Linking milyonus-cu
+[30/40] Emitting module ComputerUseApp
+[31/40] Compiling ComputerUseApp main.swift
+[31/40] Write Objects.LinkFileList
+[32/40] Applying milyonus-cu
+[33/40] Linking MilyonusComputerUse
+[34/40] Applying MilyonusComputerUse
+[36/40] Compiling ComputerUseSelfTest SessionValidationTests.swift
+[37/40] Compiling ComputerUseSelfTest main.swift
+[37/40] Write Objects.LinkFileList
+[38/40] Linking computer-use-selftest
+[39/40] Applying computer-use-selftest
+Build complete! (6.24s)
