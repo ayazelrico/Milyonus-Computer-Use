@@ -10,6 +10,7 @@ import plistlib
 import re
 import subprocess
 import tempfile
+import time
 import uuid
 
 
@@ -27,7 +28,9 @@ def main():
     parser.add_argument('--evidence', required=True)
     parser.add_argument('--prepare-only', action='store_true', help='Verify package and compile the client without launching native apps')
     parser.add_argument('--approval', action='store_true', help='Wait for actual native approval and verify three observations')
+    parser.add_argument("--ax-stall-stop", action="store_true", help="Verify Stop during an actual fixture AX stall; requires native approval")
     args = parser.parse_args()
+    args.approval = args.approval or args.ax_stall_stop
     root = Path(__file__).resolve().parent.parent
     output = Path(args.evidence)
     progress = output.with_suffix('.progress.json')
@@ -62,7 +65,19 @@ def main():
                 record['status'] = 'prepared-without-native-launch'
             else:
                 if args.approval:
-                    fixture = subprocess.Popen([str(fixture_binary)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                    fixture_args = [str(fixture_binary)]
+                    trace = folder / 'ax-stall.ndjson'
+                    if args.ax_stall_stop:
+                        fixture_args += ['--ax-stall-on-signal', '--ax-stall-trace', str(trace)]
+                    fixture = subprocess.Popen(fixture_args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                    record['fixturePID'] = fixture.pid
+                    if args.ax_stall_stop:
+                        deadline = time.monotonic() + 5
+                        while not trace.exists():
+                            if fixture.poll() is not None or time.monotonic() >= deadline:
+                                raise RuntimeError('Fixture trace did not become ready')
+                            time.sleep(0.02)
+                        record['thresholds'] = {'stopAcknowledgementMs': 250, 'workerExitSeconds': 2, 'fixtureStallSeconds': 5}
                 label = 'com.milyonus.computeruse.isolated.' + uuid.uuid4().hex
                 worker_service = label + '.read'
                 domain = 'gui/' + str(os.getuid())
@@ -70,20 +85,42 @@ def main():
                 job.write_bytes(plistlib.dumps({'Label': label,
                     'ProgramArguments': [str(companion), '--broker-development', label, pin(client),
                                          '--isolated-fixture-reads', worker_service],
-                    'MachServices': {label: True, worker_service: True},
+                    'MachServices': {label: True, worker_service: True}, 'RunAtLoad': True,
                     'StandardOutPath': str(folder / 'stdout'), 'StandardErrorPath': str(folder / 'stderr')}))
                 run(['launchctl', 'bootstrap', domain, str(job)])
                 try:
+                    deadline = time.monotonic() + 10
+                    broker_pid = None
+                    while time.monotonic() < deadline:
+                        state = run(['launchctl', 'print', domain + '/' + label]).stdout
+                        match = re.search(r'^\s*pid = (\d+)\s*$', state, re.M)
+                        if match:
+                            broker_pid = int(match.group(1)); break
+                        time.sleep(0.05)
+                    if broker_pid is None:
+                        raise RuntimeError('Broker did not start')
+                    record['brokerPID'] = broker_pid
+                    mode = 'stall-stop' if args.ax_stall_stop else 'approval' if args.approval else 'unapproved'
+                    extra = [str(trace)] if args.ax_stall_stop else []
                     result = subprocess.run([str(client), label, pin(companion), str(fixture.pid if fixture else 0),
-                        'approval' if args.approval else 'unapproved', str(progress.resolve())], capture_output=True, text=True, timeout=140 if args.approval else 30)
+                        mode, str(progress.resolve()), str(broker_pid), *extra], capture_output=True, text=True, timeout=140 if args.approval else 30)
                     record['result'] = json.loads(result.stdout)
-                    expected = 'passed-isolated-read' if args.approval else 'passed-unapproved-isolated-read'
+                    expected = 'passed-isolated-ax-stop' if args.ax_stall_stop else 'passed-isolated-read' if args.approval else 'passed-unapproved-isolated-read'
                     if result.returncode != 0 or record['result'].get('status') != expected:
                         raise RuntimeError('Isolated read acceptance did not pass')
                 finally:
-                    run(['launchctl', 'bootout', domain + '/' + label])
-                    record['temporaryJobRemoved'] = True
-                record['status'] = 'passed-isolated-read' if args.approval else 'passed-unapproved-isolated-read'
+                    try:
+                        if args.ax_stall_stop and trace.exists():
+                            with trace.open('rb') as stream:
+                                data = stream.read(4097)
+                            if len(data) > 4096:
+                                raise RuntimeError('AX trace exceeded bound')
+                            lines = data.split(b'\n')[:-1]
+                            record['fixtureAXEvents'] = [json.loads(line) for line in lines]
+                    finally:
+                        run(['launchctl', 'bootout', domain + '/' + label])
+                        record['temporaryJobRemoved'] = True
+                record['status'] = expected
     except Exception as error:
         record['errorType'] = type(error).__name__
         record['error'] = str(error)[:300]

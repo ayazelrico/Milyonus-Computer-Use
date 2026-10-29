@@ -1,0 +1,53 @@
+{
+  "suite": "ax-stall-trace-admission",
+  "status": "passed-trace-admission",
+  "cases": [
+    {
+      "name": "valid-private-parent",
+      "passed": true,
+      "traceAvailable": true,
+      "uiLaunched": false
+    },
+    {
+      "name": "existing-leaf-refused",
+      "passed": true,
+      "traceAvailable": false,
+      "uiLaunched": false
+    },
+    {
+      "name": "wrong-leaf-refused",
+      "passed": true,
+      "traceAvailable": false,
+      "uiLaunched": false
+    },
+    {
+      "name": "outside-immediate-temp-root-refused",
+      "passed": true,
+      "traceAvailable": false,
+      "uiLaunched": false
+    },
+    {
+      "name": "symlink-parent-refused",
+      "passed": true,
+      "traceAvailable": false,
+      "uiLaunched": false
+    },
+    {
+      "name": "symlink-leaf-refused",
+      "passed": true,
+      "traceAvailable": false,
+      "uiLaunched": false
+    },
+    {
+      "name": "non-private-parent-refused",
+      "passed": true,
+      "traceAvailable": false,
+      "uiLaunched": false
+    }
+  ],
+  "configuration": "debug",
+  "startedAt": "2026-10-29T10:30:47.555960+00:00",
+  "limitations": "File-admission probes only; no UI, AX call, signal, native grant or blocked-call Stop acceptance.",
+  "binarySHA256": "642449eda9f99d504147a3aea1eac00f5a9fff902067f9abbc29ffa49f9d3732",
+  "finishedAt": "2026-10-29T10:30:50.523424+00:00"
+}
