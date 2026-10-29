@@ -1,0 +1,13 @@
+[0/1] Planning build
+Building for debugging...
+[0/10] Write sources
+[1/10] Write swift-version--1AB21518FC5DEDBE.txt
+[3/10] Emitting module ComputerUseMacOS
+[4/10] Compiling ComputerUseMacOS ScreenCapture.swift
+/Users/ayazelrico/Desktop/Milyonus-Computer-Use/Sources/ComputerUseMacOS/ScreenCapture.swift:64:43: error: cannot find 'HarnessProtocol' in scope
+ 62 |             guard (try? ReadWorkerProcessIdentity.read(pid: targetPID)) == processIdentity,
+ 63 |                   let app = NSRunningApplication(processIdentifier: targetPID), !app.isTerminated,
+ 64 |                   app.bundleIdentifier == HarnessProtocol.fixtureBundleID else { throw HarnessError.staleObservation }
+    |                                           `- error: cannot find 'HarnessProtocol' in scope
+ 65 |         }
+ 66 |         try validateProcessIdentity()

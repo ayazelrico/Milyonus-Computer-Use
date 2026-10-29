@@ -1,0 +1,111 @@
+{
+  "suite": "local-fixture-capture",
+  "case": "deadline",
+  "status": "passed-deadline-before-publication",
+  "limitations": "Development child attribution; not installed companion, hostile timing, other display or production acceptance.",
+  "clientSourceSHA256": "235c26096824063bd0d37e5c3539976f7b115bedc4fbeb58bc7c834c2226974d",
+  "fixtureSHA256": "24d5ac0fe201963175a943f9e15634874b7b9a28bb3ac279b4481ded28b35c6d",
+  "ownedFixturePID": 79158,
+  "result": {
+    "boundary": "after-framework-image-before-final-revalidation",
+    "expectedBounds": {
+      "height": 412,
+      "width": 620,
+      "x": 410,
+      "y": 108
+    },
+    "fixtureWindowInventory": [
+      {
+        "height": "30.0",
+        "id": "6133",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "79158",
+        "title": "",
+        "width": "1440.0",
+        "x": "0.0",
+        "y": "0.0"
+      },
+      {
+        "height": "500.0",
+        "id": "6132",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "79158",
+        "title": "",
+        "width": "500.0",
+        "x": "0.0",
+        "y": "400.0"
+      },
+      {
+        "height": "412.0",
+        "id": "6131",
+        "layer": "0",
+        "onScreen": "true",
+        "pid": "79158",
+        "title": "Computer Use Fixture",
+        "width": "620.0",
+        "x": "410.0",
+        "y": "108.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6134",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "79158",
+        "title": "",
+        "width": "1440.0",
+        "x": "0.0",
+        "y": "0.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6137",
+        "layer": "1000",
+        "onScreen": "false",
+        "pid": "79158",
+        "title": "",
+        "width": "1004.0",
+        "x": "0.0",
+        "y": "0.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6136",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "79158",
+        "title": "",
+        "width": "1440.0",
+        "x": "0.0",
+        "y": "0.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6135",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "79158",
+        "title": "",
+        "width": "1440.0",
+        "x": "0.0",
+        "y": "0.0"
+      }
+    ],
+    "framePublished": false,
+    "imageReturnedBeforeTransitionUptime": 39519.408792375005,
+    "imageSentToProvider": false,
+    "imageWrittenToDisk": false,
+    "permissionRequested": false,
+    "refusal": "TIMEOUT",
+    "refusalObservedUptime": 39529.90095158334,
+    "screenRecordingGranted": true,
+    "status": "passed-deadline-before-publication",
+    "targetPID": 79158,
+    "targetWindowID": 6131,
+    "transitionObserved": true,
+    "transitionObservedUptime": 39529.892210625
+  },
+  "ownedFixtureExited": true
+}

@@ -1,0 +1,10 @@
+{
+  "suite": "local-fixture-capture",
+  "case": "move",
+  "status": "failed",
+  "limitations": "Development child attribution; not installed companion, hostile timing, other display or production acceptance.",
+  "clientSourceSHA256": "39a43530cdf08e1d97871bb437a541ed051bd58b922902436807d404515e35bf",
+  "errorType": "CalledProcessError",
+  "error": "Command '['swiftc', '-swift-version', '6', '-parse-as-library', '-package-name', 'MilyonusComputerUse', '-I', '/Users/ayazelrico/Desktop/Milyonus-Computer-Use/.build/debug/Modules', '/Users/ayazelrico/Desktop/Milyonus-Computer-Use/Experiments/CaptureProbe/CaptureClient.swift', '/Users/ayazelrico/Des",
+  "diagnostic": "/Users/ayazelrico/Desktop/Milyonus-Computer-Use/Experiments/CaptureProbe/CaptureClient.swift:37:68: error: extra trailing closure passed in call\n 35 |                     guard ownedPID > 0, proc_pidinfo(ownedPID, PROC_PIDTBSDINFO, 0, &initial, size) == size,\n 36 |                           initial.pbi_ppid == UInt32(getppid()) else { throw HarnessError.unauthorized }\n 37 |                     frame = try await ScreenCapture.captureFixture { pid, windowID, bounds in\n    |                                                                    `- error: extra trailing closure passed in call\n 38 |                         var current = proc_bsdinfo()\n 39 |                         guard pid == ownedPID, proc_pidinfo(pid, PROC_PIDTBSDINFO, 0, &current, size) == size,\n"
+}

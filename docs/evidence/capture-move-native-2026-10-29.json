@@ -1,0 +1,111 @@
+{
+  "suite": "local-fixture-capture",
+  "case": "move",
+  "status": "passed-move-before-publication",
+  "limitations": "Development child attribution; not installed companion, hostile timing, other display or production acceptance.",
+  "clientSourceSHA256": "39a43530cdf08e1d97871bb437a541ed051bd58b922902436807d404515e35bf",
+  "fixtureSHA256": "24d5ac0fe201963175a943f9e15634874b7b9a28bb3ac279b4481ded28b35c6d",
+  "ownedFixturePID": 78735,
+  "result": {
+    "boundary": "after-framework-image-before-final-revalidation",
+    "expectedBounds": {
+      "height": 412,
+      "width": 620,
+      "x": 410,
+      "y": 108
+    },
+    "fixtureWindowInventory": [
+      {
+        "height": "500.0",
+        "id": "6095",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "78735",
+        "title": "",
+        "width": "500.0",
+        "x": "0.0",
+        "y": "400.0"
+      },
+      {
+        "height": "412.0",
+        "id": "6094",
+        "layer": "0",
+        "onScreen": "true",
+        "pid": "78735",
+        "title": "Computer Use Fixture",
+        "width": "620.0",
+        "x": "410.0",
+        "y": "108.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6098",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "78735",
+        "title": "",
+        "width": "1440.0",
+        "x": "0.0",
+        "y": "0.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6097",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "78735",
+        "title": "",
+        "width": "1440.0",
+        "x": "0.0",
+        "y": "0.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6099",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "78735",
+        "title": "",
+        "width": "1440.0",
+        "x": "0.0",
+        "y": "0.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6096",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "78735",
+        "title": "",
+        "width": "1440.0",
+        "x": "0.0",
+        "y": "0.0"
+      }
+    ],
+    "framePublished": false,
+    "imageReturnedBeforeTransitionUptime": 39473.055409583336,
+    "imageSentToProvider": false,
+    "imageWrittenToDisk": false,
+    "observedBounds": {
+      "height": "412.0",
+      "id": "6094",
+      "layer": "0",
+      "onScreen": "true",
+      "pid": "78735",
+      "title": "Computer Use Fixture",
+      "width": "620.0",
+      "x": "490.0",
+      "y": "68.0"
+    },
+    "permissionRequested": false,
+    "refusal": "STALE_OBSERVATION",
+    "refusalObservedUptime": 39473.18897845833,
+    "screenRecordingGranted": true,
+    "status": "passed-move-before-publication",
+    "targetPID": 78735,
+    "targetWindowID": 6094,
+    "transitionObserved": true,
+    "transitionObservedUptime": 39473.12742695834
+  },
+  "ownedFixtureExited": true
+}

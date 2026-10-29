@@ -24,6 +24,9 @@ public enum ScreenCapture {
             guard result.count < 100 else { throw HarnessError.resourceLimit }
             var item: [String: String] = [:]
             item["id"] = String(window.windowID)
+            item["pid"] = String(window.owningApplication?.processID ?? 0)
+            item["x"] = String(Double(window.frame.minX))
+            item["y"] = String(Double(window.frame.minY))
             item["title"] = window.title ?? ""
             item["layer"] = String(window.windowLayer)
             item["onScreen"] = String(window.isOnScreen)
@@ -37,6 +40,12 @@ public enum ScreenCapture {
     }
     /// Raw frames stay in memory. Callers must separately authorize model egress.
     public static func captureFixture() async throws -> CapturedFrame {
+        try await captureFixture(beforeRevalidation: nil)
+    }
+    /// Package-only acceptance rendezvous: no pixels or target handles leave this boundary.
+    /// The public route has no hook. All admission checks still run after the rendezvous.
+    package static func captureFixture(beforeRevalidation:
+        (@MainActor (Int32, UInt32, Rect) async throws -> Void)?) async throws -> CapturedFrame {
         let deadline = try CaptureDeadline()
         try deadline.check()
         _ = NSApplication.shared // Initialize AppKit/WindowServer when called from the diagnostic CLI.
@@ -47,6 +56,14 @@ public enum ScreenCapture {
         let selected = try FixtureCaptureSelection.selectIndex(in: snapshots)
         let window = content.windows[selected]
         let expected = snapshots[selected]
+        guard let targetPID = expected.processID else { throw HarnessError.targetNotFound }
+        let processIdentity = try ReadWorkerProcessIdentity.read(pid: targetPID)
+        func validateProcessIdentity() throws {
+            guard (try? ReadWorkerProcessIdentity.read(pid: targetPID)) == processIdentity,
+                  let app = NSRunningApplication(processIdentifier: targetPID), !app.isTerminated,
+                  app.bundleIdentifier == SessionController.fixtureBundleID else { throw HarnessError.staleObservation }
+        }
+        try validateProcessIdentity()
         let bounds = expected.bounds
         let geometry = try CaptureGeometry(bounds: bounds)
         let filter = SCContentFilter(desktopIndependentWindow: window)
@@ -58,6 +75,7 @@ public enum ScreenCapture {
         configuration.capturesAudio = false
         configuration.colorSpaceName = CGColorSpace.sRGB
         try deadline.check()
+        try validateProcessIdentity()
         let captureStartedAt = Date()
         let image = try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: configuration)
         try deadline.check()
@@ -65,11 +83,17 @@ public enum ScreenCapture {
             throw HarnessError.resourceLimit
         }
         guard CGPreflightScreenCaptureAccess() else { throw HarnessError.permissionRevoked }
+        if let beforeRevalidation, let pid = expected.processID {
+            try await beforeRevalidation(pid, expected.windowID, bounds)
+            try deadline.check()
+            guard CGPreflightScreenCaptureAccess() else { throw HarnessError.permissionRevoked }
+        }
         // A moved/resized/replaced window must not yield a frame with an old transform.
         let current = try await SCShareableContent.excludingDesktopWindows(true, onScreenWindowsOnly: false)
         try deadline.check()
         guard CGPreflightScreenCaptureAccess() else { throw HarnessError.permissionRevoked }
         try FixtureCaptureSelection.validateCurrent(current.windows.map(snapshot), expected: expected)
+        try validateProcessIdentity()
         try deadline.check()
         let representation = NSBitmapImageRep(cgImage: image)
         guard let png = representation.representation(using: .png, properties: [:]), png.count <= 8 * 1024 * 1024 else {
@@ -77,6 +101,7 @@ public enum ScreenCapture {
         }
         try deadline.check()
         guard CGPreflightScreenCaptureAccess() else { throw HarnessError.permissionRevoked }
+        try validateProcessIdentity()
         return CapturedFrame(png: png, transform: FrameTransform(
             desktopBounds: bounds,
             pixelWidth: image.width, pixelHeight: image.height), windowID: window.windowID, capturedAt: captureStartedAt)

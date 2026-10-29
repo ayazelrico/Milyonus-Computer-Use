@@ -1,0 +1,26 @@
+[0/1] Planning build
+Building for debugging...
+[0/11] Write sources
+[2/11] Write swift-version--1AB21518FC5DEDBE.txt
+[4/15] Emitting module ComputerUseFixture
+[5/15] Compiling ComputerUseFixture main.swift
+[6/15] Compiling ComputerUseMacOS ScreenCapture.swift
+[7/15] Emitting module ComputerUseMacOS
+[7/16] Write Objects.LinkFileList
+[9/20] Emitting module ComputerUseWorker
+[9/22] Linking ComputerUseFixture
+[11/22] Emitting module ComputerUseCLI
+[12/22] Compiling ComputerUseCLI main.swift
+[12/23] Write Objects.LinkFileList
+[13/23] Applying ComputerUseFixture
+[15/23] Emitting module ComputerUseApp
+[15/24] Write Objects.LinkFileList
+[17/24] Emitting module ComputerUseSelfTest
+[17/24] Write Objects.LinkFileList
+[18/24] Linking milyonus-cu
+[19/24] Applying milyonus-cu
+[20/24] Linking MilyonusComputerUse
+[21/24] Applying MilyonusComputerUse
+[22/24] Linking computer-use-selftest
+[23/24] Applying computer-use-selftest
+Build complete! (2.53s)

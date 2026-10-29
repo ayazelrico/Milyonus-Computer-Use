@@ -6,7 +6,7 @@ Date: 2026-10-29. Status: prepared; native cases below have not been run by this
 
 `ScreenCapture.captureFixture` selects the sole main fixture window, bounds geometry, captures without cursor/audio, re-enumerates windows and validates the original metadata before returning PNG data. Current limits are 2048 pixels per dimension, 8 MiB encoded PNG and a ten-second monotonic admission deadline. These bounds do not guarantee interruption of a stalled framework call; see ADR 002.
 
-Selection currently matches bundle ID, exact main-window title and layer, then requires a positive PID and nonzero window ID. Revalidation compares PID/window/bundle/title/layer/bounds. This metadata does not authenticate a publisher or uniquely establish process-start identity. Capture alone is not authorization for coordinate input. Do not expose new app support or provider image egress on the strength of this acceptance.
+Selection currently matches bundle ID, exact main-window title and layer, then requires a positive PID and nonzero window ID. Revalidation compares PID/window/bundle/title/layer/bounds. Capture now additionally pins kernel process-start identity before acquisition and rechecks it before capture and publication; publisher authentication remains open. Capture alone is not authorization for coordinate input. Do not expose new app support or provider image egress on the strength of this acceptance.
 
 ## Fixed matrix
 
@@ -45,3 +45,29 @@ A standalone local probe now exercises the actual ScreenCapture implementation, 
 Early positive runs observed startup TARGET_NOT_FOUND, zero-size INVALID_REQUEST, one STALE_OBSERVATION and strict-color VERIFICATION_FAILED. Those records remain retained. The marker visibly rendered; captured color samples differed from pure source RGB. Capture now explicitly requests sRGB. This did not eliminate all channel differences, so the marker identity rule explicitly tests dominant channel >0.8 with >0.4 separation at three adjacent 3×3 patches separated by the expected scaled width. This is a changed test criterion for marker identity, not a color-fidelity pass; `colorFidelityAccepted` is false. No production identity, permission or geometry safeguard was relaxed. The display-profile/color-fidelity question remains open.
 
 Evidence: `capture-absent-native-2026-10-29.json`, `capture-marker-native-2026-10-29-7.json`, `capture-ambiguous-native-2026-10-29.json`. Actual in-flight close/move/permission/cancellation C4–C7 and additional-display C9 remain open. No claim that the full H4 gate is complete.
+
+## Actual pre-publication transition checks — 2026-10-29
+
+The public capture API still has no callback parameter. A package-only acceptance overload provides a rendezvous after the actual ScreenCaptureKit image returns and before final enumeration/validation. The callback receives PID, window ID and bounds only, never image pixels or native handles. Deadline/cancellation and effective permission are checked again after it returns. It cannot waive selection, revalidation or publication checks; no companion RPC exposes the callback.
+
+The probe verifies that the selected fixture PID is a sibling owned by its runner, including kernel start identity immediately before signalling. The fixture's explicit move hook changes only its own origin by 80/40 points; the existing close hook closes only its own window. Real ScreenCaptureKit inventory observes the transition before the callback returns. Both cases passed with STALE_OBSERVATION and no published frame. Monotonic timestamps establish image-return → observed transition → refusal. Evidence: `capture-move-native-2026-10-29.json` and `capture-close-native-2026-10-29.json`.
+
+These are actual-window changes while the overall capture method is pending, specifically after framework image completion. They do not prove changes occurred while the OS was producing pixels. No forced interruption of a blocked framework call is claimed. Inventory diagnostics now include fixture-only PID and x/y coordinates to distinguish actual movement from a synthetic metadata change.
+
+The same rendezvous supports a caller-task cancellation and a ten-second delayed return exceeding the unchanged capture deadline. These checks test result admission after a real image, not preemption of the framework. Capture permission interruption and additional physical displays remain separate gates.
+
+## Current gate accounting
+
+| Gate | Actual evidence | Remaining limit |
+|---|---|---|
+| C1 | Local marker, decoded dimensions and process-start binding | Absolute marker-to-desktop mapping and publisher authentication not accepted |
+| C2 | No-window refusal | Accepted only for recorded development process attribution |
+| C3 | Two-window refusal | Accepted only for recorded development process attribution |
+| C4 | Actual close after image return, before publication, refused | OS image-generation interruption itself is not established |
+| C5 | Actual move after image return, before publication, refused | Resize and movement during OS image generation remain untested |
+| C6 | Not run for capture | AX permission tests do not substitute for Screen Recording revocation |
+| C7 | Actual image then caller cancellation/deadline, no publication | Framework preemption and stalled capture-worker containment remain open |
+| C8 | Probe keeps PNG in memory, no provider/disk output | Does not validate every consuming application or journal path |
+| C9 | One current host/display configuration | Additional physical displays and supported OS/hardware matrix remain open |
+
+`summarize-capture-evidence.py` validates selected evidence status, refusal, cleanup and monotonic event ordering. It reports each source/fixture hash separately and does not convert historical records into current-build passes. The seven-case audit in `capture-evidence-audit-2026-10-29.json` is evidence bookkeeping, not a new native test run.

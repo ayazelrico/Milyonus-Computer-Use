@@ -9,6 +9,7 @@ final class FixtureDelegate: NSObject, NSApplicationDelegate {
     let status = NSTextField(labelWithString: "Not saved")
     var saves = 0
     private var closeSignal: DispatchSourceSignal?
+    private var moveSignal: DispatchSourceSignal?
     private var hideSignal: DispatchSourceSignal?
     func applicationDidFinishLaunching(_ notification: Notification) {
         if CommandLine.arguments.contains("--ax-stall-on-signal") { FixtureAXStall.shared.install() }
@@ -57,6 +58,17 @@ final class FixtureDelegate: NSObject, NSApplicationDelegate {
             }
             closeSignal = source
             source.activate()
+        }
+        if CommandLine.arguments.contains("--move-on-test-signal") {
+            signal(SIGUSR2, SIG_IGN)
+            let source = DispatchSource.makeSignalSource(signal: SIGUSR2, queue: .main)
+            source.setEventHandler { [weak self] in
+                MainActor.assumeIsolated {
+                    guard let window = self?.window else { return }
+                    window.setFrameOrigin(NSPoint(x: window.frame.minX + 80, y: window.frame.minY + 40))
+                }
+            }
+            moveSignal = source; source.activate()
         }
         if CommandLine.arguments.contains("--hide-on-test-signal") {
             signal(SIGUSR2, SIG_IGN)
