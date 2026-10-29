@@ -118,7 +118,7 @@ import ComputerUseIPC
             do { _ = try await client.act(forbidden); throw HarnessError.verificationFailed }
             catch { guard error as? HarnessError == .unsupportedCapability else { throw error } }
             report["actionsRejected"] = true
-            if args[3] == "approval" || args[3] == "stall-stop" {
+            if ["approval", "stall-stop", "permission-revoke"].contains(args[3]) {
                 try mark("awaiting-native-approval")
                 let deadline = ContinuousClock.now.advanced(by: .seconds(120))
                 var ready: Session?
@@ -153,6 +153,46 @@ import ComputerUseIPC
                 }
                 report["verifiedObservations"] = ids.count
                 report["secureFieldExcluded"] = true
+                if args[3] == "permission-revoke" {
+                    guard capabilities.permissions["accessibility"] == true else { throw HarnessError.permissionRequired }
+                    report["permissionBeforeInterruption"] = true
+                    try mark("awaiting-permission-revocation")
+                    let revokeDeadline = ContinuousClock.now.advanced(by: .seconds(120))
+                    var revoked = false
+                    while ContinuousClock.now < revokeDeadline {
+                        if try await client.capabilities().permissions["accessibility"] == false { revoked = true; break }
+                        try await Task.sleep(for: .milliseconds(100))
+                    }
+                    guard revoked else { throw HarnessError.timeout }
+                    report["permissionAfterInterruption"] = false
+                    guard let interrupted = try await client.status() else { throw HarnessError.protocolMismatch }
+                    report["sessionStateAtRevocation"] = interrupted.state.rawValue
+                    report["generationBeforeInterruption"] = ready.generation
+                    report["generationAtRevocation"] = interrupted.generation
+                    if let reason = interrupted.pauseReason { report["pauseReasonAtRevocation"] = reason.rawValue }
+                    try mark("verify-permission-refusal")
+                    do { _ = try await client.observe(sessionID: ready.id); throw HarnessError.verificationFailed }
+                    catch {
+                        guard let refusal = error as? HarnessError,
+                              [.permissionRequired, .permissionRevoked].contains(refusal) else { throw error }
+                        report["freshReadRefusal"] = refusal.rawValue
+                    }
+                    report["interruptionClassification"] = interrupted.state == .ready && interrupted.generation == ready.generation
+                        ? "permission-denial-with-ready-session" : "combined-permission-and-session-interruption"
+                    try mark("awaiting-permission-restoration")
+                    let restoreDeadline = ContinuousClock.now.advanced(by: .seconds(120))
+                    var restored = false
+                    while ContinuousClock.now < restoreDeadline {
+                        if try await client.capabilities().permissions["accessibility"] == true { restored = true; break }
+                        try await Task.sleep(for: .milliseconds(100))
+                    }
+                    report["permissionRestored"] = restored
+                    guard restored else { throw HarnessError.timeout }
+                    if let restoredSession = try await client.status() {
+                        report["sessionStateAfterRestoration"] = restoredSession.state.rawValue
+                        report["generationAfterRestoration"] = restoredSession.generation
+                    }
+                }
                 if args[3] == "stall-stop" {
                     guard args.count == 7, try ownedStart(fixturePID) == initialStart else { throw HarnessError.unauthorized }
                     try mark("arming-ax-stall")
@@ -226,7 +266,7 @@ import ComputerUseIPC
             do { _ = try await client.observe(sessionID: pending.id); throw HarnessError.verificationFailed }
             catch { guard error as? HarnessError == .unauthorized else { throw error } }
             report["sessionCancelled"] = true
-            report["status"] = args[3] == "stall-stop" ? "passed-isolated-ax-stop" : args[3] == "approval" ? "passed-isolated-read" : "passed-unapproved-isolated-read"
+            report["status"] = args[3] == "permission-revoke" ? "passed-isolated-permission-interruption" : args[3] == "stall-stop" ? "passed-isolated-ax-stop" : args[3] == "approval" ? "passed-isolated-read" : "passed-unapproved-isolated-read"
             try mark("complete")
         } catch {
             report["stage"] = stage
