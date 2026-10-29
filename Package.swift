@@ -27,6 +27,6 @@ let package = Package(
         .executableTarget(name: "ComputerUseCLI", dependencies: ["ComputerUseAcceptance", "ComputerUseMacOS", "ComputerUseClient", "ComputerUseAgent"]),
         .executableTarget(name: "ComputerUseApp", dependencies: ["ComputerUseMacOS", "ComputerUseCore", "ComputerUseIPC"]),
         .executableTarget(name: "ComputerUseFixture"),
-        .executableTarget(name: "ComputerUseSelfTest", dependencies: ["ComputerUseAcceptance", "ComputerUseContracts", "ComputerUseCore", "ComputerUseAgent", "ComputerUseClient", "ComputerUseIntegration", "ComputerUseIPC"], path: "Tests")
+        .executableTarget(name: "ComputerUseSelfTest", dependencies: ["ComputerUseAcceptance", "ComputerUseContracts", "ComputerUseCore", "ComputerUseMacOS", "ComputerUseAgent", "ComputerUseClient", "ComputerUseIntegration", "ComputerUseIPC"], path: "Tests")
     ]
 )

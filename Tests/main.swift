@@ -278,5 +278,9 @@ await runAsyncCase("ReadWorkerTests.testOwnedProcessStopBeforeLaunchAndCancellat
 await runAsyncCase("BrokerConnectionTests.testOwnedWorkerProcessBindingAndRetirement") { try await BrokerConnectionTests().testOwnedWorkerProcessBindingAndRetirement() }
 runCase("BrokerConnectionTests.testOwnedContextRevocationCannotRecoverWithSamePID") { try BrokerConnectionTests().testOwnedContextRevocationCannotRecoverWithSamePID() }
 await runAsyncCase("ReadWorkerTests.testProcessSlotRetainsRetiringChildUntilExit") { let test = ReadWorkerTests(); defer { test.tearDown() }; try await test.testProcessSlotRetainsRetiringChildUntilExit() }
+runCase("ReadWorkerWireTests.testFixedRequestAndBoundReplyRoundTrip") { try ReadWorkerWireTests().testFixedRequestAndBoundReplyRoundTrip() }
+runCase("ReadWorkerWireTests.testRequestCannotCarryMutationOrExpandedScope") { try ReadWorkerWireTests().testRequestCannotCarryMutationOrExpandedScope() }
+runCase("ReadWorkerWireTests.testReplyCannotMixFailureWithObservationOrExtendDeadline") { try ReadWorkerWireTests().testReplyCannotMixFailureWithObservationOrExtendDeadline() }
+runCase("ReadWorkerWireTests.testKernelIdentityAndCollectorRefusalsWithoutAXAccess") { try ReadWorkerWireTests().testKernelIdentityAndCollectorRefusalsWithoutAXAccess() }
 print("RESULT: \(testCount) cases, \(assertionCount) assertions, \(failureCount) failures")
 exit(failureCount == 0 ? 0 : 1)

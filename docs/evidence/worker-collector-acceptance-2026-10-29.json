@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-29",
+  "base_commit": "fabf5cdd28d30f4a0193afdd0e690e7c0391fb6f",
+  "source_sha256": {
+    "Package.swift": "38c404884eeef87f54d32a1cc16f5ff56c6d62196305852f226ce4390514369a",
+    "Sources/ComputerUseCore/SessionController.swift": "a486abeb93691e98c6f00a0371dfe6f96d042fcb7e7f55aa29ae393439d03de2",
+    "Sources/ComputerUseCore/ReadWorkerWire.swift": "ec7f2e8e19dff0288eae3026c3ec23364cf31e1ff69713f4c17b7e54a8c8bf65",
+    "Sources/ComputerUseMacOS/FixtureReadWorker.swift": "db6a85440640a0c058e3d982c1c1c9b8ef5398363ff5bd8d77d4f802bb4f416e",
+    "Tests/CoreTests/ReadWorkerWireTests.swift": "7d3b622f9fae4c1865af9e06229142e1d804bc53700c71d6b28559b115fdab32",
+    "Tests/main.swift": "6f10d8b18b31eff02e62b856ae4cd51748f1ae0f7e0559f9f0cca11f3dab0529"
+  },
+  "debug": {
+    "cases": 256,
+    "assertions": 2674,
+    "failures": 0,
+    "build_log": "worker-collector-build-2026-10-29.log",
+    "test_log": "worker-collector-selftest-2026-10-29.log"
+  },
+  "release": {
+    "cases": 256,
+    "assertions": 2674,
+    "failures": 0,
+    "test_log": "worker-collector-release-selftest-2026-10-29.log"
+  },
+  "actual_kernel_case": "Own selftest PID/start identity read twice via proc_pidinfo; missing PID refused",
+  "collector_negative_cases": [
+    "Non-fixture selftest process refused before AX trust query/traversal",
+    "Changed process start identity refused",
+    "Explicit-window route unsupported rather than downgraded"
+  ],
+  "limits": [
+    "Codec/native collector component only; no separate AX helper launched",
+    "No successful AX collection, effective helper trust or native broker Stop acceptance",
+    "No GUI, native grant, provider call, packaging or Example Host checkout access",
+    "Authenticated bootstrap, helper locator, broker-owned handle publication and companion integration remain open"
+  ]
+}
