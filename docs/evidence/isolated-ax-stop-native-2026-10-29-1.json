@@ -1,0 +1,50 @@
+{
+  "suite": "packaged-isolated-fixture-read",
+  "status": "failed",
+  "startedAt": "2026-10-29T10:32:38.184244+00:00",
+  "limitations": "GUI acceptance; native approval is never automated. Development signatures; no mutation, capture or distribution acceptance.",
+  "companionSHA256": "02681612e348f80c87b4c292a0ddb607007c9fbdd8caf3af0d23150a8a1deee4",
+  "fixtureSHA256": "4599cbb7541be861dd1cc46d9c4d908253034cf062f89d7924a7f103f92b5cda",
+  "clientSourceSHA256": "f3427dfba8ce36395a431aa4867db34dc758c9f0d3aa71e10c8491c56c2819dc",
+  "fixturePID": 63077,
+  "thresholds": {
+    "stopAcknowledgementMs": 250,
+    "workerExitSeconds": 2,
+    "fixtureStallSeconds": 5
+  },
+  "brokerPID": 63085,
+  "result": {
+    "actionsRejected": true,
+    "brokerAccessibilityGranted": true,
+    "desktopActions": 0,
+    "error": "VERIFICATION_FAILED",
+    "nativeApprovalCreatedByRPC": false,
+    "secureFieldExcluded": true,
+    "serverMutationRouteRejected": true,
+    "stage": "stop-during-ax-stall",
+    "status": "failed",
+    "unapprovedReadRefusal": "UNAUTHORIZED",
+    "verifiedObservations": 3
+  },
+  "fixtureAXEvents": [
+    {
+      "event": "ready",
+      "pid": 63077,
+      "uptime": 34077.87759170833
+    },
+    {
+      "event": "armed",
+      "pid": 63077,
+      "uptime": 34082.391332583335
+    },
+    {
+      "event": "ax-read-enter",
+      "pid": 63077,
+      "uptime": 34082.43925675
+    }
+  ],
+  "temporaryJobRemoved": true,
+  "errorType": "RuntimeError",
+  "error": "Isolated read acceptance did not pass",
+  "finishedAt": "2026-10-29T10:32:47.772643+00:00"
+}

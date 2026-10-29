@@ -789,3 +789,15 @@ Native attempt -3 passed using the source-matched packaged companion (SHA-256 02
 `isolated-read-native-2026-10-29-3.json` is the positive native record. The earlier protocol failure and approval timeout remain separate failed evidence; they were not rewritten. The aggregate source/log association is `fixture-worker-runtime-acceptance-2026-10-29.json`. Final required Debug/Release checks each passed 258 cases / 2693 assertions / zero failures; package guards passed 29 tests; existing named/selected-peer regressions passed 12/five cases.
 
 This closes the separate-process read-only fixture slice. It does not close H3 as a whole: actual blocked-AX Stop, permission interruption, production signing/installed attribution, broader explicit-window binding and mutating/preflight isolation remain open. Foreground testing has finished; prepare blocked-AX cancellation in the background before requesting another operator window.
+
+## Actual blocked-AX Stop measured — 2026-10-29
+
+The fixture now has an explicitly enabled, one-shot five-second accessibility-value stall with a bounded private event trace. Default behavior is unchanged. The acceptance runner arms only its own PID/start-verified fixture after three successful isolated observations, observes AX entry, sends Stop, and checks cancellation plus exact worker retirement before broker unload. Native approval remains manual; core permission, foreground, generation and ownership checks were not changed.
+
+Debug and optimized Release each passed 258 cases / 2693 assertions / zero failures. Seven no-UI trace-admission cases passed in both configurations. Packaging and acceptance-client preparation passed. These checks alone are not native acceptance.
+
+Native attempt -1 reached three successful reads and actual AX entry, then failed a verification at the Stop stage. It did not record the failing subcondition or acknowledgement latency. Its failure remains unresolved and preserved; no root-cause fix or reliability claim is made. The follow-up only added diagnostic stages and measurements, without altering runtime behavior or thresholds.
+
+Native attempt -2 passed: actual AX entry preceded Stop; acknowledgement was 0.577292 ms against the predeclared 250 ms threshold while the AX call had not returned; the pending SDK read was cancelled; the exact worker PID/start identity exited within two seconds before broker unload; the session was cancelled. No input mutation or upload occurred. The temporary job and owned fixture were cleaned up. Evidence: `isolated-ax-stop-native-2026-10-29-1.json` and `isolated-ax-stop-native-2026-10-29-2.json`.
+
+This is one positive blocked-AX cancellation observation, not closure of intermittent behavior or H3 overall. Next H3 work must resolve the unexplained first-run failure and measure permission interruption; stable distribution identity and mutating/preflight isolation remain separate. Agent Ultra was not accessed. Foreground testing is finished for this batch.

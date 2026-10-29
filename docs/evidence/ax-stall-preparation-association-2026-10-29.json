@@ -1,0 +1,24 @@
+{
+  "suite": "blocked-ax-stop-source-association",
+  "status": "native-positive-with-unresolved-earlier-failure",
+  "sources": {
+    "Sources/ComputerUseFixture/FixtureAXStall.swift": "d3fd4269b996a9a36678ae4ec5d7d62ee23783bedf5e8203ed32310ced0a2845",
+    "Sources/ComputerUseFixture/main.swift": "fdfdf4bfbbfa0e1fb15cb8b53bc6af49c6c325764550f47d85c82f759ad93328",
+    "Experiments/XPCPeerProbe/IsolatedReadClient.swift": "a02cbc9d127c451e1069c79fb1859528946cbdc91b3711817429d9b4c2644acb",
+    "scripts/isolated-fixture-read.py": "a21e3217399b96bfb27f7c6264572c3d287ca6eaee66298bc2768f6b0dc84086",
+    "scripts/ax-stall-fixture-probe.py": "fc504f26743ec2c18103399792d898b34e3b4e0fd7cdb7e2c759d47e6f952519"
+  },
+  "evidence": [
+    "ax-stall-debug-build-2026-10-29.log",
+    "ax-stall-debug-selftest-2026-10-29.log",
+    "ax-stall-trace-debug-2026-10-29-2.json",
+    "isolated-ax-stop-preparation-2026-10-29.json",
+    "ax-stall-release-build-2026-10-29.log",
+    "ax-stall-release-selftest-2026-10-29.log",
+    "ax-stall-trace-release-2026-10-29.json",
+    "isolated-ax-stop-preparation-2026-10-29-2.json",
+    "isolated-ax-stop-native-2026-10-29-1.json",
+    "isolated-ax-stop-native-2026-10-29-2.json"
+  ],
+  "limitations": "One actual native Stop pass; earlier verification failure unresolved. No threshold or runtime change between native attempts. Native approval remained manual; not full H3 or distribution acceptance."
+}

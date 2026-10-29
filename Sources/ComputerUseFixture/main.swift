@@ -3,12 +3,14 @@ import AppKit
 @MainActor
 final class FixtureDelegate: NSObject, NSApplicationDelegate {
     var window: NSWindow!
-    let input = NSTextField(string: "")
+    let input: NSTextField = CommandLine.arguments.contains("--ax-stall-on-signal")
+        ? FixtureAXTextField(string: "") : NSTextField(string: "")
     let status = NSTextField(labelWithString: "Not saved")
     var saves = 0
     private var closeSignal: DispatchSourceSignal?
     private var hideSignal: DispatchSourceSignal?
     func applicationDidFinishLaunching(_ notification: Notification) {
+        if CommandLine.arguments.contains("--ax-stall-on-signal") { FixtureAXStall.shared.install() }
         let gestures = CommandLine.arguments.contains("--gesture-fixture")
         if gestures { _ = FixtureEventTrace.shared }
         window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 620, height: gestures ? 680 : 380),
@@ -56,6 +58,12 @@ final class FixtureDelegate: NSObject, NSApplicationDelegate {
         status.stringValue = "Saved \(saves): \(input.stringValue)"
     }
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { true }
+}
+// File-admission probe exits before creating AppKit UI or installing signals.
+if CommandLine.arguments.contains("--validate-ax-stall-trace") {
+    let valid = FixtureAXStall.shared.available
+    print(valid ? "{\"traceAvailable\":true,\"uiLaunched\":false}" : "{\"traceAvailable\":false,\"uiLaunched\":false}")
+    exit(valid ? 0 : 1)
 }
 let app = NSApplication.shared
 app.setActivationPolicy(.regular)

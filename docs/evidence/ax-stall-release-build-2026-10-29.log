@@ -1,0 +1,14 @@
+[0/1] Planning build
+Building for production...
+[0/10] Write sources
+[2/10] Write swift-version--1AB21518FC5DEDBE.txt
+[4/12] Compiling ComputerUseFixture FixtureAXStall.swift
+[4/12] Write Objects.LinkFileList
+[5/12] Linking ComputerUseFixture
+[7/12] Compiling ComputerUseCLI GestureAcceptanceCommand.swift
+[7/12] Write Objects.LinkFileList
+[8/12] Linking milyonus-cu
+[10/12] Compiling ComputerUseApp main.swift
+[10/12] Write Objects.LinkFileList
+[11/12] Linking MilyonusComputerUse
+Build complete! (7.47s)
