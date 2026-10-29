@@ -1,0 +1,63 @@
+{
+  "suite": "capture-evidence-audit",
+  "status": "passed-record-validation",
+  "cases": [
+    {
+      "case": "absent",
+      "evidence": "docs/evidence/capture-absent-final-2026-10-29.json",
+      "status": "passed-absent-fixture",
+      "boundary": "selection-or-local-marker",
+      "clientSourceSHA256": "bbbcac8e6e565e61b7d5b86d75e84d9f14c8256f96caabed49498d93b5053db5",
+      "fixtureSHA256": null
+    },
+    {
+      "case": "ambiguous",
+      "evidence": "docs/evidence/capture-ambiguous-native-2026-10-29.json",
+      "status": "passed-ambiguous-fixture",
+      "boundary": "selection-or-local-marker",
+      "clientSourceSHA256": "bbbcac8e6e565e61b7d5b86d75e84d9f14c8256f96caabed49498d93b5053db5",
+      "fixtureSHA256": "c723ce2eef5365a49f13ff7e75b9496abd05d7ccbf88326fb4404d287c71f1cb"
+    },
+    {
+      "case": "marker",
+      "evidence": "docs/evidence/capture-identity-marker-native-2026-10-29.json",
+      "status": "passed-fixture-marker",
+      "boundary": "selection-or-local-marker",
+      "clientSourceSHA256": "235c26096824063bd0d37e5c3539976f7b115bedc4fbeb58bc7c834c2226974d",
+      "fixtureSHA256": "24d5ac0fe201963175a943f9e15634874b7b9a28bb3ac279b4481ded28b35c6d"
+    },
+    {
+      "case": "move",
+      "evidence": "docs/evidence/capture-identity-move-native-2026-10-29.json",
+      "status": "passed-move-before-publication",
+      "boundary": "after-framework-image-before-final-revalidation",
+      "clientSourceSHA256": "235c26096824063bd0d37e5c3539976f7b115bedc4fbeb58bc7c834c2226974d",
+      "fixtureSHA256": "24d5ac0fe201963175a943f9e15634874b7b9a28bb3ac279b4481ded28b35c6d"
+    },
+    {
+      "case": "close",
+      "evidence": "docs/evidence/capture-identity-close-native-2026-10-29.json",
+      "status": "passed-close-before-publication",
+      "boundary": "after-framework-image-before-final-revalidation",
+      "clientSourceSHA256": "235c26096824063bd0d37e5c3539976f7b115bedc4fbeb58bc7c834c2226974d",
+      "fixtureSHA256": "24d5ac0fe201963175a943f9e15634874b7b9a28bb3ac279b4481ded28b35c6d"
+    },
+    {
+      "case": "cancel",
+      "evidence": "docs/evidence/capture-cancel-native-2026-10-29.json",
+      "status": "passed-cancel-before-publication",
+      "boundary": "after-framework-image-before-final-revalidation",
+      "clientSourceSHA256": "235c26096824063bd0d37e5c3539976f7b115bedc4fbeb58bc7c834c2226974d",
+      "fixtureSHA256": "24d5ac0fe201963175a943f9e15634874b7b9a28bb3ac279b4481ded28b35c6d"
+    },
+    {
+      "case": "deadline",
+      "evidence": "docs/evidence/capture-deadline-native-2026-10-29.json",
+      "status": "passed-deadline-before-publication",
+      "boundary": "after-framework-image-before-final-revalidation",
+      "clientSourceSHA256": "235c26096824063bd0d37e5c3539976f7b115bedc4fbeb58bc7c834c2226974d",
+      "fixtureSHA256": "24d5ac0fe201963175a943f9e15634874b7b9a28bb3ac279b4481ded28b35c6d"
+    }
+  ],
+  "limitations": "Validates recorded assertions and timing, not an independent replay. Records may represent different source snapshots. No full H4, framework-call preemption, color-fidelity, publisher authentication, installed-companion or hardware-matrix claim."
+}

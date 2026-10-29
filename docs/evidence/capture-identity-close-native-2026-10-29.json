@@ -1,0 +1,111 @@
+{
+  "suite": "local-fixture-capture",
+  "case": "close",
+  "status": "passed-close-before-publication",
+  "limitations": "Development child attribution; not installed companion, hostile timing, other display or production acceptance.",
+  "clientSourceSHA256": "235c26096824063bd0d37e5c3539976f7b115bedc4fbeb58bc7c834c2226974d",
+  "fixtureSHA256": "24d5ac0fe201963175a943f9e15634874b7b9a28bb3ac279b4481ded28b35c6d",
+  "ownedFixturePID": 80785,
+  "result": {
+    "boundary": "after-framework-image-before-final-revalidation",
+    "expectedBounds": {
+      "height": 412,
+      "width": 620,
+      "x": 410,
+      "y": 108
+    },
+    "fixtureWindowInventory": [
+      {
+        "height": "412.0",
+        "id": "6168",
+        "layer": "0",
+        "onScreen": "true",
+        "pid": "80785",
+        "title": "Computer Use Fixture",
+        "width": "620.0",
+        "x": "410.0",
+        "y": "108.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6176",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "80785",
+        "title": "",
+        "width": "1440.0",
+        "x": "0.0",
+        "y": "0.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6174",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "80785",
+        "title": "",
+        "width": "1440.0",
+        "x": "0.0",
+        "y": "0.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6177",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "80785",
+        "title": "",
+        "width": "1440.0",
+        "x": "0.0",
+        "y": "0.0"
+      },
+      {
+        "height": "500.0",
+        "id": "6173",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "80785",
+        "title": "",
+        "width": "500.0",
+        "x": "0.0",
+        "y": "400.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6175",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "80785",
+        "title": "",
+        "width": "1440.0",
+        "x": "0.0",
+        "y": "0.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6178",
+        "layer": "1000",
+        "onScreen": "false",
+        "pid": "80785",
+        "title": "",
+        "width": "1004.0",
+        "x": "0.0",
+        "y": "0.0"
+      }
+    ],
+    "framePublished": false,
+    "imageReturnedBeforeTransitionUptime": 39645.31338783334,
+    "imageSentToProvider": false,
+    "imageWrittenToDisk": false,
+    "permissionRequested": false,
+    "refusal": "STALE_OBSERVATION",
+    "refusalObservedUptime": 39645.56298545834,
+    "screenRecordingGranted": true,
+    "status": "passed-close-before-publication",
+    "targetPID": 80785,
+    "targetWindowID": 6168,
+    "transitionObserved": true,
+    "transitionObservedUptime": 39645.50256545834
+  },
+  "ownedFixtureExited": true
+}

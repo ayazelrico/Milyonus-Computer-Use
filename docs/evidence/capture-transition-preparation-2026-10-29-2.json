@@ -1,0 +1,7 @@
+{
+  "suite": "local-fixture-capture",
+  "case": "move",
+  "status": "prepared-without-native-launch",
+  "limitations": "Development child attribution; not installed companion, hostile timing, other display or production acceptance.",
+  "clientSourceSHA256": "39a43530cdf08e1d97871bb437a541ed051bd58b922902436807d404515e35bf"
+}

@@ -1,0 +1,139 @@
+{
+  "suite": "local-fixture-capture",
+  "case": "marker",
+  "status": "passed-fixture-marker",
+  "limitations": "Development child attribution; not installed companion, hostile timing, other display or production acceptance.",
+  "clientSourceSHA256": "235c26096824063bd0d37e5c3539976f7b115bedc4fbeb58bc7c834c2226974d",
+  "fixtureSHA256": "24d5ac0fe201963175a943f9e15634874b7b9a28bb3ac279b4481ded28b35c6d",
+  "ownedFixturePID": 80642,
+  "result": {
+    "colorFidelityAccepted": false,
+    "decodedPixelHeight": 824,
+    "decodedPixelWidth": 1240,
+    "desktopBounds": {
+      "height": 412,
+      "width": 620,
+      "x": 410,
+      "y": 108
+    },
+    "diagnosticSamples": [
+      {
+        "alpha": 1,
+        "blue": 0,
+        "green": 0.14910030364990234,
+        "red": 1
+      },
+      {
+        "alpha": 1,
+        "blue": 0,
+        "green": 0.9767891764640808,
+        "red": 0
+      },
+      {
+        "alpha": 1,
+        "blue": 1,
+        "green": 0.1983414590358734,
+        "red": 0.01684189960360527
+      }
+    ],
+    "expectedPatchPixels": 80,
+    "fixtureWindowInventory": [
+      {
+        "height": "30.0",
+        "id": "6145",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "80642",
+        "title": "",
+        "width": "1440.0",
+        "x": "0.0",
+        "y": "0.0"
+      },
+      {
+        "height": "500.0",
+        "id": "6144",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "80642",
+        "title": "",
+        "width": "500.0",
+        "x": "0.0",
+        "y": "400.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6149",
+        "layer": "1000",
+        "onScreen": "false",
+        "pid": "80642",
+        "title": "",
+        "width": "1004.0",
+        "x": "0.0",
+        "y": "0.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6148",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "80642",
+        "title": "",
+        "width": "1440.0",
+        "x": "0.0",
+        "y": "0.0"
+      },
+      {
+        "height": "412.0",
+        "id": "6143",
+        "layer": "0",
+        "onScreen": "true",
+        "pid": "80642",
+        "title": "Computer Use Fixture",
+        "width": "620.0",
+        "x": "410.0",
+        "y": "108.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6146",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "80642",
+        "title": "",
+        "width": "1440.0",
+        "x": "0.0",
+        "y": "0.0"
+      },
+      {
+        "height": "30.0",
+        "id": "6147",
+        "layer": "0",
+        "onScreen": "false",
+        "pid": "80642",
+        "title": "",
+        "width": "1440.0",
+        "x": "0.0",
+        "y": "0.0"
+      }
+    ],
+    "imageSentToProvider": false,
+    "imageWrittenToDisk": false,
+    "markerColorSampleCounts": [
+      357,
+      320,
+      327
+    ],
+    "markerPixelX": 504,
+    "markerPixelY": 640,
+    "markerRule": "dominant channel > 0.8, separation > 0.4, three adjacent 3x3 patches",
+    "permissionRequested": false,
+    "pixelHeight": 824,
+    "pixelWidth": 1240,
+    "pngBytes": 70541,
+    "screenRecordingGranted": true,
+    "sha256": "d8ac8cce5fd19c9ca692af38aff204581ff3640b519e01aa0d13be64a808730d",
+    "status": "passed-fixture-marker",
+    "windowID": 6143
+  },
+  "ownedFixtureExited": true
+}

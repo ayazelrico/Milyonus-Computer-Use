@@ -1,4 +1,5 @@
 import AppKit
+import Darwin
 import CryptoKit
 import ComputerUseContracts
 import ComputerUseMacOS
@@ -6,7 +7,9 @@ import ComputerUseMacOS
 @main struct CaptureClient {
     @MainActor static func main() async {
         let args = Array(CommandLine.arguments.dropFirst())
-        guard args == ["absent"] || args == ["marker"] || args == ["ambiguous"] else { exit(64) }
+        let transition = ["move", "close", "cancel", "deadline"].contains(args.first ?? "")
+        guard (args.count == 1 && ["absent", "marker", "ambiguous"].contains(args[0]))
+            || (transition && args.count == 2 && Int32(args[1]) != nil) else { exit(64) }
         var record: [String: Any] = ["status": "failed", "imageWrittenToDisk": false,
             "imageSentToProvider": false, "permissionRequested": false]
         do {
@@ -24,11 +27,72 @@ import ComputerUseMacOS
                 record["fixtureWindowInventory"] = inventory
             }
             let frame: CapturedFrame
-            do { frame = try await ScreenCapture.captureFixture() }
+            do {
+                if transition {
+                    let ownedPID = Int32(args[1])!
+                    var initial = proc_bsdinfo()
+                    let size = Int32(MemoryLayout<proc_bsdinfo>.size)
+                    guard ownedPID > 0, proc_pidinfo(ownedPID, PROC_PIDTBSDINFO, 0, &initial, size) == size,
+                          initial.pbi_ppid == UInt32(getppid()) else { throw HarnessError.unauthorized }
+                    frame = try await ScreenCapture.captureFixture { pid, windowID, bounds in
+                        var current = proc_bsdinfo()
+                        guard pid == ownedPID, proc_pidinfo(pid, PROC_PIDTBSDINFO, 0, &current, size) == size,
+                              current.pbi_ppid == initial.pbi_ppid,
+                              current.pbi_start_tvsec == initial.pbi_start_tvsec,
+                              current.pbi_start_tvusec == initial.pbi_start_tvusec else { throw HarnessError.unauthorized }
+                        record["imageReturnedBeforeTransitionUptime"] = ProcessInfo.processInfo.systemUptime
+                        record["targetPID"] = pid; record["targetWindowID"] = windowID
+                        record["expectedBounds"] = ["x": bounds.x, "y": bounds.y, "width": bounds.width, "height": bounds.height]
+                        if args[0] == "cancel" || args[0] == "deadline" {
+                            if args[0] == "cancel" {
+                                withUnsafeCurrentTask { $0?.cancel() }
+                            } else {
+                                try await Task.sleep(for: .seconds(10))
+                            }
+                            record["transitionObservedUptime"] = ProcessInfo.processInfo.systemUptime
+                            record["transitionObserved"] = true
+                            return
+                        }
+                        guard kill(pid, args[0] == "close" ? SIGUSR1 : SIGUSR2) == 0 else { throw HarnessError.targetNotFound }
+                        let deadline = ContinuousClock.now.advanced(by: .seconds(3))
+                        var observed = false
+                        repeat {
+                            let windows = try await ScreenCapture.fixtureWindowInventory()
+                            let same = windows.first { $0["id"] == String(windowID) && $0["pid"] == String(pid) }
+                            if args[0] == "close" {
+                                observed = same == nil
+                            } else if let same, let x = Double(same["x"] ?? ""), let y = Double(same["y"] ?? "") {
+                                observed = abs(x - bounds.x) >= 40 || abs(y - bounds.y) >= 20
+                                if observed { record["observedBounds"] = same }
+                            }
+                            if observed { break }
+                            try await Task.sleep(for: .milliseconds(20))
+                        } while ContinuousClock.now < deadline
+                        guard observed else { throw HarnessError.timeout }
+                        record["transitionObservedUptime"] = ProcessInfo.processInfo.systemUptime
+                        record["transitionObserved"] = true
+                    }
+                } else { frame = try await ScreenCapture.captureFixture() }
+            }
             catch {
-                let expected: HarnessError = args[0] == "ambiguous" ? .targetAmbiguous : .targetNotFound
+                if args[0] == "cancel", error is CancellationError,
+                   record["transitionObserved"] as? Bool == true {
+                    record["status"] = "passed-cancel-before-publication"
+                    record["refusal"] = "CancellationError"
+                    record["framePublished"] = false
+                    record["refusalObservedUptime"] = ProcessInfo.processInfo.systemUptime
+                    record["boundary"] = "after-framework-image-before-final-revalidation"
+                    emit(record, success: true)
+                }
+                let expected: HarnessError = args[0] == "deadline" ? .timeout : transition ? .staleObservation : args[0] == "ambiguous" ? .targetAmbiguous : .targetNotFound
                 if args[0] != "marker", error as? HarnessError == expected {
-                    record["status"] = args[0] == "ambiguous" ? "passed-ambiguous-fixture" : "passed-absent-fixture"
+                    if transition {
+                        guard record["transitionObserved"] as? Bool == true else { throw error }
+                        record["refusalObservedUptime"] = ProcessInfo.processInfo.systemUptime
+                        record["framePublished"] = false
+                        record["boundary"] = "after-framework-image-before-final-revalidation"
+                    }
+                    record["status"] = transition ? "passed-" + args[0] + "-before-publication" : args[0] == "ambiguous" ? "passed-ambiguous-fixture" : "passed-absent-fixture"
                     record["refusal"] = expected.rawValue
                     emit(record, success: true)
                 }

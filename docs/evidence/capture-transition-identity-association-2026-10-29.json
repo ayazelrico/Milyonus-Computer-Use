@@ -1,0 +1,24 @@
+{
+  "suite": "capture-transition-identity-association",
+  "status": "native-slices-passed",
+  "sources": {
+    "Sources/ComputerUseMacOS/ScreenCapture.swift": "83d149752824d9fb435129839fefa945c6bcdd47eeaa6bab10eaf37d4b77a6d4",
+    "Sources/ComputerUseFixture/main.swift": "088ca7352c661afe158a651ba702a0924b4484799140f6a64375f82cf1a39ab2",
+    "Experiments/CaptureProbe/CaptureClient.swift": "235c26096824063bd0d37e5c3539976f7b115bedc4fbeb58bc7c834c2226974d",
+    "scripts/capture-fixture-probe.py": "5487d1a0cd01e710a7886c520c0d51074be3ad378fdedfb18d53cbdb6aed843b",
+    "scripts/summarize-capture-evidence.py": "76d32d3666728d8f94ca6439112c680f2b151a8d3e5c6a07b4e9ea66e3c477e0"
+  },
+  "evidence": [
+    "capture-identity-build-2026-10-29-2.log",
+    "capture-identity-selftest-2026-10-29-2.log",
+    "capture-identity-marker-native-2026-10-29.json",
+    "capture-identity-move-native-2026-10-29.json",
+    "capture-identity-close-native-2026-10-29.json",
+    "capture-cancel-native-2026-10-29.json",
+    "capture-deadline-native-2026-10-29.json",
+    "capture-evidence-audit-2026-10-29.json",
+    "capture-identity-release-build-2026-10-29.log",
+    "capture-identity-release-selftest-2026-10-29.log"
+  ],
+  "limitations": "Cancellation/deadline records precede process-start binding. Movement/closure occur after framework image return, before final revalidation. No full H4 or production identity claim."
+}

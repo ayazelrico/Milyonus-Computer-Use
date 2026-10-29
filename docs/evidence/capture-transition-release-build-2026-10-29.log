@@ -1,0 +1,19 @@
+[0/1] Planning build
+Building for production...
+[0/7] Write sources
+[2/7] Write swift-version--1AB21518FC5DEDBE.txt
+[4/9] Compiling ComputerUseFixture FixtureAXStall.swift
+[4/10] Write Objects.LinkFileList
+[6/10] Compiling ComputerUseMacOS AccessibilityDesktop.swift
+[6/13] Linking ComputerUseFixture
+[8/13] Compiling ComputerUseWorker FixtureWorkerHost.swift
+[9/15] Compiling ComputerUseCLI GestureAcceptanceCommand.swift
+[9/16] Write Objects.LinkFileList
+[10/16] Linking milyonus-cu
+[12/16] Compiling ComputerUseApp main.swift
+[12/17] Write Objects.LinkFileList
+[13/17] Linking MilyonusComputerUse
+[15/17] Compiling ComputerUseSelfTest ActionResultTests.swift
+[15/17] Write Objects.LinkFileList
+[16/17] Linking computer-use-selftest
+Build complete! (22.53s)
