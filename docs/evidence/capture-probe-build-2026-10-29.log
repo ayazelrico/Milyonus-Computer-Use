@@ -1,0 +1,11 @@
+[0/1] Planning build
+Building for debugging...
+[0/11] Write sources
+[1/11] Write swift-version--1AB21518FC5DEDBE.txt
+[3/8] Compiling ComputerUseFixture FixtureCaptureMarker.swift
+[4/8] Emitting module ComputerUseFixture
+[5/8] Compiling ComputerUseFixture main.swift
+[5/8] Write Objects.LinkFileList
+[6/8] Linking ComputerUseFixture
+[7/8] Applying ComputerUseFixture
+Build complete! (1.65s)

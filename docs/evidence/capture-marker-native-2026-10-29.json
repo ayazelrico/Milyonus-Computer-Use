@@ -1,0 +1,20 @@
+{
+  "suite": "local-fixture-capture",
+  "case": "marker",
+  "status": "failed",
+  "limitations": "Development child attribution; not installed companion, hostile timing, other display or production acceptance.",
+  "clientSourceSHA256": "f5dc530e9f21fade371ab5d8a39ee9b24ca005dea0440309fc290e063eefd956",
+  "fixtureSHA256": "7cf5132a0fd8ac2691993972dabdfbccafd5cc0be0b9a6b7e5a2b02503f2f152",
+  "ownedFixturePID": 70007,
+  "result": {
+    "error": "TARGET_NOT_FOUND",
+    "imageSentToProvider": false,
+    "imageWrittenToDisk": false,
+    "permissionRequested": false,
+    "screenRecordingGranted": true,
+    "status": "failed"
+  },
+  "errorType": "RuntimeError",
+  "error": "Native capture case did not pass",
+  "ownedFixtureExited": true
+}

@@ -1,0 +1,14 @@
+[0/1] Planning build
+Building for debugging...
+[0/10] Write sources
+[1/10] Write swift-version--1AB21518FC5DEDBE.txt
+[3/10] Emitting module ComputerUseMacOS
+[4/10] Compiling ComputerUseMacOS ScreenCapture.swift
+[4/13] Write Objects.LinkFileList
+[7/13] Linking MilyonusComputerUse
+[7/13] Linking milyonus-cu
+[9/13] Linking computer-use-selftest
+[10/13] Applying milyonus-cu
+[10/13] Applying MilyonusComputerUse
+[12/13] Applying computer-use-selftest
+Build complete! (3.51s)

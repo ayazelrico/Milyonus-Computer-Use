@@ -1,0 +1,20 @@
+{
+  "suite": "local-capture-source-association",
+  "status": "partial-native-slice-passed",
+  "sources": {
+    "Sources/ComputerUseMacOS/ScreenCapture.swift": "90c5c0965d22c52508fbc0db958f07885b240e4a94fbdf7015f4cdbb7b00d6ca",
+    "Sources/ComputerUseFixture/main.swift": "ee7d1c1211ba658ee541db84390c0b84601c17d36c5352af21b0bbaac9ae347f",
+    "Sources/ComputerUseFixture/FixtureCaptureMarker.swift": "99591d5554026ad416bf5254cabf422ec71c633e6f81867276ed739ca22c6000",
+    "Experiments/CaptureProbe/CaptureClient.swift": "bbbcac8e6e565e61b7d5b86d75e84d9f14c8256f96caabed49498d93b5053db5",
+    "scripts/capture-fixture-probe.py": "dfe6462977038eadefde626e6e07b9efc1ace17f23e1b8b7b9b95d39121a4bc7"
+  },
+  "evidence": [
+    "capture-final-build-2026-10-29.log",
+    "capture-final-selftest-2026-10-29.log",
+    "capture-srgb-release-selftest-2026-10-29.log",
+    "capture-absent-final-2026-10-29.json",
+    "capture-marker-final-2026-10-29.json",
+    "capture-ambiguous-native-2026-10-29.json"
+  ],
+  "limitations": "Final Debug 258/2693; Release 258/2693 includes sRGB and marker but precedes duplicate-window fixture addition. Native marker verifies identity and adjacency, not exact color fidelity, publisher identity or absolute desktop mapping. No full H4 acceptance."
+}

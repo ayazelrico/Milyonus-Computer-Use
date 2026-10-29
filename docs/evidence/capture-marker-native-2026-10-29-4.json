@@ -1,0 +1,86 @@
+{
+  "suite": "local-fixture-capture",
+  "case": "marker",
+  "status": "failed",
+  "limitations": "Development child attribution; not installed companion, hostile timing, other display or production acceptance.",
+  "clientSourceSHA256": "615bf7fc160135d4052fccc96b8841506db469abe63593b7fc6aec2f8f736633",
+  "fixtureSHA256": "7cf5132a0fd8ac2691993972dabdfbccafd5cc0be0b9a6b7e5a2b02503f2f152",
+  "ownedFixturePID": 70811,
+  "result": {
+    "decodedPixelHeight": 824,
+    "decodedPixelWidth": 1240,
+    "error": "VERIFICATION_FAILED",
+    "expectedPatchPixels": 80,
+    "fixtureWindowInventory": [
+      {
+        "height": "30.0",
+        "id": "5938",
+        "layer": "1000",
+        "onScreen": "false",
+        "title": "",
+        "width": "1004.0"
+      },
+      {
+        "height": "30.0",
+        "id": "5937",
+        "layer": "0",
+        "onScreen": "false",
+        "title": "",
+        "width": "1440.0"
+      },
+      {
+        "height": "30.0",
+        "id": "5936",
+        "layer": "0",
+        "onScreen": "false",
+        "title": "",
+        "width": "1440.0"
+      },
+      {
+        "height": "30.0",
+        "id": "5935",
+        "layer": "0",
+        "onScreen": "false",
+        "title": "",
+        "width": "1440.0"
+      },
+      {
+        "height": "30.0",
+        "id": "5934",
+        "layer": "0",
+        "onScreen": "false",
+        "title": "",
+        "width": "1440.0"
+      },
+      {
+        "height": "500.0",
+        "id": "5933",
+        "layer": "0",
+        "onScreen": "false",
+        "title": "",
+        "width": "500.0"
+      },
+      {
+        "height": "412.0",
+        "id": "5932",
+        "layer": "0",
+        "onScreen": "true",
+        "title": "Computer Use Fixture",
+        "width": "620.0"
+      }
+    ],
+    "imageSentToProvider": false,
+    "imageWrittenToDisk": false,
+    "markerColorSampleCounts": [
+      0,
+      0,
+      0
+    ],
+    "permissionRequested": false,
+    "screenRecordingGranted": true,
+    "status": "failed"
+  },
+  "errorType": "RuntimeError",
+  "error": "Native capture case did not pass",
+  "ownedFixtureExited": true
+}

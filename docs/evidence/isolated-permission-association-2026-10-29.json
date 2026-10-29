@@ -1,6 +1,6 @@
 {
   "suite": "isolated-permission-preparation",
-  "status": "native-os-authentication-pending",
+  "status": "passed-native-new-read-permission-denial-and-restoration",
   "sources": {
     "Experiments/XPCPeerProbe/IsolatedReadClient.swift": "dfca7f1cc2b7bcd1118901d292d9e68806dc7ae625d2328e6e9352a1ad19ef46",
     "scripts/isolated-fixture-read.py": "aed5b53f25cba4b08d0a9c6cfdcc39eaeaedcc802b77c5dd80b721cedcfa5ffa"
@@ -13,7 +13,9 @@
   "evidence": [
     "isolated-permission-build-2026-10-29.log",
     "isolated-permission-selftest-2026-10-29.log",
-    "isolated-permission-preparation-2026-10-29.json"
+    "isolated-permission-preparation-2026-10-29.json",
+    "isolated-permission-native-2026-10-29-1.json",
+    "isolated-permission-native-2026-10-29-2.json"
   ],
-  "limitations": "Preparation only. Native permission transition and restoration must be measured. No permission-only cause is inferred from a concurrent session pause."
+  "limitations": "New-read permission admission only; not in-flight revocation or automatic session revocation. First run timed out awaiting OS authentication."
 }

@@ -1,0 +1,7 @@
+{
+  "suite": "local-fixture-capture",
+  "case": "absent",
+  "status": "prepared-without-native-launch",
+  "limitations": "Development child attribution; not installed companion, hostile timing, other display or production acceptance.",
+  "clientSourceSHA256": "f5dc530e9f21fade371ab5d8a39ee9b24ca005dea0440309fc290e063eefd956"
+}

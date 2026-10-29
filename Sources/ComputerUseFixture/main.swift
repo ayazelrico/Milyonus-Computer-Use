@@ -3,6 +3,7 @@ import AppKit
 @MainActor
 final class FixtureDelegate: NSObject, NSApplicationDelegate {
     var window: NSWindow!
+    private var duplicateCaptureWindow: NSWindow?
     let input: NSTextField = CommandLine.arguments.contains("--ax-stall-on-signal")
         ? FixtureAXTextField(string: "") : NSTextField(string: "")
     let status = NSTextField(labelWithString: "Not saved")
@@ -28,11 +29,25 @@ final class FixtureDelegate: NSObject, NSApplicationDelegate {
         secure.setAccessibilityIdentifier("fixture.secure")
         let stack = NSStackView(views: [NSTextField(labelWithString: "Local-only automation fixture"), input, save, status, disabled, secure])
         if gestures { stack.addArrangedSubview(makeGestureFixture()) }
+        if CommandLine.arguments.contains("--capture-marker") {
+            let marker = FixtureCaptureMarker()
+            marker.widthAnchor.constraint(equalToConstant: 120).isActive = true
+            marker.heightAnchor.constraint(equalToConstant: 32).isActive = true
+            stack.addArrangedSubview(marker)
+        }
         stack.orientation = .vertical; stack.spacing = 16; stack.translatesAutoresizingMaskIntoConstraints = false
         window.contentView!.addSubview(stack)
         NSLayoutConstraint.activate([stack.centerXAnchor.constraint(equalTo: window.contentView!.centerXAnchor),
                                      stack.centerYAnchor.constraint(equalTo: window.contentView!.centerYAnchor)])
         window.center(); window.makeKeyAndOrderFront(nil); NSApp.activate(ignoringOtherApps: true)
+        if CommandLine.arguments.contains("--capture-duplicate") {
+            let duplicate = NSWindow(contentRect: NSRect(x: 80, y: 80, width: 300, height: 180),
+                styleMask: [.titled, .closable], backing: .buffered, defer: false)
+            duplicate.title = "Computer Use Fixture"
+            duplicate.contentView = NSTextField(labelWithString: "Disposable ambiguous capture fixture")
+            duplicate.orderFront(nil)
+            duplicateCaptureWindow = duplicate
+        }
         // Explicit test-only operator hook: close this fixture's own window without physical input.
         if CommandLine.arguments.contains("--close-on-test-signal") {
             signal(SIGUSR1, SIG_IGN)
