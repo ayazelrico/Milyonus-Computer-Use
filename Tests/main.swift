@@ -266,5 +266,11 @@ await runAsyncCase("BrokerConnectionTests.testControlRemainsAvailableWhileReques
 await runAsyncCase("XPCSessionClientTests.testTypedIdentityMismatchAndDuplicateEnvelopeCloseTransport") { try await XPCSessionClientTests().testTypedIdentityMismatchAndDuplicateEnvelopeCloseTransport() }
 await runAsyncCase("XPCSessionClientTests.testAutomaticHeartbeatUsesControlAndStopsAfterShutdown") { try await XPCSessionClientTests().testAutomaticHeartbeatUsesControlAndStopsAfterShutdown() }
 await runAsyncCase("XPCSessionClientTests.testNativeInputOptInAndReplyIdentity") { try await XPCSessionClientTests().testNativeInputOptInAndReplyIdentity() }
+await runAsyncCase("ReadWorkerTests.testCancellationFencesLateReplyAndReplacement") { let test = ReadWorkerTests(); defer { test.tearDown() }; try await test.testCancellationFencesLateReplyAndReplacement() }
+await runAsyncCase("ReadWorkerTests.testWrongIdentityAndMalformedResultAreRejected") { let test = ReadWorkerTests(); defer { test.tearDown() }; try await test.testWrongIdentityAndMalformedResultAreRejected() }
+await runAsyncCase("ReadWorkerTests.testAdmissionRevocationAndReentrantCancellation") { let test = ReadWorkerTests(); defer { test.tearDown() }; try await test.testAdmissionRevocationAndReentrantCancellation() }
+await runAsyncCase("ReadWorkerTests.testTaskCancellationAndDeadlineDrainWorker") { let test = ReadWorkerTests(); defer { test.tearDown() }; try await test.testTaskCancellationAndDeadlineDrainWorker() }
+await runAsyncCase("ReadWorkerTests.testInvalidScopeNeverStartsWorker") { let test = ReadWorkerTests(); defer { test.tearDown() }; try await test.testInvalidScopeNeverStartsWorker() }
+await runAsyncCase("ReadWorkerTests.testStalledOwnedProcessDoesNotBlockCancellation") { let test = ReadWorkerTests(); defer { test.tearDown() }; try await test.testStalledOwnedProcessDoesNotBlockCancellation() }
 print("RESULT: \(testCount) cases, \(assertionCount) assertions, \(failureCount) failures")
 exit(failureCount == 0 ? 0 : 1)

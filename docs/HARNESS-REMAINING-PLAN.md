@@ -144,3 +144,9 @@ Do not request private signing keys in chat. Do not mark distribution passed wit
 5. Execute H5 and H6 when their documented prerequisites are present.
 
 The Agent Ultra owner can consume the existing typed SDK and published compatibility notes independently. This harness plan neither changes that checkout nor assigns work to that agent.
+
+## Execution checkpoint — 2026-10-29
+
+H1 completed its bounded investigation without reproduction: Debug/Release each passed 20 inherited-output cases; the historical defect remains unresolved. H3's first internal lifecycle increment is implemented and verified in Debug/Release, 247 cases / 2603 assertions. This supersedes the current test count without rewriting the historical baseline above. See [read-worker lifecycle](read-worker-lifecycle.md).
+
+Next executable H3 work: authenticated private transport and bounded owned-process startup/teardown, then actual fixture AX observation with independently measured worker permissions. No current native or production isolation gate is accepted by the injected lifecycle tests. H4's nine-case local capture matrix is prepared separately.

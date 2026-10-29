@@ -6,6 +6,10 @@
 
 Agent Ultra is delegated to another agent. Do not work in that checkout or extend its host adapter. The active harness-only sequence is defined in [remaining delivery plan](docs/HARNESS-REMAINING-PLAN.md): bounded stdio defect investigation; remaining native interruption acceptance; production broker/worker boundary; capture; supported provider matrix; signed distribution/hardware gates. Follow [acceptance queue](docs/ACCEPTANCE-NEXT.md) and keep actual evidence separate from planning.
 
+## Worker implementation checkpoint (English, 2026-10-29)
+
+H3 now has an internal cancellable read-worker lifecycle and owned-child cancellation evidence. Debug/Release suites each pass 247 cases / 2603 assertions. This is not a production helper, native AX-worker or permission-isolation pass; [implementation boundary](docs/read-worker-lifecycle.md) lists the next transport and platform work.
+
 ## Current implementation record (English, 2026-10-28)
 
 P1/P4 now includes authenticated bounded XPC requests, revocable connection contexts and connection-owned core sessions. Eleven independent-process signing and lifecycle scenarios passed using development CDHash pins, including cancellation of an unapproved core session on client disconnect. The independently launched companion now passes approved lifecycle and one opt-in fixture AX action through the typed SDK. Separate native input opt-ins now pass four positive fixture routes and actual Stop/disconnect mouse-up cleanup. Stable identity and the full permission/interruption acceptance matrix remain open. See `docs/authenticated-ipc.md`.

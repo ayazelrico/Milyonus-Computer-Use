@@ -727,3 +727,11 @@ H1's existing inherited-output reproduction completed once in Debug and once in 
 [ADR 002](adr/002-broker-worker-boundary.md) records the current MainActor blocking-call risk, proposes a read-only owned-worker first increment, and preserves broker authority, session fencing and durable effect accounting. It explicitly leaves synchronous preflight/mutation isolation and independent worker TCC attribution open. This is design evidence only.
 
 [Local capture acceptance](capture-acceptance-plan.md) freezes nine fixture-local case categories, identifies current metadata-authentication limitations, and separates deadline admission from process interruption. No GUI, permission changes or provider upload occurred in this preparation. Neither H3 nor H4 is accepted by these documents.
+
+## Internal read-worker lifecycle implemented — 2026-10-29
+
+The first H3 implementation increment adds package-scoped, injectable ReadWorkerController with one pending read, broker-created request/incarnation IDs, process-start/window association, capped monotonic deadlines, exact reply admission and terminal transport teardown. Cancellation remains latched through continuation delivery until the caller returns. Reentrant exit callbacks cannot complete twice, and late callbacks/cancellation from old requests cannot finish a replacement. Native session authority is not delegated.
+
+Debug build and selftests passed 247 cases / 2603 assertions / zero failures; optimized Release passed the same counts. Six new lifecycle cases include a real owned /bin/sleep child that never replies: local controller cancellation met the predeclared 250 ms acknowledgement threshold and that child exited on SIGTERM within two seconds. This is injected transport/process evidence, not actual AX-worker or native broker Stop acceptance. Source/log association: `read-worker-lifecycle-2026-10-29.json`.
+
+The companion is not wired to this controller, no new worker RPC or public API is exposed, and no GUI/provider operation ran. Private transport authentication, bounded wire framing, actual AX worker, independent TCC attribution and blocking mutation/preflight isolation remain open. See [implementation boundary](read-worker-lifecycle.md). Current packaged binaries were not replaced or newly native-accepted.

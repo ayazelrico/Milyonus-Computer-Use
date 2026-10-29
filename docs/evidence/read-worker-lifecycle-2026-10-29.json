@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-29",
+  "base_commit": "240a1166c556f82e4f70f0446bad7edc47768e8b",
+  "source_sha256": {
+    "Sources/ComputerUseCore/ReadWorkerController.swift": "784aeee624ded5d17a2d856adb99fcba6788de0411a07bdb70227d6a1b0fd7ec",
+    "Tests/CoreTests/ReadWorkerTests.swift": "e66c7d34ce3a6293d1432d9ea49e8f490c56caae89e3c4c077d172e618218ddf",
+    "Tests/main.swift": "90c6c65c5c8b47a7b38edee525d212c268c541185c9ed99381e41465a1bbb42b"
+  },
+  "debug": {
+    "cases": 247,
+    "assertions": 2603,
+    "failures": 0,
+    "build_log": "read-worker-build-2026-10-29.log",
+    "test_log": "read-worker-selftest-2026-10-29.log"
+  },
+  "release": {
+    "cases": 247,
+    "assertions": 2603,
+    "failures": 0,
+    "test_log": "read-worker-release-selftest-2026-10-29.log"
+  },
+  "owned_child_test": {
+    "executable": "/bin/sleep",
+    "arguments": [
+      "30"
+    ],
+    "reply": "deliberately absent",
+    "cancel_ack_threshold_ms": 250,
+    "owned_exit_threshold_ms": 2000,
+    "expected_exit_signal": "SIGTERM",
+    "passed": true
+  },
+  "limits": [
+    "Injected transport only; no production helper authentication or wire protocol",
+    "No AX server stall, native companion Stop or independent TCC attribution",
+    "No new native acceptance or packaged artifact",
+    "No desktop focus or provider request",
+    "Agent Ultra excluded"
+  ]
+}
