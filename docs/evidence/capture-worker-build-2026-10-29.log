@@ -1,0 +1,20 @@
+[0/1] Planning build
+Building for debugging...
+[0/13] Write sources
+[3/13] Write swift-version--1AB21518FC5DEDBE.txt
+[5/11] Emitting module ComputerUseWorker
+[6/11] Compiling ComputerUseWorker FixtureWorkerRuntime.swift
+[7/12] Compiling ComputerUseWorker FixtureWorkerHost.swift
+[8/19] Emitting module ComputerUseApp
+[9/19] Compiling ComputerUseApp main.swift
+[9/19] Write Objects.LinkFileList
+[11/19] Compiling ComputerUseSelfTest main.swift
+[12/19] Compiling ComputerUseSelfTest FixtureWorkerRuntimeTests.swift
+[13/19] Emitting module ComputerUseSelfTest
+[14/19] Compiling ComputerUseSelfTest CaptureWorkerTests.swift
+[14/19] Write Objects.LinkFileList
+[15/19] Linking MilyonusComputerUse
+[16/19] Linking computer-use-selftest
+[17/19] Applying MilyonusComputerUse
+[18/19] Applying computer-use-selftest
+Build complete! (17.80s)

@@ -529,7 +529,7 @@ final class Companion: NSObject, NSApplicationDelegate {
 }
 
 // This child role exits before companion session/UI/lock/journal construction.
-if CommandLine.arguments.dropFirst().first == FixtureWorkerRuntime.role {
+if [FixtureWorkerRuntime.role, FixtureWorkerRuntime.captureRole].contains(CommandLine.arguments.dropFirst().first ?? "") {
     let workerApplication = NSApplication.shared
     workerApplication.setActivationPolicy(.prohibited)
     Task { @MainActor in
