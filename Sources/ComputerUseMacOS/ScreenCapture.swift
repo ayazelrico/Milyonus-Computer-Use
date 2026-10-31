@@ -44,10 +44,19 @@ public enum ScreenCapture {
     }
     /// Package-only acceptance rendezvous: no pixels or target handles leave this boundary.
     /// The public route has no hook. All admission checks still run after the rendezvous.
-    package static func captureFixture(beforeRevalidation:
+    package static func captureFixture(expectedTarget: ReadWorkerTarget? = nil, timeout: Duration = .seconds(10), beforeRevalidation:
         (@MainActor (Int32, UInt32, Rect) async throws -> Void)?) async throws -> CapturedFrame {
-        let deadline = try CaptureDeadline()
+        let deadline = try CaptureDeadline(timeout: timeout)
         try deadline.check()
+        if let expectedTarget {
+            guard expectedTarget.windowID != nil else { throw HarnessError.invalidRequest }
+            guard (try? ReadWorkerProcessIdentity.read(pid: expectedTarget.pid)) == (try? ReadWorkerTarget(
+                pid: expectedTarget.pid, startSeconds: expectedTarget.startSeconds,
+                startMicroseconds: expectedTarget.startMicroseconds)) else { throw HarnessError.staleObservation }
+            guard NSRunningApplication(processIdentifier: expectedTarget.pid)?.bundleIdentifier == SessionController.fixtureBundleID else {
+                throw HarnessError.policyDenied
+            }
+        }
         _ = NSApplication.shared // Initialize AppKit/WindowServer when called from the diagnostic CLI.
         guard CGPreflightScreenCaptureAccess() else { throw HarnessError.permissionRequired }
         let content = try await SCShareableContent.excludingDesktopWindows(true, onScreenWindowsOnly: false)
@@ -58,6 +67,11 @@ public enum ScreenCapture {
         let expected = snapshots[selected]
         guard let targetPID = expected.processID else { throw HarnessError.targetNotFound }
         let processIdentity = try ReadWorkerProcessIdentity.read(pid: targetPID)
+        if let expectedTarget {
+            guard targetPID == expectedTarget.pid, expected.windowID == expectedTarget.windowID,
+                  processIdentity.startSeconds == expectedTarget.startSeconds,
+                  processIdentity.startMicroseconds == expectedTarget.startMicroseconds else { throw HarnessError.staleObservation }
+        }
         func validateProcessIdentity() throws {
             guard (try? ReadWorkerProcessIdentity.read(pid: targetPID)) == processIdentity,
                   let app = NSRunningApplication(processIdentifier: targetPID), !app.isTerminated,

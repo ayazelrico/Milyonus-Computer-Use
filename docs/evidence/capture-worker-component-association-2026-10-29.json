@@ -1,0 +1,35 @@
+{
+  "suite": "capture-worker-component-association",
+  "status": "passed-component-verification",
+  "sources": {
+    "Sources/ComputerUseCore/CaptureWorkerMetadata.swift": "7f84e77da9322b448dda9768fb82374bc694441a2cfb96dfc1448c96e5438484",
+    "Sources/ComputerUseCore/CaptureWorkerWire.swift": "f11b3b61ca22882b0ecf5c019f1a23e5566de3d31d811ee6c0121e6c13c69563",
+    "Sources/ComputerUseCore/ReadWorkerWire.swift": "5acb3f1652b509b8581cae48aae8c5b64b4c2faa2d9fab31fab3e0344b6b62c3",
+    "Sources/ComputerUseMacOS/FixtureCaptureWorker.swift": "11815a701aa5566fc96c67345a087e7f79515cd04b7a5c46a859ef2de3177d4f",
+    "Sources/ComputerUseMacOS/ScreenCapture.swift": "1a278d7c39c36b747192eca4ba7160b49d9a63573715c10b04d85e985cffef88",
+    "Sources/ComputerUseWorker/FixtureWorkerRuntime.swift": "0421a28095448b7f797ffc811227d9537b264200379270ff63ec9588cf0c6b99",
+    "Sources/ComputerUseApp/main.swift": "c701ce3b4ef086ad05fcc39abfac625f5d408a57bf609891f4d0e57bfea72a39",
+    "Tests/CoreTests/CaptureWorkerTests.swift": "86c073b9e64d8234064ba0d381ad4b8efe73f2c5ce05fc41769ea5361c7f15bb",
+    "Tests/CoreTests/CaptureWorkerRuntimeTests.swift": "6b6225239a93917ccc46f51170206c297701dfa4a721cad3000bf275184fc286",
+    "Tests/main.swift": "7927aff4ff5515691bc3f0add883bc7eb1ba14474f58b1048b73562c81969236",
+    "scripts/fixture-worker-runtime-probe.py": "8ad072a89d55a93177d7fa8ac51c3836fe568809abcda0861d13c5c12007d967"
+  },
+  "nativePositiveAccepted": false,
+  "brokerCaptureRouteExposed": false,
+  "pixelsTransferred": false,
+  "limitations": "Components and separate authenticated negative role only. Positive helper permission, approved broker dispatch, metadata lifecycle and capture-call containment remain open. First Debug run had authentication failures during concurrent executable rebuild.",
+  "verification": {
+    "debug": {
+      "cases": 261,
+      "assertions": 2717,
+      "failures": 0
+    },
+    "release": {
+      "cases": 261,
+      "assertions": 2717,
+      "failures": 0
+    },
+    "captureNegativeRuntime": "capture-worker-final-negative-runtime-2026-10-29.json",
+    "axRegression": "capture-worker-ax-regression-2026-10-29.json"
+  }
+}

@@ -22,10 +22,12 @@ package enum FixtureWorkerIdentity {
 
 package enum FixtureWorkerRuntime {
     package static let role = "--fixture-read-worker-v1"
+    package static let captureRole = "--fixture-capture-metadata-worker-v1"
+    package static let captureNext = Data("fixture-capture-metadata-next-v1".utf8)
     package static let next = Data("fixture-read-next-v1".utf8)
 
     @MainActor package static func run(arguments: [String]) async throws {
-        guard arguments.count == 3, arguments[0] == role,
+        guard arguments.count == 3, [role, captureRole].contains(arguments[0]),
               let parent = Int32(arguments[2]), parent > 0, getppid() == parent,
               BrokerPeerIdentity.validIdentifier(arguments[1]) else { throw HarnessError.unauthorized }
         let peer = try FixtureWorkerIdentity.current()
@@ -51,6 +53,18 @@ package enum FixtureWorkerRuntime {
             }
         }
         guard getppid() == parent else { throw HarnessError.unauthorized }
+        if arguments[0] == captureRole {
+            let request = try await channel.request(captureNext, timeoutSeconds: 3)
+            let ticket = try CaptureWorkerWire.decodeRequest(request)
+            guard getppid() == parent else { throw HarnessError.unauthorized }
+            let result: Result<CaptureWorkerReply, HarnessError>
+            do { result = .success(try await FixtureCaptureWorker.collect(ticket)) }
+            catch { result = .failure((error as? HarnessError) ?? .cancelled) }
+            let data = try CaptureWorkerWire.encodeReply(result, ticket: ticket)
+            guard getppid() == parent else { throw HarnessError.unauthorized }
+            _ = try await channel.request(data, timeoutSeconds: 3)
+            return
+        }
         let request = try await channel.request(next, timeoutSeconds: 3)
         let ticket = try ReadWorkerWire.decodeRequest(request)
         guard getppid() == parent else { throw HarnessError.unauthorized }

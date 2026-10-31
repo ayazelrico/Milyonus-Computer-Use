@@ -1,6 +1,6 @@
 # Capture worker: next bounded implementation slice
 
-Status: design only, 2026-10-29. No new worker capture RPC or image transport is implemented by this document.
+Status: internal metadata worker components verified, 2026-10-29. Approved broker integration and image transport remain pending.
 
 ## Existing evidence and prerequisites
 
@@ -31,3 +31,13 @@ The first image-capable SDK API must make retention and provider egress explicit
 5. Only after selecting frame transport: bounded complete image delivery, marker verification and partial-transfer cleanup.
 
 A missing operator authentication, valid signing identity or physical display is recorded as that specific prerequisite, not bypassed with remembered grants. No change to Agent Ultra, arbitrary application support or automatic approval belongs in this slice.
+
+## Implemented component checkpoint
+
+The separate `--fixture-capture-metadata-worker-v1` role now uses the existing self-derived signature pin, actual parent PID, nonce bootstrap and independent orphan watchdog. It exits before companion UI/session/journal construction. Its first sentinel and fixed request/result kinds differ from AX; capture metadata is never decoded as an AX observation. The shared ticket value retains request/incarnation/connection/session/generation/process-start/window/budget binding.
+
+CaptureWorkerWire is capped at 16384 bytes, rejects unknown/duplicate keys and requires an explicit nonzero window. Replies contain either bounded validated metadata or a classified refusal. The metadata includes SHA-256, PNG byte count, dimensions, bounds, capture time and the worker's measured Screen Recording success; it contains no pixels or filesystem path. Elapsed report values are rounded down to nanoseconds, while request budgets retain exact wire validation. Parent admission must still check real elapsed time and freshness rather than trusting this report.
+
+FixtureCaptureWorker calls capture with the requested exact process-start/window identity and bounded budget, hashes PNG data locally and discards it after returning metadata. Missing permission is queried by the worker and never replaced by a broker grant. Existing unbound public diagnostic capture retains its behavior. No new public SDK capability or companion RPC is exposed yet.
+
+An actual independently launched signed-role probe passed non-fixture and changed-start refusals through the authenticated capture protocol; both children retired and the temporary service was removed. This uses only the probe's own non-fixture PID and captures no image. Positive native capture-worker permission, broker-owned approved dispatch/cancellation and metadata publication are still required. The next integration must connect this distinct reply type to the retained process slot and broker's session admission without coercing it into an Observation.

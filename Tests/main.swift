@@ -3,9 +3,13 @@ import ComputerUseContracts
 import ComputerUseCore
 import ComputerUseWorker
 
-if CommandLine.arguments.dropFirst().first == FixtureWorkerRuntime.role {
+if [FixtureWorkerRuntime.role, FixtureWorkerRuntime.captureRole].contains(CommandLine.arguments.dropFirst().first ?? "") {
     do { try await FixtureWorkerRuntime.run(arguments: Array(CommandLine.arguments.dropFirst())); exit(0) }
     catch { exit(1) }
+}
+if CommandLine.arguments.dropFirst().first == "--capture-worker-host-probe" {
+    do { try await CaptureWorkerRuntimeTests.runProbe(); exit(0) }
+    catch { print("{\"probeError\":\"capture-runtime-failure\"}"); exit(1) }
 }
 if CommandLine.arguments.dropFirst().first == "--fixture-worker-host-probe" {
     do { try await FixtureWorkerRuntimeTests.runProbe(); exit(0) }
@@ -294,5 +298,8 @@ runCase("ReadWorkerWireTests.testReplyCannotMixFailureWithObservationOrExtendDea
 runCase("ReadWorkerWireTests.testKernelIdentityAndCollectorRefusalsWithoutAXAccess") { try ReadWorkerWireTests().testKernelIdentityAndCollectorRefusalsWithoutAXAccess() }
 await runAsyncCase("FixtureWorkerRuntimeTests.testRoleRejectsUntrustedStartupBeforeConnecting") { try await FixtureWorkerRuntimeTests().testRoleRejectsUntrustedStartupBeforeConnecting() }
 await runAsyncCase("XPCSessionClientTests.testReadOnlyObservationOptInDoesNotEnableActions") { try await XPCSessionClientTests().testReadOnlyObservationOptInDoesNotEnableActions() }
+runCase("CaptureWorkerTests.testWireSeparatesCaptureFromAXAndBindsReply") { try CaptureWorkerTests().testWireSeparatesCaptureFromAXAndBindsReply() }
+runCase("CaptureWorkerTests.testNoPixelsUnknownFieldsOrInvalidFrameMetadata") { try CaptureWorkerTests().testNoPixelsUnknownFieldsOrInvalidFrameMetadata() }
+await runAsyncCase("CaptureWorkerTests.testCollectorRejectsWrongProcessBeforeCaptureAndRoleRejectsInvalidParent") { try await CaptureWorkerTests().testCollectorRejectsWrongProcessBeforeCaptureAndRoleRejectsInvalidParent() }
 print("RESULT: \(testCount) cases, \(assertionCount) assertions, \(failureCount) failures")
 exit(failureCount == 0 ? 0 : 1)

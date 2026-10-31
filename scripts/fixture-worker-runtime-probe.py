@@ -21,6 +21,7 @@ def run(argv, **kwargs):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--evidence', required=True)
+    parser.add_argument('--capture-metadata', action='store_true', help='Run negative capture-role identity admission instead of AX')
     args = parser.parse_args()
     root = Path(__file__).resolve().parent.parent
     output = Path(args.evidence)
@@ -30,9 +31,12 @@ def main():
                'Sources/ComputerUseWorker/FixtureWorkerHost.swift',
                'Sources/ComputerUseMacOS/FixtureReadWorker.swift',
                'Tests/CoreTests/FixtureWorkerRuntimeTests.swift', 'Tests/main.swift']
+    if args.capture_metadata:
+        sources += ['Sources/ComputerUseCore/CaptureWorkerWire.swift', 'Sources/ComputerUseCore/CaptureWorkerMetadata.swift', 'Sources/ComputerUseMacOS/FixtureCaptureWorker.swift', 'Sources/ComputerUseMacOS/ScreenCapture.swift', 'Tests/CoreTests/CaptureWorkerRuntimeTests.swift']
     record = {'suite': 'fixture-worker-runtime', 'status': 'failed',
         'startedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(),
         'sourceSHA256': {p: hashlib.sha256((root / p).read_bytes()).hexdigest() for p in sources},
+        'captureMetadataRole': args.capture_metadata,
         'limitations': 'Actual signed child role and codec/collector refusals only. The probe target is hardcoded to its own non-fixture process. No AX tree read, native grant, TCC change, GUI or successful fixture observation.'}
     try:
         run(['swift', 'build'], cwd=root)
@@ -49,7 +53,7 @@ def main():
             log = folder / 'stdout'
             job = folder / 'job.plist'
             job.write_bytes(plistlib.dumps({'Label': label,
-                'ProgramArguments': [str(binary), '--fixture-worker-host-probe', service],
+                'ProgramArguments': [str(binary), '--capture-worker-host-probe' if args.capture_metadata else '--fixture-worker-host-probe', service],
                 'MachServices': {service: True}, 'RunAtLoad': True,
                 'StandardOutPath': str(log), 'StandardErrorPath': str(folder / 'stderr')}))
             loaded = False
@@ -79,13 +83,17 @@ def main():
                     record['temporaryJobRemoved'] = True
             expected = {'non-fixture': 'POLICY_DENIED', 'changed-start': 'STALE_OBSERVATION',
                         'explicit-window': 'UNSUPPORTED_CAPABILITY'}
+            if args.capture_metadata:
+                expected = {'non-fixture': 'POLICY_DENIED', 'changed-process-start': 'STALE_OBSERVATION'}
             cases = result.get('cases', [])
-            if (result.get('status') != 'passed-negative-worker-runtime' or len(cases) != 3
-                or {c['name']: c['error'] for c in cases} != expected
+            error_key = 'refusal' if args.capture_metadata else 'error'
+            false_fields = ['nativeApprovalCreated', 'imageCaptured', 'pixelsTransferred'] if args.capture_metadata else ['nativeSessionOpened', 'nativeApprovalCreated', 'axTreeRead']
+            if (result.get('status') != ('passed-negative-capture-worker-runtime' if args.capture_metadata else 'passed-negative-worker-runtime') or len(cases) != len(expected)
+                or {c['name']: c[error_key] for c in cases} != expected
                 or not all(c.get('helperExited') for c in cases)
-                or any(result.get(k) is not False for k in ['nativeSessionOpened', 'nativeApprovalCreated', 'axTreeRead'])):
+                or any(result.get(k) is not False for k in false_fields)):
                 raise RuntimeError('Unexpected runtime result')
-            record['status'] = 'passed-negative-worker-runtime'
+            record['status'] = ('passed-negative-capture-worker-runtime' if args.capture_metadata else 'passed-negative-worker-runtime')
     except Exception as error:
         record['errorType'] = type(error).__name__
         record['error'] = str(error)[:300]
@@ -95,7 +103,7 @@ def main():
         record['finishedAt'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
         output.write_text(json.dumps(record, indent=2) + '\n')
         print(json.dumps(record))
-    return 0 if record['status'] == 'passed-negative-worker-runtime' else 1
+    return 0 if record['status'] == ('passed-negative-capture-worker-runtime' if args.capture_metadata else 'passed-negative-worker-runtime') else 1
 
 
 if __name__ == '__main__':

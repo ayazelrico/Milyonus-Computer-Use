@@ -4,7 +4,7 @@ import ComputerUseContracts
 /// Private fixed-operation wire values. Decode only after peer authentication;
 /// a ticket carries scope/correlation, never approval or a command to execute.
 package enum ReadWorkerWire {
-    private struct Ticket: Codable {
+    package struct Ticket: Codable {
         let requestID: UUID, incarnation: UUID, connectionID: UUID
         let sessionID: String
         let generation: Int
@@ -14,7 +14,7 @@ package enum ReadWorkerWire {
         let windowID: UInt32?
         let timeoutNanoseconds: Int64
 
-        init(_ value: ReadWorkerTicket) throws {
+        package init(_ value: ReadWorkerTicket) throws {
             requestID = value.requestID; incarnation = value.incarnation; connectionID = value.connectionID
             sessionID = value.sessionID; generation = value.generation
             pid = value.target.pid; startSeconds = value.target.startSeconds
@@ -24,7 +24,7 @@ package enum ReadWorkerWire {
             _ = try decoded()
         }
 
-        func decoded() throws -> ReadWorkerTicket {
+        package func decoded() throws -> ReadWorkerTicket {
             guard (1...10_000_000_000).contains(timeoutNanoseconds) else { throw HarnessError.protocolMismatch }
             let metadata = Session(id: sessionID, bundleId: SessionController.fixtureBundleID,
                                    generation: generation, state: .ready, expiresAt: Date(timeIntervalSince1970: 0))

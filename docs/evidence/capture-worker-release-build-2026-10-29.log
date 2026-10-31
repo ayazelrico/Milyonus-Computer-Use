@@ -1,0 +1,18 @@
+Another instance of SwiftPM (PID: 89151) is already running using '/Users/ayazelrico/Desktop/Milyonus-Computer-Use/.build', waiting until that process has finished execution...[0/1] Planning build
+Building for production...
+[0/13] Write sources
+[5/13] Write swift-version--1AB21518FC5DEDBE.txt
+[7/13] Compiling ComputerUseCore ActionLedger.swift
+[8/15] Compiling ComputerUseAcceptance GestureAcceptance.swift
+[9/15] Compiling ComputerUseMacOS AccessibilityDesktop.swift
+[10/17] Compiling ComputerUseWorker FixtureWorkerHost.swift
+[11/19] Compiling ComputerUseCLI GestureAcceptanceCommand.swift
+[11/19] Write Objects.LinkFileList
+[12/19] Linking milyonus-cu
+[14/19] Compiling ComputerUseApp main.swift
+[14/19] Write Objects.LinkFileList
+[15/19] Linking MilyonusComputerUse
+[17/19] Compiling ComputerUseSelfTest ActionResultTests.swift
+[17/19] Write Objects.LinkFileList
+[18/19] Linking computer-use-selftest
+Build complete! (35.77s)

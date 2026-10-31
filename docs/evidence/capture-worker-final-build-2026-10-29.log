@@ -1,0 +1,17 @@
+[0/1] Planning build
+Building for debugging...
+[0/11] Write sources
+[2/11] Write swift-version--1AB21518FC5DEDBE.txt
+[4/11] Compiling ComputerUseCore CaptureWorkerWire.swift
+[5/11] Emitting module ComputerUseCore
+[5/13] Write Objects.LinkFileList
+[7/15] Linking MilyonusComputerUse
+[8/15] Linking milyonus-cu
+[9/15] Applying milyonus-cu
+[9/15] Applying MilyonusComputerUse
+[12/15] Compiling ComputerUseSelfTest CaptureWorkerTests.swift
+[13/15] Emitting module ComputerUseSelfTest
+[13/16] Write Objects.LinkFileList
+[14/16] Linking computer-use-selftest
+[15/16] Applying computer-use-selftest
+Build complete! (9.28s)

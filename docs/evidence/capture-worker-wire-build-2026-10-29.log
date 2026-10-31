@@ -1,0 +1,49 @@
+[0/1] Planning build
+Building for debugging...
+[0/13] Write sources
+[1/13] Write swift-version--1AB21518FC5DEDBE.txt
+[3/14] Compiling ComputerUseCore CaptureWorkerWire.swift
+[4/14] Emitting module ComputerUseCore
+[5/14] Compiling ComputerUseCore ReadWorkerWire.swift
+[6/22] Compiling ComputerUseAcceptance GestureAcceptance.swift
+[7/22] Emitting module ComputerUseAcceptance
+[8/22] Compiling ComputerUseMacOS FixtureCaptureWorker.swift
+[9/22] Compiling ComputerUseMacOS FixtureReadWorker.swift
+[10/22] Compiling ComputerUseMacOS NativeInputEmitter.swift
+[11/22] Compiling ComputerUseMacOS ScreenCapture.swift
+[12/22] Compiling ComputerUseMacOS AccessibilityDesktop.swift
+[13/22] Emitting module ComputerUseMacOS
+[13/22] Write Objects.LinkFileList
+[15/25] Compiling ComputerUseWorker FixtureWorkerHost.swift
+[16/25] Compiling ComputerUseWorker FixtureWorkerRuntime.swift
+[17/25] Emitting module ComputerUseWorker
+[17/44] Linking milyonus-cu
+[18/44] Applying milyonus-cu
+[20/44] Compiling ComputerUseSelfTest JournalCrashTests.swift
+[21/44] Compiling ComputerUseSelfTest ObservationTraversalBudgetTests.swift
+[22/44] Compiling ComputerUseSelfTest InputTests.swift
+[23/44] Compiling ComputerUseSelfTest JournalAdmissionTests.swift
+[24/46] Emitting module ComputerUseSelfTest
+[25/46] Compiling ComputerUseSelfTest ReadWorkerWireTests.swift
+[26/46] Compiling ComputerUseSelfTest ScrollExecutionTests.swift
+[27/46] Compiling ComputerUseSelfTest PointerGestureTests.swift
+[28/46] Compiling ComputerUseSelfTest ReadWorkerTests.swift
+[29/46] Compiling ComputerUseSelfTest CaptureDeadlineTests.swift
+[30/46] Compiling ComputerUseSelfTest ConnectionSessionOwnerTests.swift
+[31/46] Compiling ComputerUseSelfTest CoreTests.swift
+[32/46] Compiling ComputerUseSelfTest FixtureWorkerRuntimeTests.swift
+[33/46] Compiling ComputerUseSelfTest HeartbeatTests.swift
+[34/46] Compiling ComputerUseSelfTest DragExecutionTests.swift
+[35/46] Compiling ComputerUseSelfTest ExecutionTests.swift
+[36/46] Compiling ComputerUseSelfTest FixtureCaptureSelectionTests.swift
+[37/46] Emitting module ComputerUseApp
+[38/46] Compiling ComputerUseApp main.swift
+[38/46] Write Objects.LinkFileList
+[40/46] Compiling ComputerUseSelfTest SessionValidationTests.swift
+[41/46] Compiling ComputerUseSelfTest main.swift
+[41/46] Write Objects.LinkFileList
+[42/46] Linking MilyonusComputerUse
+[43/46] Applying MilyonusComputerUse
+[44/46] Linking computer-use-selftest
+[45/46] Applying computer-use-selftest
+Build complete! (4.09s)

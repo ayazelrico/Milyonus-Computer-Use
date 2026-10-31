@@ -1,0 +1,40 @@
+{
+  "suite": "fixture-worker-runtime",
+  "status": "passed-negative-capture-worker-runtime",
+  "startedAt": "2026-10-29T12:40:34.449858+00:00",
+  "sourceSHA256": {
+    "Sources/ComputerUseWorker/FixtureWorkerRuntime.swift": "0421a28095448b7f797ffc811227d9537b264200379270ff63ec9588cf0c6b99",
+    "Sources/ComputerUseWorker/FixtureWorkerHost.swift": "c838ffd744c0a74611e657815b43adad9732a92469dd2d1ed772fba75e9152c2",
+    "Sources/ComputerUseMacOS/FixtureReadWorker.swift": "db6a85440640a0c058e3d982c1c1c9b8ef5398363ff5bd8d77d4f802bb4f416e",
+    "Tests/CoreTests/FixtureWorkerRuntimeTests.swift": "a96a93b7885aea4446f0734eb8f3597fe646130dbe6e61fba108d1cba1fc9157",
+    "Tests/main.swift": "7927aff4ff5515691bc3f0add883bc7eb1ba14474f58b1048b73562c81969236",
+    "Sources/ComputerUseCore/CaptureWorkerWire.swift": "f11b3b61ca22882b0ecf5c019f1a23e5566de3d31d811ee6c0121e6c13c69563",
+    "Sources/ComputerUseCore/CaptureWorkerMetadata.swift": "7f84e77da9322b448dda9768fb82374bc694441a2cfb96dfc1448c96e5438484",
+    "Sources/ComputerUseMacOS/FixtureCaptureWorker.swift": "11815a701aa5566fc96c67345a087e7f79515cd04b7a5c46a859ef2de3177d4f",
+    "Sources/ComputerUseMacOS/ScreenCapture.swift": "1a278d7c39c36b747192eca4ba7160b49d9a63573715c10b04d85e985cffef88",
+    "Tests/CoreTests/CaptureWorkerRuntimeTests.swift": "6b6225239a93917ccc46f51170206c297701dfa4a721cad3000bf275184fc286"
+  },
+  "captureMetadataRole": true,
+  "limitations": "Actual signed child role and codec/collector refusals only. The probe target is hardcoded to its own non-fixture process. No AX tree read, native grant, TCC change, GUI or successful fixture observation.",
+  "binarySHA256": "6a53eb6411c15347bafca8702efc65fdeaaf78a364f8b83baeff0e653e611fd7",
+  "result": {
+    "cases": [
+      {
+        "helperExited": true,
+        "name": "non-fixture",
+        "refusal": "POLICY_DENIED"
+      },
+      {
+        "helperExited": true,
+        "name": "changed-process-start",
+        "refusal": "STALE_OBSERVATION"
+      }
+    ],
+    "imageCaptured": false,
+    "nativeApprovalCreated": false,
+    "pixelsTransferred": false,
+    "status": "passed-negative-capture-worker-runtime"
+  },
+  "temporaryJobRemoved": true,
+  "finishedAt": "2026-10-29T12:40:41.200929+00:00"
+}
