@@ -274,7 +274,7 @@ Intermittent stdio timeout investigations also remain open; see [the retained in
 
 Read [AGENTS.md](AGENTS.md) and the current status before changing scope. Keep implementation code, UI, tests and new implementation documentation in English. Preserve the fixture boundary and distinguish synthetic, native, provider and distribution evidence in changes. Run the checks appropriate to your change and include the evidence with your pull request.
 
-The original Turkish planning inputs remain available in [plan.md](plan.md) and [Plan Actions.md](<Plan Actions.md>). They provide historical context; current acceptance is recorded in the status ledger.
+Public scope and validation requirements are available in [plan.md](plan.md) and [Plan Actions.md](<Plan Actions.md>). See [archive privacy](docs/PRIVACY.md) for the sanitization and historical-evidence limits.
 
 No license file is currently included in this repository; do not infer a reuse license from its public visibility.
 
