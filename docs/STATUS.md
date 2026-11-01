@@ -851,3 +851,11 @@ The actual signed child-role negative probe passed two independent-process cases
 The first component Debug suite reported 14 failures in existing XPC authentication checks while the test executable was rebuilt during that run. The new capture cases passed, but the whole run is failed evidence and must not be treated as accepted. Rebuilding an executing test binary can invalidate the code identity used by those tests; this is the working explanation, not a production authentication bypass. Final verification is run against an unchanged executable. Native package bytes were not replaced while a companion session was active.
 
 Final unchanged-executable Debug and Release runs each passed 261 cases / 2717 assertions / zero failures. The final capture child-role probe passed both refusal cases, and the existing AX child-role regression passed all three refusal cases. Temporary jobs were removed. These are component and negative-runtime results, not positive capture-worker or distribution acceptance.
+
+## Capture host and metadata lifecycle — 2026-11-01
+
+Added CaptureWorkerController and FixtureCaptureWorkerHost. The controller enforces one pending operation, exact ticket/metadata validation, a parent monotonic deadline and admission before dispatch, on reply and after continuation resumption. Stop/cancellation stays latched through delivery; late callbacks cannot publish into a replacement operation. The host uses the retained owned-process slot, self-pinned authenticated child connection and separate capture protocol. No public companion capture route or automatic approval was added.
+
+The completed lifecycle-only and final host Debug and Release runs each passed 266 cases / 2761 assertions / zero failures; their logs retain the 2026-10-31 run filenames. Five new synthetic cases cover cancellation/replacement, identity/metadata mismatch, reentrant revocation, deadline and invalid scope including missing window. The negative runtime probe was updated to use the host/controller; that updated probe has not yet been executed. Earlier component runtime evidence does not establish this integration. Approved broker dispatch, positive helper capture permission, native Stop/retirement and capture permission interruption remain open.
+
+Agent Ultra was not accessed, no GUI test was launched, and no image was transferred during this increment.

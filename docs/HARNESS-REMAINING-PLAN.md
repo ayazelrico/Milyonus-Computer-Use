@@ -192,3 +192,15 @@ ADR 002 has been reconciled with actual AX worker progress. The next capture-wor
 ### Capture worker component implementation — 2026-10-29
 
 The separate metadata role, bounded fixed metadata codec and exact-window/process-start collector are implemented. A real signed-role probe passed two non-fixture/changed-start refusals without reading pixels or creating a grant. Positive worker capture attribution is not established by those refusals. The next concrete integration is a typed capture reply lifecycle and broker-approved dispatch using the owned process slot; do not convert capture metadata into an AX Observation to reuse the existing controller. No public capture capability should be advertised before that integration and native approval/Stop/permission acceptance.
+
+### Capture host and lifecycle checkpoint — 2026-10-31
+
+The typed metadata controller and authenticated capture host are implemented; verification results are recorded in STATUS.md. Remaining integration is explicitly bounded:
+
+1. Add a trusted startup mode for metadata-only capture, mutually exclusive with mutation modes; do not enable arbitrary application capture.
+2. Require native session approval and connection ownership before selecting a window. Snapshot exact PID/start/window; recheck session generation, permission and foreground after asynchronous inventory and before publication.
+3. Route Stop, disconnect, physical input and environment changes through both controller cancellation and owned-child retirement.
+4. Exercise one approved fixture metadata capture and independently measure helper Screen Recording permission. A false helper permission is a refusal, even if the parent is granted.
+5. Measure native cancellation/retirement and permission interruption before advertising a capture capability. Pixel transport remains a later explicit design decision.
+
+No Agent Ultra checkout access is required for this sequence. Native approval, signing, additional hardware and distribution gates remain separate.
