@@ -1,45 +1,87 @@
+<div align="center">
+
+<img src="docs/assets/milyonus-wordmark.png" alt="Milyonus — silver wordmark" width="720" />
+
 # Milyonus Computer Use
 
-A native macOS computer-use harness under active development. The current build is a **fixture-only development preview**, not a general desktop-control product.
+**Observe with context. Act with permission. Verify the outcome.**
 
-The package contains a visible AppKit control app, an isolated test application, a read-only diagnostic CLI, typed Swift contracts and client, an MCP stdio interface, session approval and cancellation, bounded Accessibility observations, semantic actions, native Unicode text input, a bounded provider-independent agent loop, and a crash-aware action journal.
+A native Swift foundation for controlled computer use on macOS.<br />
+Visible operator controls · Typed contracts · MCP · Bounded agent orchestration
 
-All implementation code, UI copy, runtime messages, and implementation documentation are in English. The original approved planning documents remain available as historical Turkish planning inputs: [plan.md](plan.md) and [Plan Actions.md](<Plan Actions.md>). Current implementation status and unmet release gates are tracked in [docs/STATUS.md](docs/STATUS.md).
+[![Swift 6.2+](https://img.shields.io/badge/Swift-6.2%2B-F05138?style=flat-square&logo=swift&logoColor=white)](Package.swift)
+[![macOS 14+ target](https://img.shields.io/badge/macOS-14%2B_target-111827?style=flat-square&logo=apple&logoColor=white)](#requirements)
+[![Development preview](https://img.shields.io/badge/status-fixture_only_preview-8B5CF6?style=flat-square)](docs/STATUS.md)
+[![MCP stdio](https://img.shields.io/badge/interface-MCP_stdio-0F766E?style=flat-square)](#connect-over-mcp)
 
-## Build
+[Quick start](#quick-start) · [Capabilities](#capabilities-and-evidence) · [Architecture](#how-it-works) · [Documentation](#documentation)
 
-Requirements: macOS 14 or newer, Swift 6.2 or newer toolchain. This checkout has been compiled and tested on macOS 26.6.2, Apple Silicon, Swift 6.3.3. macOS 14 runtime and Intel are not yet verified.
+</div>
+
+---
+
+Milyonus Computer Use connects an agent host to a visible macOS companion. The host proposes an operation; the companion checks the approved session, foreground fixture, fresh observation and target before execution. Results carry effect and verification information so the host can decide what actually happened.
+
+> [!IMPORTANT]
+> **Fixture-only development preview.** Current desktop operations are restricted to the bundled test app. This is not a general desktop-control product or a signed public release. Implemented features, synthetic checks, native evidence and distribution acceptance are tracked separately in [the status ledger](docs/STATUS.md).
+
+## What makes it useful
+
+| Foundation | What it gives you |
+| --- | --- |
+| **Visible control** | An AppKit companion with native approval, Pause and Stop. A model cannot approve its own session through MCP. |
+| **Explicit execution contracts** | Typed observations, scoped targets, session generations and idempotency keys; uncertain effects are never automatically replayed. |
+| **Multiple integration paths** | MCP over stdio, a typed Swift SDK, an opt-in authenticated development XPC path and a default-disabled host coordinator. |
+| **Bounded agent runs** | Host-owned goals and completion checks, fresh observations after inference, action/time budgets and no-progress stopping. |
+| **Evidence you can inspect** | Standalone regression checks, independent schema validation, native fixture probes and retained acceptance records. |
+
+## Quick start
+
+### Requirements
+
+- **macOS 14+ deployment target** and **Swift 6.2+ toolchain**.
+- Recorded development environment: macOS 26.6.2, Apple Silicon, Swift 6.3.3. Minimum-OS runtime and Intel acceptance remain unverified.
+- Accessibility permission for native observations and actions. Screen Recording is needed for the capture probe.
+- Python 3 for the verification scripts; no provider account is needed for local regression checks.
+
+### 1. Build and package
 
 ```sh
+git clone https://github.com/ayazelrico/Milyonus-Computer-Use.git
+cd Milyonus-Computer-Use
+
 swift build
 swift run computer-use-selftest
 ./scripts/build-apps.sh
 ```
 
-Command Line Tools on the development machine does not ship XCTest or Swift Testing. The standalone test executable checks contracts, coordinates, sessions, persistence and lease behavior, prints every test result, and exits nonzero on failure. It is not a wrapper that ignores failed assertions.
+| Output | Purpose |
+| --- | --- |
+| `build/MilyonusComputerUse.app` | Native control companion and packaged MCP executable |
+| `build/ComputerUseFixture.app` | Isolated application used for desktop acceptance |
+| `swift run milyonus-cu` | Diagnostic and explicitly invoked acceptance commands |
 
-Development bundles are created at:
+The bundles are **ad-hoc signed**. Developer ID signing, notarization and clean-machine distribution acceptance are separate [release gates](docs/release.md).
 
-- `build/MilyonusComputerUse.app`
-- `build/ComputerUseFixture.app`
+### 2. Run an approved native fixture check
 
-They are ad-hoc signed. Developer ID signing and notarization are separate release steps. Updating a development bundle can affect macOS permission attribution; do not assume permission behavior matches a stable Developer ID build.
+```sh
+open build/ComputerUseFixture.app
+python3 -u scripts/live-fixture.py --native-text --native-click
+```
 
-## Native control window
+When the companion presents a pending session:
 
-Open the companion and use its native permission controls if macOS access is missing. Accessibility is necessary for UI observations and actions. Screen Recording is used only by the capture probe in this preview. The harness never edits the TCC database or grants itself OS permissions.
+1. Use its permission controls to grant any required macOS access.
+2. Click **Allow pending fixture session** in the native companion.
+3. Bring the fixture to the foreground and leave it there during the run.
 
-A session is limited to the local fixture, expires after five minutes, and remains inactive until approved in the native companion. Pause, Stop, resume approval, sleep/session interruption, and observed physical input invalidate or interrupt execution. The fixture must be active for observation and mutation. Switching to another app is a safe failure, not a reason to bypass focus checks.
+The script performs ten Unicode text/save iterations and checks independent fixture state, stale-target rejection, duplicate suppression, secure-field exclusion and pause/cancellation. Physical interaction or switching apps can correctly interrupt the run. The script cannot approve itself.
 
-MCP sessions require a heartbeat every five seconds and pause after 15 seconds without renewal. The Swift SDK maintains this independently of inference. A late heartbeat cannot resume control; see [session lifecycle](docs/session-lifecycle.md).
+<details>
+<summary><strong>Prefer checks that do not launch windows?</strong></summary>
 
-The native grant is separate from MCP: there is no approval tool. This protects against model requests granting themselves permission; it is not a claim that arbitrary local software cannot synthesize a native button click.
-
-Direct-child SDK launches can have different effective macOS permissions from launching the companion normally. The companion’s System Settings toggle alone is not a verified SDK revocation mechanism. See [measured permission attribution](docs/permission-attribution.md); production broker identity remains an open gate.
-
-## Automated checks
-
-For background verification while using the computer, initialize the test-only schema validator once:
+Initialize the test-only schema validator, then run background verification:
 
 ```sh
 python3 -m venv .tools/schema-venv
@@ -47,49 +89,59 @@ python3 -m venv .tools/schema-venv
 ./scripts/verify-background.sh
 ```
 
-This command compiles, runs Swift and independent JSON Schema tests, and packages bundles without launching app windows. Full transport verification below launches visible companions and should run only when that will not interrupt the user.
+This compiles, runs Swift and independent JSON Schema tests, and packages bundles without launching app windows. The standalone self-test executable exits nonzero on failure; it does not require XCTest or Swift Testing in Command Line Tools.
 
-Close idle companion instances before testing. The verification script does not kill an existing user's session to acquire its lock.
+</details>
 
-```sh
-./scripts/verify.sh
+## Capabilities and evidence
+
+**Evidence snapshot: 1 November 2026.** These are recorded repository results, not a claim that every gate passes or that the checks were rerun for this README. The latest recorded Debug and Release runs each passed **266 cases / 2,761 assertions / zero failures**. See [STATUS](docs/STATUS.md) for run artifacts, failed attempts and remaining work.
+
+| Area | Implemented scope and recorded evidence | Boundary still open |
+| --- | --- | --- |
+| Observation and semantic actions | Bounded fixture Accessibility observations; `setValue` on input and `press` on Save | Arbitrary applications, OCR and browser DOM adapters |
+| Native text and click | Unicode replacement and exact-hit-tested Save clicks; recorded 30-iteration stress slice with 333 checks | Full native interruption and reliability matrix |
+| Experimental gestures | Fixture-only vertical scrolling and fixed drag; basic two-action native slice passed on 27 October | Broader interruption matrix; no arbitrary gesture API |
+| Agent planners | OpenAI Responses and Anthropic Messages adapters; each has a recorded one-edit native fixture pass | Repeated task/provider acceptance; these are text/AX planners, not vendor built-in computer-use tools |
+| Development XPC | Authenticated IPC, connection-owned sessions and a separate control lane; one approved fixture AX edit | Production identity, full native integration and distribution acceptance |
+| Read worker isolation | Separate-process, read-only fixture AX slice accepted; later blocked-read Stop attempts passed | Full recovery/performance matrix; the first failed Stop attempt remains recorded |
+| Capture | Local fixture capture diagnostics and geometry rejection checks; capture host/controller components implemented | Updated host negative runtime probe not yet run; approved broker dispatch and positive helper capture/Stop/permission acceptance remain open |
+| Host integration | Default-disabled coordinator and a historical isolated Ultra slice | Normal host wiring and full Agent Ultra integration |
+
+There is no cross-platform support or accepted multi-display/minimum-OS/Intel matrix. Capability discovery describes available routes; it never grants native authorization. See [capability discovery](docs/capability-discovery.md) and the [next acceptance queue](docs/ACCEPTANCE-NEXT.md).
+
+## How it works
+
+```mermaid
+flowchart TD
+    Host["Host application · goal + completion condition"]
+    Planner["Optional ActionPlanner · bounded proposal"]
+    Client["Typed Swift client / MCP client"]
+    Companion["Visible macOS companion"]
+    Operator["Operator · native approval / Pause / Stop"]
+    Gate["Session + scope + freshness + target checks"]
+    Fixture["Bundled fixture · Accessibility / native events"]
+    Journal["Action journal · intent + result metadata"]
+
+    Host --> Planner
+    Planner -->|proposal| Host
+    Host --> Client
+    Client -->|stdio or opt-in typed XPC| Companion
+    Operator --> Companion
+    Companion --> Gate
+    Gate -->|admitted action| Fixture
+    Gate --> Journal
+    Fixture -->|observation + verification| Companion
+    Companion -->|typed result| Client
 ```
 
-This builds, runs core tests, packages both apps, exercises MCP over actual pipes, and exercises the Swift SDK. Its protocol and SDK tests deliberately do not approve a session or mutate the desktop.
+The runner refreshes observations **after planning**, checks target continuity and uses the host's independent completion condition. It stops after three consecutive actions without visible progress. A valid planner `finish` proposal is not sufficient proof of completion.
 
-For real Accessibility action testing:
+Sessions expire after five minutes. MCP clients renew the lease every five seconds; 15 seconds without renewal pauses control. The Swift SDK maintains heartbeats independently of inference. A late heartbeat cannot resume a paused session. Focus changes, observed physical input and sleep/session interruption invalidate or interrupt execution. See [session lifecycle](docs/session-lifecycle.md) and [execution admission](docs/execution-admission.md).
 
-```sh
-open build/ComputerUseFixture.app
-python3 -u scripts/live-fixture.py --native-text --native-click
-```
+## Connect over MCP
 
-When the companion shows the pending session, click **Allow pending fixture session** and leave the fixture foreground while the test runs. The script performs ten Unicode text/save iterations, checks independent fixture state, rejects stale targets, suppresses duplicate effects, checks secure-field exclusion, and exercises pause/cancellation. It cannot approve itself. Interacting with the computer can correctly interrupt it.
-
-For a silent-client expiry test, add `--heartbeat-expiry`; for repeated pointer stress, add `--iterations 30`. Each mode has a separate evidence artifact. The expiry test requires both the deadline and a `heartbeatLost` pause reason, so physical interruption cannot masquerade as lease-expiry success.
-
-To test the Swift SDK and agent loop without credentials or provider traffic:
-
-```sh
-swift run milyonus-cu agent-fixture-selftest "$PWD/build/MilyonusComputerUse.app/Contents/MacOS/MilyonusComputerUse"
-```
-
-This deterministic planner waits 18 seconds before proposing an edit, exceeding both the observation freshness window and the heartbeat lease. The SDK must keep the session alive and the runner must obtain a fresh target before executing. Native approval is still required. This is not model inference.
-
-A successful slice is not the full 20-scenario G3 acceptance matrix. See [docs/STATUS.md](docs/STATUS.md) for the actual evidence and missing cases.
-
-Read-only diagnostics:
-
-```sh
-swift run milyonus-cu doctor
-swift run milyonus-cu capture-fixture
-```
-
-`capture-fixture` captures only the supplied fixture window and prints dimensions, byte count, and a content hash. It does not write the image to disk or transmit it to a provider. `doctor` reports permissions for its own invocation; permission attribution may differ from a Launch Services or direct-child companion launch.
-
-## MCP connection
-
-Use the packaged companion executable as a stdio server:
+Point your MCP client's configuration at the packaged executable, replacing the absolute path:
 
 ```json
 {
@@ -102,46 +154,135 @@ Use the packaged companion executable as a stdio server:
 }
 ```
 
-This is a configuration example. The project does not edit global agent profiles or provider credentials. Supported negotiated protocol versions are `2025-11-25` and `2025-03-26`; other versions fail explicitly. Only newline-delimited JSON-RPC is written to stdout.
+Supported negotiated protocol versions: `2025-11-25` and `2025-03-26`. Unsupported versions fail explicitly. Stdout contains only newline-delimited JSON-RPC. This example does not modify global agent profiles or credentials.
 
-Tools: `system_capabilities`, `session_open`, `session_status`, `session_heartbeat`, `session_pause`, `session_cancel`, `desktop_observe`, `desktop_action`, `desktop_type_text`, `desktop_click`. Actions currently support `setValue` for `fixture.input` and `press` for `fixture.save`. `desktop_type_text` replaces the same input through native keyboard events, accepts at most 1,024 UTF-16 units, and verifies the resulting value. Empty text deletes the selected field contents. `desktop_click` uses native pointer events at the resolved Save button center and requires an exact hit test before each event. Other identifiers and action kinds are rejected.
+| Tools | Responsibility |
+| --- | --- |
+| `system_capabilities` | Discover available features and permission state |
+| `session_open`, `session_status` | Request a session and inspect its state; opening is not approval |
+| `session_heartbeat`, `session_pause`, `session_cancel` | Renew, pause or stop the session |
+| `desktop_observe` | Obtain a bounded fixture observation |
+| `desktop_action` | Semantic `setValue` for `fixture.input` or `press` for `fixture.save` |
+| `desktop_type_text` | Replace fixture input via native keyboard events, then verify the value |
+| `desktop_click` | Click the resolved Save center with an exact hit test before each event |
 
-Every action binds a session, generation, current observation, target identifier and idempotency key. Repeating a completed request returns its earlier action result. Reusing the key with changed content or a different execution method fails. An unresolved persisted intent is an unknown effect and cannot be automatically replayed. Even a successful native action may have failed or unavailable verification; callers must inspect both fields.
+Native text is limited to **1,024 UTF-16 units**; empty text deletes the selected field contents. Other targets and action kinds are rejected. Experimental scroll/drag capabilities are advertised separately; consult the [gesture guide](docs/gesture-execution.md) before using them.
 
-## Swift integration
+Every action binds a session, generation, observation, target and idempotency key. An identical completed request returns its earlier result; changing content or execution method under the same key fails. Inspect **both effect and verification** in every result. An unresolved persisted intent is an unknown effect, not permission to retry with a new key.
 
-Use `ComputerUseClient.StdioHarnessClient` to launch and connect to a dedicated companion. It implements the typed `HarnessClient` protocol. Its optional `NativeTextHarnessClient` capability provides `typeText(_:)`. Always call `shutdown()` when the owner closes; cancellation and RPC timeout terminate the child transport rather than retrying uncertain actions. Concurrent opens and late opening/heartbeat replies are fenced by the [SDK ownership lifecycle](docs/sdk-session-lifecycle.md). Shared [action-result validation](docs/action-result-validation.md) rejects contradictory outcomes before SDK delivery or journal completion. [Observation validation](docs/observation-validation.md) checks received target structure and payload limits separately from freshness and native authorization.
+## Integrate with Swift
 
-[Agent Ultra integration notes](Integrations/AgentUltra/README.md) explain the proposed boundary. The Agent Ultra checkout has not been modified. Its existing CLI sandbox, hidden Ultra beta and shadow workspace behavior are not relaxed by this package.
+| Package product | Integration role |
+| --- | --- |
+| `ComputerUseContracts` | Shared request, observation, capability and result types |
+| `ComputerUseClient` | `StdioHarnessClient`, typed `HarnessClient` and optional capabilities |
+| `ComputerUseAgent` | `AgentRunner`, `ActionPlanner` and provider adapters |
+| `ComputerUseIntegration` | Default-disabled `ComputerUseSessionCoordinator` for host lifecycle management |
+| `ComputerUseIPC` | Typed IPC contracts for the development XPC path |
 
-## Agent orchestration
+Use `ComputerUseClient.StdioHarnessClient` to own a dedicated companion. Always call `shutdown()` when its owner closes. Cancellation and RPC timeout terminate the child transport rather than replaying uncertain actions. Concurrent opens and late replies are fenced by the [SDK ownership lifecycle](docs/sdk-session-lifecycle.md).
 
-`ComputerUseAgent.AgentRunner` accepts a host-defined goal, completion condition, approved session, and an `ActionPlanner`. It checks app/session scope, obtains a fresh observation after planning, verifies target continuity, bounds actions and elapsed time, and stops after three consecutive actions without visible progress. The planner cannot redefine the completion condition. The [adapter boundary](docs/agent-adapter-boundary.md) rejects structurally invalid, incomplete or stale observations even when a custom client bypasses the stdio SDK. Unknown effects are never retried. Planner transports must enforce the supplied inference deadline; an opt-in OpenAI Responses adapter is implemented, with synthetic transport tests; real inference acceptance requires a configured key and explicit model. See [provider matrix and pilot command](docs/provider-matrix.md).
+The optional `NativeTextHarnessClient` exposes `typeText(_:)`; `CapabilityHarnessClient.capabilities()` supplies typed feature and permission snapshots. Shared [observation validation](docs/observation-validation.md) and [result validation](docs/action-result-validation.md) reject malformed or contradictory data at integration boundaries.
 
-Native input sequences check authorization before every event, retain one execution claim across asynchronous verification, and release held inputs during cancellation cleanup. Native Stop can run while verification awaits the fixture. The internal emitter also has pointer/scroll/key primitives. Fixture Save clicking has live evidence; experimental fixture-only scroll/drag routes are documented below and still await native acceptance. Arbitrary coordinates, general drag paths and key chords are not public capabilities.
+The host coordinator requires a selection-suspension hook and does not grant native approval. [Agent Ultra integration notes](Integrations/AgentUltra/README.md) describe the boundary and outstanding wiring gates. Existing CLI sandbox, hidden beta and shadow workspace behavior are not relaxed by this package.
 
-## Data and limitations
+## Run with a model provider
 
-The companion stores a private journal in `~/Library/Application Support/MilyonusComputerUse/actions-v1.json`. It contains action hashes and result metadata, not raw input text. The hard cap is 2,000 entries; automatic retention/export is not implemented. Unresolved intents must not be discarded just to retry an operation. The adjacent advisory lock coordinates cooperating companion processes and is not peer authentication.
+Provider use is **explicit and opt-in**. Start the fixture, configure the selected provider's variables in the invoking environment, then run one of these commands. Model selection is required; no default model is silently chosen.
 
-Not yet implemented or accepted: arbitrary-app control, arbitrary coordinate/scroll/drag and arbitrary key APIs, multi-display native acceptance, OCR, browser DOM adapters, real provider inference acceptance, production XPC broker authentication, full Agent Ultra integration, worker-process AX isolation, full recovery/performance matrix, signed public distribution, and cross-platform support.
+| Provider | Required environment variables | Planner API |
+| --- | --- | --- |
+| OpenAI | `OPENAI_API_KEY`, `MILYONUS_OPENAI_MODEL` | Responses structured planner |
+| Anthropic | `ANTHROPIC_API_KEY`, `MILYONUS_ANTHROPIC_MODEL` | Messages tool planner |
 
-See the [threat model](docs/security/threat-model.md), [development ADR](docs/adr/001-development-boundary.md), and [release runbook](docs/release.md). Do not broaden the fixture allowlist and call the result production-safe.
+```sh
+# OpenAI native fixture pilot
+swift run milyonus-cu agent-fixture \
+  "$PWD/build/MilyonusComputerUse.app/Contents/MacOS/MilyonusComputerUse" \
+  --allow-fixture-egress
 
-### Anthropic provider verification
+# Anthropic native fixture pilot
+swift run milyonus-cu anthropic-fixture \
+  "$PWD/build/MilyonusComputerUse.app/Contents/MacOS/MilyonusComputerUse" \
+  --allow-fixture-egress
+```
 
-Configure `ANTHROPIC_API_KEY` and `MILYONUS_ANTHROPIC_MODEL` in the host process environment. Never commit credentials. Run `milyonus-cu anthropic-plan-check` for two real provider proposals using synthetic observations and no desktop actions. Run `milyonus-cu anthropic-fixture /absolute/companion/executable --allow-fixture-egress` for the native fixture pilot; native approval and fixture foreground focus remain required. The adapter sends minimized AX fields, not screenshots, and does not implement Anthropic's built-in computer-use toolset.
+Native approval and foreground fixture focus remain required. These commands make real API requests and may incur charges. Keep keys out of command arguments, repository files and chat messages; credentials stay in the host, not the companion.
 
-### Native host integration
+The adapters send the host goal/completion condition and minimized `fixture.input`, `fixture.save` and `fixture.status` fields. They do **not** send screenshots, secure-field values or unrelated AX fields. Invalid proposals, refusal, incomplete output and HTTP failures fail explicitly, with no automatic retry or model fallback. See the [provider matrix](docs/provider-matrix.md) for transport details, retained attempts and acceptance boundaries.
 
-`ComputerUseIntegration` exports a default-disabled `ComputerUseSessionCoordinator` for a dedicated computer-use mode. It owns connection cleanup and rejects late run/status results. It requires a host selection-suspension hook and does not grant native approval. See [Agent Ultra integration](Integrations/AgentUltra/README.md) for lifecycle requirements and the outstanding application wiring gates.
+## Verification toolbox
 
-### Experimental fixture gestures
+| Check | Command | What it exercises |
+| --- | --- | --- |
+| Core regression | `swift run computer-use-selftest` | Contracts, coordinates, sessions, persistence and lease behavior |
+| Background suite | `./scripts/verify-background.sh` | Build, core/schema checks and packaging; no app windows |
+| Transport suite | `./scripts/verify.sh` | Real MCP pipes and Swift SDK; launches visible companions, but does not approve or mutate the desktop |
+| Native fixture | `python3 -u scripts/live-fixture.py --native-text --native-click` | Approved Unicode text, Save, stale-target, duplicate and interruption checks |
+| Permission diagnostics | `swift run milyonus-cu doctor` | Permissions for that invocation |
+| Local capture probe | `swift run milyonus-cu capture-fixture` | Fixture-window dimensions, byte count and content hash; no image file or provider transmission |
 
-The optional gesture fixture and SDK/MCP vertical scrolling and fixed drag implementations are described in [Bounded pointer gesture preparation](docs/gesture-execution.md). These routes require native approval and fresh fixture targeting, and have synthetic coverage only. They are advertised separately as `experimentalNativeFixtureScroll` and `experimentalNativeFixtureDrag`; live native acceptance remains pending. The model planners continue to support the accepted edit/save action vocabulary.
+Close idle companions before transport testing; the verifier does not kill another user's session to acquire its lock. Add `--heartbeat-expiry` to the native fixture script for silent-client expiry, or `--iterations 30` for repeated pointer stress. The expiry check requires the `heartbeatLost` reason so physical interruption cannot masquerade as success.
 
-The explicit `gesture-fixture-selftest` CLI can record a future approved two-action native run, including executable hashes and independent post-action observations. See the gesture guide for prerequisites; the basic two-action native fixture slice passed on 2026-10-27; the full interruption matrix remains open.
+<details>
+<summary><strong>Exercise slow planning without a provider key</strong></summary>
 
-Typed feature and permission snapshots are available through `CapabilityHarnessClient.capabilities()`. See [Capability discovery](docs/capability-discovery.md) for compatibility checks and the distinction between discovery and native authorization.
+```sh
+swift run milyonus-cu agent-fixture-selftest \
+  "$PWD/build/MilyonusComputerUse.app/Contents/MacOS/MilyonusComputerUse"
+```
 
-Authenticated XPC implementation and evidence: [docs/authenticated-ipc.md](docs/authenticated-ipc.md), [connection-owned sessions](docs/connection-session-ownership.md), and [independent control lane](docs/xpc-control-lane.md). The opt-in typed SDK and independently started companion have passed one approved fixture AX edit; the full native, integration and distribution gates remain open.
+This deterministic planner waits 18 seconds before proposing an edit. The SDK must maintain the lease while inference is simulated, and the runner must refresh its target before execution. Native approval is still required. This is not model inference evidence.
+
+</details>
+
+## Permissions, data and recovery
+
+- **OS permissions stay with macOS.** The harness never edits TCC or self-grants access. Direct-child launches can have different attribution from Launch Services; a companion toggle alone is not a verified SDK revocation mechanism. See [permission attribution](docs/permission-attribution.md).
+- **Approval is a separate native action.** No MCP tool grants approval. This is not a claim that arbitrary same-user software cannot synthesize a native button click.
+- **The journal records intent and outcomes.** `~/Library/Application Support/MilyonusComputerUse/actions-v1.json` stores hashes and result metadata, not raw input text. The 2,000-entry cap has no automatic retention/export. Do not delete unresolved intents to force a retry.
+- **Locks are not authentication.** The adjacent advisory lock coordinates cooperating processes. Development XPC authentication has its own [identity and transport boundary](docs/authenticated-ipc.md).
+- **Uncertain effects require reconciliation.** Inspect actual fixture state before deciding what comes next. Restarting or inventing a new idempotency key does not make replay safe.
+
+For the detailed security boundary, read the [threat model](docs/security/threat-model.md), [security review](docs/security/review.md) and [release/recovery runbook](docs/release.md).
+
+## What comes next
+
+The [remaining-work plan](docs/HARNESS-REMAINING-PLAN.md) and [acceptance queue](docs/ACCEPTANCE-NEXT.md) track the gates beyond individual passing slices:
+
+- Capture worker runtime integration, approved broker dispatch and native interruption acceptance.
+- Broader provider task repetitions, native interruption/recovery and performance coverage.
+- Normal host integration and independent client acceptance.
+- Minimum-OS, Intel and multi-display runtime validation.
+- Developer ID signing, notarization, clean-machine permissions, updates, rollback and uninstall.
+
+Intermittent stdio timeout investigations also remain open; see [the retained investigation](docs/stdio-timeout-investigation.md). Passing synthetic tests does not close these gates or justify broadening the fixture allowlist.
+
+## Documentation
+
+| If you want to… | Start here |
+| --- | --- |
+| Understand current evidence and unresolved work | [Status ledger](docs/STATUS.md) · [Acceptance queue](docs/ACCEPTANCE-NEXT.md) |
+| Understand components and trust boundaries | [Architecture](docs/architecture.md) · [Development boundary ADR](docs/adr/001-development-boundary.md) |
+| Integrate a client or agent host | [SDK lifecycle](docs/sdk-session-lifecycle.md) · [Agent adapter boundary](docs/agent-adapter-boundary.md) · [Ultra integration](Integrations/AgentUltra/README.md) |
+| Inspect schemas and feature negotiation | [Schemas](Schemas/README.md) · [Capability discovery](docs/capability-discovery.md) |
+| Explore worker and IPC isolation | [Read-worker lifecycle](docs/read-worker-lifecycle.md) · [Authenticated IPC](docs/authenticated-ipc.md) · [Control lane](docs/xpc-control-lane.md) |
+| Evaluate capture or pointer gestures | [Capture plan](docs/capture-acceptance-plan.md) · [Capture geometry](docs/capture-geometry.md) · [Gesture execution](docs/gesture-execution.md) |
+| Package, diagnose or recover | [Development packaging](docs/development-packaging.md) · [Permission attribution](docs/permission-attribution.md) · [Release runbook](docs/release.md) |
+
+### Contributing
+
+Read [AGENTS.md](AGENTS.md) and the current status before changing scope. Keep implementation code, UI, tests and new implementation documentation in English. Preserve the fixture boundary and distinguish synthetic, native, provider and distribution evidence in changes. Run the checks appropriate to your change and include the evidence with your pull request.
+
+The original Turkish planning inputs remain available in [plan.md](plan.md) and [Plan Actions.md](<Plan Actions.md>). They provide historical context; current acceptance is recorded in the status ledger.
+
+No license file is currently included in this repository; do not infer a reuse license from its public visibility.
+
+---
+
+<div align="center">
+
+**Milyonus · Computer Use**<br />
+<sub>Native controls. Explicit boundaries. Verifiable outcomes.</sub>
+
+</div>
