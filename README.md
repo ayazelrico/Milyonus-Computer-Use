@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/assets/milyonus-wordmark.png" alt="Milyonus — silver wordmark" width="720" />
+<img src="docs/assets/milyonus-wordmark-lg.png" alt="Milyonus" width="640" />
 
 # Milyonus Computer Use
 
