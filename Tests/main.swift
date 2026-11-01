@@ -301,5 +301,10 @@ await runAsyncCase("XPCSessionClientTests.testReadOnlyObservationOptInDoesNotEna
 runCase("CaptureWorkerTests.testWireSeparatesCaptureFromAXAndBindsReply") { try CaptureWorkerTests().testWireSeparatesCaptureFromAXAndBindsReply() }
 runCase("CaptureWorkerTests.testNoPixelsUnknownFieldsOrInvalidFrameMetadata") { try CaptureWorkerTests().testNoPixelsUnknownFieldsOrInvalidFrameMetadata() }
 await runAsyncCase("CaptureWorkerTests.testCollectorRejectsWrongProcessBeforeCaptureAndRoleRejectsInvalidParent") { try await CaptureWorkerTests().testCollectorRejectsWrongProcessBeforeCaptureAndRoleRejectsInvalidParent() }
+await runAsyncCase("CaptureWorkerControllerTests.testCancellationFencesLateReplyAndReplacement") { let test = CaptureWorkerControllerTests(); defer { test.tearDown() }; try await test.testCancellationFencesLateReplyAndReplacement() }
+await runAsyncCase("CaptureWorkerControllerTests.testWrongIdentityAndMalformedResultAreRejected") { let test = CaptureWorkerControllerTests(); defer { test.tearDown() }; try await test.testWrongIdentityAndMalformedResultAreRejected() }
+await runAsyncCase("CaptureWorkerControllerTests.testAdmissionRevocationAndReentrantCancellation") { let test = CaptureWorkerControllerTests(); defer { test.tearDown() }; try await test.testAdmissionRevocationAndReentrantCancellation() }
+await runAsyncCase("CaptureWorkerControllerTests.testTaskCancellationAndDeadlineDrainWorker") { let test = CaptureWorkerControllerTests(); defer { test.tearDown() }; try await test.testTaskCancellationAndDeadlineDrainWorker() }
+await runAsyncCase("CaptureWorkerControllerTests.testInvalidScopeNeverStartsWorker") { let test = CaptureWorkerControllerTests(); defer { test.tearDown() }; try await test.testInvalidScopeNeverStartsWorker() }
 print("RESULT: \(testCount) cases, \(assertionCount) assertions, \(failureCount) failures")
 exit(failureCount == 0 ? 0 : 1)

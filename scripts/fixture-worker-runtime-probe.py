@@ -32,7 +32,7 @@ def main():
                'Sources/ComputerUseMacOS/FixtureReadWorker.swift',
                'Tests/CoreTests/FixtureWorkerRuntimeTests.swift', 'Tests/main.swift']
     if args.capture_metadata:
-        sources += ['Sources/ComputerUseCore/CaptureWorkerWire.swift', 'Sources/ComputerUseCore/CaptureWorkerMetadata.swift', 'Sources/ComputerUseMacOS/FixtureCaptureWorker.swift', 'Sources/ComputerUseMacOS/ScreenCapture.swift', 'Tests/CoreTests/CaptureWorkerRuntimeTests.swift']
+        sources += ['Sources/ComputerUseCore/CaptureWorkerController.swift', 'Sources/ComputerUseWorker/FixtureCaptureWorkerHost.swift', 'Sources/ComputerUseCore/CaptureWorkerWire.swift', 'Sources/ComputerUseCore/CaptureWorkerMetadata.swift', 'Sources/ComputerUseMacOS/FixtureCaptureWorker.swift', 'Sources/ComputerUseMacOS/ScreenCapture.swift', 'Tests/CoreTests/CaptureWorkerRuntimeTests.swift']
     record = {'suite': 'fixture-worker-runtime', 'status': 'failed',
         'startedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(),
         'sourceSHA256': {p: hashlib.sha256((root / p).read_bytes()).hexdigest() for p in sources},
